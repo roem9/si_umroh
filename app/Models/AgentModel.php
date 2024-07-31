@@ -164,8 +164,10 @@ class AgentModel extends Model
     }
 
     protected function ifTipeChange($data){
-        if($data['data']['tipe_agent'] == 'leader agent'){
-            $data['data']['fk_id_leader_agent'] = NULL;
+        if(isset($data['data']['tipe_agent'])){
+            if($data['data']['tipe_agent'] == 'leader agent'){
+                $data['data']['fk_id_leader_agent'] = NULL;
+            }
         }
 
         return $data;

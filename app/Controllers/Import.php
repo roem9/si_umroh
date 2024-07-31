@@ -153,10 +153,10 @@ class Import extends BaseController
             //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 1.xlsx",
             //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
             // ],
-            [
-                "file" => "public/Kelas 7 Hari Digital Marketing Umroh 2.xlsx",
-                "produk" => "Kelas 7 Hari Digital Marketing Umroh"
-            ],
+            // [
+            //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 2.xlsx",
+            //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
+            // ],
             // [
             //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 3.xlsx",
             //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
@@ -177,10 +177,10 @@ class Import extends BaseController
             //     "file" => "public/Data Peminat Umroh Ramadhan.xlsx",
             //     "produk" => "Webinar Umroh Ramadhan"
             // ],
-            // [
-            //     "file" => "public/Data Peminat Webinar Umroh Edukasi.xlsx",
-            //     "produk" => "Webinar Umroh Edukasi"
-            // ],
+            [
+                "file" => "public/Data Peminat Webinar Umroh Edukasi.xlsx",
+                "produk" => "Webinar Umroh Edukasi"
+            ],
         ];
 
         foreach ($files as $file) {
