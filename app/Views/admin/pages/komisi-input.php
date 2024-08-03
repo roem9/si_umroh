@@ -15,7 +15,7 @@
       <div class="d-lg-flex">
         <div>
           <div class="ms-auto my-auto d-none d-md-none d-lg-block">
-            <button type="button" class="btn bg-gradient-success btn-sm mb-0 btnDownloadLaporan">Download Laporan</a>
+            <button type="button" class="btn bg-gradient-success btn-sm mb-0 btnDownloadLaporan">Cetak Laporan</a>
           </div>
           <div class="ms-auto my-auto d-block d-md-block d-lg-none">
             <button type="button" class="btn bg-gradient-success btn-sm mb-0 btnDownloadLaporan">
@@ -95,17 +95,30 @@
     showData();
 
     $(".btnDownloadLaporan").on('click', function(){
-      $.ajax({
-        url: "<?= base_url()?>/komisi/exportKomisi",
-        type: "get",
-        dataType: "json",
-        success: function(response) {
-          $('#table-data').DataTable().ajax.reload();
+      Swal.fire({
+        title: `Yakin akan mencetak laporan?`,
+        text: "Dengan mencetak laporan, sistem akan merangkum semua komisi agen yang belum dibayarkan dari penjualan yang telah berstatus lunas.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, buat laporan!'
+      }).then((result) => {
+        if (result.isConfirmed) {
 
-          let url = '<?= base_url()?>/komisi/laporan';
-          window.open(url, '_blank');
+          $.ajax({
+            url: "<?= base_url()?>/komisi/exportKomisi",
+            type: "get",
+            dataType: "json",
+            success: function(response) {
+              $('#table-data').DataTable().ajax.reload();
+
+              let url = '<?= base_url()?>/komisi/laporan';
+              window.open(url, '_blank');
+            }
+          });
         }
-      });
+      })
     })
 
     $(document).on("click", ".btnPaidKomisiProduk", function(){
@@ -203,13 +216,16 @@
           data: null,
           render: function(data, type, row) {
             return `
-              <a href="javascript:void(0)" class="me-1" onclick='historyKomisi(${row.pk_id_agent})'>
-                <span class="badge bg-gradient-info">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                  </svg>
-                </span>
+              <a href="javascript:void(0)" id="${row.pk_id_agent}" class="badge badge-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                action
               </a>
+              <ul class="dropdown-menu" aria-labelledby="${row.pk_id_agent}">
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='historyKomisi(${row.pk_id_agent})'>
+                      history komisi
+                  </a>
+                </li>
+              </ul>
               `;
           },
           searchable: false,
@@ -282,6 +298,7 @@
                     <p class="text-sm text-dark"><b>Harga Produk</b> : ${formatRupiah(komisi_produk.harga_produk)}</p>
                     <p class="text-sm text-dark"><b>Komisi</b> : ${formatRupiah(komisi_produk.nominal)}</p>
                     <p class="text-sm text-dark"><b>Keterangan</b> : ${komisi_produk.keterangan}</p>
+                    <p class="text-sm text-dark"><b>Catatan</b> : ${komisi_produk.catatan}</p>
                     <div class="d-flex justify-content-end">
                       <a href="javascript:void(0)" data-id="${komisi_produk.pk_id_komisi_penjualan_produk}" class="me-1 btnPaidKomisiProduk">
                         <span class="badge bg-gradient-success">

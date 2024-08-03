@@ -156,13 +156,16 @@
           data: null,
           render: function(data, type, row) {
             return `
-              <a href="javascript:void(0)" class="me-1" onclick='historyKomisi(${row.pk_id_agent})'>
-                <span class="badge bg-gradient-info">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                  </svg>
-                </span>
+              <a href="javascript:void(0)" id="${row.pk_id_agent}" class="badge badge-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                action
               </a>
+              <ul class="dropdown-menu" aria-labelledby="${row.pk_id_agent}">
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='historyKomisi(${row.pk_id_agent})'>
+                      history komisi
+                  </a>
+                </li>
+              </ul>
               `;
           },
           searchable: false,
@@ -235,6 +238,7 @@
                     <p class="text-sm text-dark"><b>Harga Produk</b> : ${formatRupiah(komisi_produk.harga_produk)}</p>
                     <p class="text-sm text-dark"><b>Komisi</b> : ${formatRupiah(komisi_produk.nominal)}</p>
                     <p class="text-sm text-dark"><b>Keterangan</b> : ${komisi_produk.keterangan}</p>
+                    <p class="text-sm text-dark"><b>Catatan</b> : ${komisi_produk.catatan}</p>
                     <p class="text-sm text-dark"><b>Status</b> : ${komisi_produk.status_paid}</p>
                     <p class="text-sm text-dark"><b>Tgl Bayar</b> : ${(komisi_produk.is_paid == 1) ? komisi_produk.paid_at : '-'}</p>
                     <div class="d-flex justify-content-end">

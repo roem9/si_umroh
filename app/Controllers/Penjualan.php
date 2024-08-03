@@ -541,6 +541,43 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
+    public function historyKomisi($pk_id_penjualan_produk){
+        $data['komisi'] = $this->db->query("
+            SELECT
+                a.*,
+                b.nama_agent
+            FROM komisi_penjualan_produk a
+            JOIN agent b ON a.fk_id_agent = b.pk_id_agent
+            WHERE fk_id_penjualan_produk = $pk_id_penjualan_produk
+            AND (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+        ")->getResultArray();
+        
+        // $data['penjualan'] = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
+        $data['penjualan'] = $this->db->query("
+            SELECT
+                a.pk_id_penjualan_produk,
+                a.fk_id_customer,
+                b.nama_customer,
+                a.fk_id_produk,
+                c.nama_produk,
+                d.nama_agent as nama_agent,
+                e.nama_agent as nama_leader_agent,
+                c.harga_produk,
+                f.nama_travel,
+                a.tgl_closing,
+                a.status
+            FROM penjualan_produk a
+            JOIN customer b ON a.fk_id_customer = b.pk_id_customer
+            JOIN produk c ON a.fk_id_produk = c.pk_id_produk
+            LEFT JOIN agent d ON b.fk_id_agent = d.pk_id_agent
+            LEFT JOIN agent e ON b.fk_id_leader_agent = e.pk_id_agent
+            LEFT JOIN travel f ON a.fk_id_travel = f.pk_id_travel
+            WHERE pk_id_penjualan_produk = $pk_id_penjualan_produk
+        ")->getRowArray();
+
+        return json_encode($data);
+    }
+
     public function getDataPembayaranPenjualanProduk($pk_id_pembayaran_penjualan_produk){
         $data = $this->pembayaranPenjualanProdukModel->find($pk_id_pembayaran_penjualan_produk);
 
@@ -2032,6 +2069,78 @@ class Penjualan extends BaseController
                 'message' => 'Berhasil mengubah customer menjadi agent'
             ];
         }
+
+        return json_encode($response);
+    }
+
+    // komisi
+    public function getDataKomisiPenjualanProduk($pk_id_komisi_penjualan_produk){
+        $data = $this->db->query("
+            SELECT
+                a.*,
+                b.nama_agent,
+                b.pk_id_agent
+            FROM komisi_penjualan_produk a
+            JOIN agent b ON a.fk_id_agent = b.pk_id_agent
+            WHERE pk_id_komisi_penjualan_produk = $pk_id_komisi_penjualan_produk
+            AND (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+        ")->getRowArray();
+
+        return json_encode($data);
+    }
+
+    public function saveDataKomisiPenjualanProduk(){
+        $pk_id_komisi_penjualan_produk = $this->request->getPost('pk_id_komisi_penjualan_produk');
+        
+        $data = [
+            'fk_id_penjualan_produk' => $this->request->getPost('fk_id_penjualan_produk'),
+            'nominal' => $this->request->getPost('nominal'),
+            'keterangan' => $this->request->getPost('keterangan'),
+            'catatan' => $this->request->getPost('catatan'),
+            'fk_id_agent' => $this->request->getPost('fk_id_agent')
+        ];
+
+        $searchData = $this->komisiPenjualanProdukModel->find($pk_id_komisi_penjualan_produk);
+        if($searchData){
+            if($this->komisiPenjualanProdukModel->update($pk_id_komisi_penjualan_produk, $data)){
+
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Berhasil mengubah data komisi'
+                ];
+            } else {
+                $response = [
+                    "error" => $this->komisiPenjualanProdukModel->errors()
+                ];
+            }
+        } else {
+            if($this->komisiPenjualanProdukModel->save($data)){
+
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Berhasil menambahkan data komisi'
+                ];
+            } else {
+                $response = [
+                    "error" => $this->komisiPenjualanProdukModel->errors()
+                ];
+            }
+        }
+
+
+        return json_encode($response);
+    }
+
+    public function hapusDataKomisi($pk_id_komisi_penjualan_produk){
+        $this->db->query("
+            DELETE FROM komisi_penjualan_produk
+            WHERE pk_id_komisi_penjualan_produk = $pk_id_komisi_penjualan_produk
+        ");
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Berhasil menghapus data komisi'
+        ];
 
         return json_encode($response);
     }

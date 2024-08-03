@@ -252,7 +252,8 @@ class Komisi extends BaseController
                 c.nama_agent,
                 e.nama_agent as nama_leader_agent,
                 b.tgl_closing,
-                a.is_paid
+                a.is_paid,
+                a.catatan
             FROM komisi_penjualan_produk a
             JOIN penjualan_produk b ON a.fk_id_penjualan_produk = b.pk_id_penjualan_produk
             JOIN agent bb ON b.fk_id_agent_closing = bb.pk_id_agent
@@ -489,7 +490,8 @@ class Komisi extends BaseController
                 CASE
                     WHEN a.keterangan = 'Passive income leader agent' THEN  CONCAT(a.keterangan, ' dari ', bb.nama_agent)
                     ELSE a.keterangan
-                END AS keterangan
+                END AS keterangan,
+                a.catatan
             FROM komisi_penjualan_produk a
             JOIN penjualan_produk b ON b.pk_id_penjualan_produk = a.fk_id_penjualan_produk
             JOIN agent bb ON b.fk_id_agent_closing = bb.pk_id_agent
@@ -561,7 +563,8 @@ class Komisi extends BaseController
                     '
                 END as status_paid,
                 a.is_paid,
-                a.paid_at
+                a.paid_at,
+                a.catatan
             FROM komisi_penjualan_produk a
             JOIN penjualan_produk b ON b.pk_id_penjualan_produk = a.fk_id_penjualan_produk
             JOIN customer c ON b.fk_id_customer = c.pk_id_customer

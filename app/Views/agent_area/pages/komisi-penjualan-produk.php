@@ -98,6 +98,12 @@
             <textarea name="keterangan" id="keterangan" class="multisteps-form__input form-control" placeholder="keterangan" disabled></textarea>
             <div class="invalid-feedback" data-id="keterangan"></div>
         </div>
+
+        <div class="col-12 mb-3">
+            <label>Catatan</label>
+            <textarea name="catatan" id="catatan" class="multisteps-form__input form-control" placeholder="catatan" disabled></textarea>
+            <div class="invalid-feedback" data-id="catatan"></div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -219,6 +225,7 @@
                       detail
                   </a>
                 </li>
+              </ul>
               `;
           },
           searchable: false,
@@ -264,6 +271,7 @@
           $(`${form} #nama_leader_agent`).val(response.nama_leader_agent);
           $(`${form} #komisi`).val(formatRupiah(response.nominal));
           $(`${form} #keterangan`).val(response.keterangan);
+          $(`${form} #catatan`).val(response.catatan);
         }
       }
 

@@ -20,7 +20,8 @@ class KomisiPenjualanProdukModel extends Model
         'keterangan',
         'nominal',
         'is_paid',
-        'paid_at'
+        'paid_at',
+        'catatan'
     ];
 
     // Dates

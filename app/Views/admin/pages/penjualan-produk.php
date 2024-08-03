@@ -301,6 +301,36 @@
   </div>
 </div>
 
+<div class="modal fade" id="modalListKomisiData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalListKomisiDataLabel">Detail Komisi</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="listKomisi">
+        <h6>Data Penjualan</h6>
+        <div class="card shadow-none border mb-3">
+          <div class="card-body" id="DataPenjualanKomisi">
+          </div>
+        </div>
+        <div class="d-flex justify-content-between mb-3">
+          <h6>History Komisi</h6>
+          <div class="ms-auto my-auto">
+            <button type="button" class="btn bg-gradient-info btn-sm mb-0 btnModalFormKomisi" data-bs-toggle="modal" data-bs-target="#modalFormEditKomisi">+&nbsp;</a>
+          </div>
+        </div>
+        <div id="DataKomisi"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal fade" id="modalFormEditPembayaran" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
@@ -342,6 +372,59 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="modalFormEditKomisi" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFormEditKomisiLabel">Tambah Komisi</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <input type="hidden" name="fk_id_penjualan_produk" id="fk_id_penjualan_produk">
+      <div class="modal-body" id="formEditKomisi">
+        <input type="hidden" name="pk_id_komisi_penjualan_produk" id="pk_id_komisi_penjualan_produk">
+        <div class="col-12 mb-3">
+          <label>Cari Agent</label>
+          <input name="agent" id="agent" class="multisteps-form__input form-control" type="text" placeholder="ketik untuk mencari agent ...">
+          <div class="invalid-feedback" data-id="agent"></div>
+        </div>
+        <div class="col-12 mb-3">
+          <label for="fk_id_agent">Agent</label>
+          <select name="fk_id_agent" id="fk_id_agent" class="multisteps-form__input form-control">
+            <option value="">Pilih Agent</option>
+          </select>
+          <div class="invalid-feedback" data-id="fk_id_agent"></div>
+        </div>
+        <div class="col-12 mb-3">
+          <label>Nominal</label>
+          <input type="text" name="nominal" id="nominal" class="multisteps-form__input form-control" type="text" placeholder="nominal">
+          <div class="invalid-feedback" data-id="nominal"></div>
+        </div>
+        <div class="col-12 mb-3">
+          <label for="keterangan">Keterangan</label>
+          <select name="keterangan" id="keterangan" class="multisteps-form__input form-control">
+            <option value="">Pilih Keterangan</option>
+            <option value="komisi agent">Komisi Agent</option>
+            <option value="komisi leader agent">Komisi Leader Agent</option>
+            <option value="passive income leader agent">Passive Income Leader Agent</option>
+          </select>
+          <div class="invalid-feedback" data-id="tipe_agent"></div>
+        </div>
+        <div class="form-group">
+          <label for="catatan">Catatan</label>
+          <textarea name="catatan" class="form-control" id="catatan" rows="3"></textarea>
+          <div class="invalid-feedback" data-id="catatan"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" id="btnSimpan">Simpan</button>
+      </div>
+    </div>
+  </div>
+</div>
 <?= $this->endSection() ?>
 
 <?= $this->section('js-script') ?>
@@ -356,11 +439,13 @@
     const btnSimpanFormData = $("#modalFormData #btnSimpan");
     const btnSimpanFormEditData = $("#modalFormEditData #btnSimpan");
     const btnSimpanFormEditPembayaran = $("#modalFormEditPembayaran #btnSimpan");
+    const btnSimpanFormEditKomisi = $("#modalFormEditKomisi #btnSimpan");
 
     btnModalFormData.on("click", showModalFormData);
     btnSimpanFormData.on("click", saveData);
     btnSimpanFormEditData.on("click", saveEditData);
     btnSimpanFormEditPembayaran.on("click", saveDataPembayaran);
+    btnSimpanFormEditKomisi.on("click", saveDataKomisi);
 
     // form validation only number
     $('#formData #nominal').on('keyup', function() {
@@ -378,6 +463,9 @@
     });
     $('#formData #agent').on('change', function(){
       getAgent('#formData');
+    });
+    $('#formEditKomisi #agent').on('change', function(){
+      getAgent('#formEditKomisi');
     });
 
     $('#formEditData #customer').on('change', function(){
@@ -408,6 +496,10 @@
         $('#modalListPembayaranData').modal('show');
     });
 
+    $('#modalFormEditKomisi').on('hidden.bs.modal', function (e) {
+        $('#modalListKomisiData').modal('show');
+    });
+
     $(".btnModalFormPembayaran").on('click', showModalPembayaran)
   })
 
@@ -431,6 +523,19 @@
     bersihkanValidasi(`${form}`);
 
     $(`${form} #nominal`).val(nominal)
+    
+    $(`${form} #image-cover`).hide();
+  }
+
+  function showModalKomisi() {
+    let form = "#formEditKomisi";
+
+    $('#modalFormEditKomisiLabel').html('Tambah Komisi');
+
+    let nominal = $(`#formEditKomisi #nominal`).val();
+
+    bersihkanForm(`${form}`);
+    bersihkanValidasi(`${form}`);
     
     $(`${form} #image-cover`).hide();
   }
@@ -525,48 +630,48 @@
 
             if(row.to_agent == 1){
               btnAgent = `
-                <a href="javascript:void(0)" class="me-1" onclick='toAgent(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
-                  <span class="badge bg-gradient-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-up" viewBox="0 0 16 16">
-                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                      <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                    </svg>
-                  </span>
-                </a>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='toAgent(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
+                      jadi agent
+                  </a>
+                </li>
               `
             }
 
             return `
-              <a href="javascript:void(0)" class="me-1" onclick='editData(${row.pk_id_penjualan_produk})'>
-                <span class="badge bg-gradient-info">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                  </svg>
-                </span>
+              <a href="javascript:void(0)" id="${row.pk_id_penjualan_produk}" class="badge badge-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                action
               </a>
-              <a href="javascript:void(0)" class="me-1" onclick='historyPembayaran(${row.pk_id_penjualan_produk})'>
-                <span class="badge bg-gradient-success">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                    <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                    <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
-                  </svg>
-                </span>
-              </a>
-              <a href="javascript:void(0)" class="me-1" onclick='duplicateData(${row.pk_id_penjualan_produk})'>
-                <span class="badge bg-gold-custom">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                  </svg>
-                </span>
-              </a>
-              ${btnAgent}
-              <a href="javascript:void(0)" onclick='hapusData(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
-                <span class="badge bg-gradient-danger">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                  </svg>
-                </span>
-              </a>
+              <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='editData(${row.pk_id_penjualan_produk})'>
+                      detail
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='historyPembayaran(${row.pk_id_penjualan_produk})'>
+                      history pembayaran
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='historyKomisi(${row.pk_id_penjualan_produk})'>
+                      manajemen komisi
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='duplicateData(${row.pk_id_penjualan_produk})'>
+                      duplikat
+                  </a>
+                </li>
+                ${btnAgent}
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='hapusData(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
+                      <span class="text-danger">
+                        hapus penjualan
+                      </span>
+                  </a>
+                </li>
+              </ul>
               `;
           },
           searchable: false,
@@ -904,6 +1009,7 @@
         dataType: "json",
         success: function(response) {
           $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
+          $(`${form} #nominal`).val(response.harga_produk);
         }
   
       });
@@ -927,6 +1033,7 @@
           });
   
           $(`${form} #fk_id_agent_closing`).html(html)
+          $(`${form} #fk_id_agent`).html(html)
         }
   
       });
@@ -1016,6 +1123,79 @@
         }
 
         $("#DataPembayaran").html(html);
+      },
+      error: function(xhr, status, error) {
+        Toast.fire({
+            icon: 'error',
+            title: `terjadi kesalahan: ${error}`
+        })
+      }
+
+    });
+  }
+
+  function historyKomisi(pk_id_penjualan_produk){
+    $.ajax({
+      url: `<?= base_url()?>/penjualan/historyKomisi/${pk_id_penjualan_produk}`,
+      type: "get",
+      dataType: "json",
+      success: function(response) {
+        $("#modalListKomisiData").modal('show');
+
+        $(`#fk_id_penjualan_produk`).val(response.penjualan.pk_id_penjualan_produk);
+
+        let html = `
+          <p class="text-sm text-dark"><b>Nama Customer</b> : ${response.penjualan.nama_customer}</p>
+          <p class="text-sm text-dark"><b>Nama Agent</b> : ${response.penjualan.nama_agent}</p>
+          <p class="text-sm text-dark"><b>Nama Leader Agent</b> : ${response.penjualan.nama_leader_agent}</p>
+          <p class="text-sm text-dark"><b>Nama Produk</b> : ${response.penjualan.nama_produk}</p>
+          <p class="text-sm text-dark"><b>Harga Produk</b> : ${formatRupiah(response.penjualan.harga_produk)}</p>
+          <p class="text-sm text-dark"><b>Nama Travel</b> : ${(response.penjualan.nama_travel === null) ? '-' : response.penjualan.nama_travel}</p>
+          <p class="text-sm text-dark"><b>Status</b> : ${response.penjualan.status}</p>
+        `;
+
+        $("#DataPenjualanKomisi").html(html);
+
+        html = ``;
+        if(response.komisi.length == 0){
+          html += `
+            <div class="card mb-3 shadow-none border">
+              <div class="card-body">
+                <p class="text-sm text-dark">Data Pembayaran Kosong</p>
+              </div>
+            </div>
+          `
+        } else {
+          response.komisi.forEach(komisi => {
+            html += `
+              <div class="card mb-3 shadow-none border">
+                <div class="card-body">
+                  <p class="text-sm text-dark"><b>Nama Agent</b> : ${komisi.nama_agent}</p>
+                  <p class="text-sm text-dark"><b>Nominal</b> : ${formatRupiah(komisi.nominal)}</p>
+                  <p class="text-sm text-dark"><b>Keterangan</b> : ${komisi.keterangan}</p>
+                  <div class="d-flex justify-content-end">
+                    <a href="javascript:void(0)" class="me-1" onclick='getDataKomisi(${komisi.pk_id_komisi_penjualan_produk})'>
+                      <span class="badge bg-gradient-info">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
+                          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
+                        </svg>
+                      </span>
+                    </a>
+                    <a href="javascript:void(0)" onclick='hapusDataKomisi(${komisi.pk_id_komisi_penjualan_produk}, ${komisi.fk_id_penjualan_produk})'>
+                      <span class="badge bg-gradient-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                          <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                        </svg>
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            `
+          });
+        }
+
+        $("#DataKomisi").html(html);
       },
       error: function(xhr, status, error) {
         Toast.fire({
@@ -1153,6 +1333,146 @@
             })
 
             historyPembayaran(pk_id_penjualan_produk)
+            $('#table-data').DataTable().ajax.reload();
+            
+          },
+          error: function(xhr, status, error) {
+            Toast.fire({
+                icon: 'error',
+                title: `terjadi kesalahan: ${error}`
+            })
+          }
+        });
+      }
+    })
+  }
+
+  function getDataKomisi(pk_id_komisi_penjualan_produk){
+    let form = '#formEditKomisi';
+
+    bersihkanForm(form);
+    bersihkanValidasi(form);
+
+    $("#modalFormEditKomisi").modal('show');
+    $("#modalFormEditKomisiLabel").html('Edit Komisi');
+
+    $.ajax({
+      url: `<?= base_url()?>/penjualan/getDataKomisiPenjualanProduk/${pk_id_komisi_penjualan_produk}`,
+      type: 'get',
+      dataType: 'json',
+      success: function(response){
+        $("#modalListKomisiData").modal('hide');
+
+        $(`${form} #pk_id_komisi_penjualan_produk`).val(response.pk_id_komisi_penjualan_produk);
+        $(`${form} #nominal`).val(response.nominal);
+        $(`${form} #keterangan`).val(response.keterangan);
+        $(`${form} #catatan`).val(response.catatan);
+        
+        // Data Agent
+        html = `
+            <option value=''>Pilih Agent</option>
+            <option value='${response.fk_id_agent}' selected>${response.nama_agent}</option>
+          `
+          $(`${form} #fk_id_agent`).html(html);
+
+      }, error : function(xhr, status, error){
+        Toast.fire({
+          icon: 'error',
+          title: `terjadi kesalahan : ${error}`
+        })
+      }
+    })
+    
+  }
+
+  function saveDataKomisi(e) {
+    e.preventDefault();
+    let form = '#formEditKomisi'
+
+    let pk_id_komisi_penjualan_produk = $(`${form} #pk_id_komisi_penjualan_produk`).val();
+    let fk_id_penjualan_produk = $(`#fk_id_penjualan_produk`).val();
+    let nominal = $(`${form} #nominal`).val();
+    let keterangan = $(`${form} #keterangan`).val();
+    let catatan = $(`${form} #catatan`).val();
+    let fk_id_agent = $(`${form} #fk_id_agent`).val();
+
+    let data = {
+      pk_id_komisi_penjualan_produk: pk_id_komisi_penjualan_produk,
+      fk_id_penjualan_produk: fk_id_penjualan_produk,
+      nominal: nominal,
+      keterangan: keterangan,
+      catatan: catatan,
+      fk_id_agent: fk_id_agent
+    }
+
+
+    $.ajax({
+      url: "<?= base_url()?>/penjualan/saveDataKomisiPenjualanProduk",
+      type: "POST",
+      data: data,
+      dataType: "json",
+      success: function(response) {
+        if(response.error){
+          bersihkanValidasi(`${form}`);
+
+          showFormError();
+
+          $('html, .modal-body').animate({
+            scrollTop: 0
+          }, 'slow');
+
+          let errorMessage = '';
+          for (var key in response.error) {
+              var error = response.error[key];
+              $(`[name='${key}']`).addClass("is-invalid")
+              $(`[data-id='${key}']`).show()
+              $(`[data-id='${key}']`).text(error)
+          }
+  
+        } else {
+          Toast.fire({
+              icon: response.status,
+              title: response.message
+          })
+
+          $('#modalFormEditKomisi').modal("hide");
+          $('#table-data').DataTable().ajax.reload();
+
+          historyKomisi(fk_id_penjualan_produk)
+        }
+        
+      },
+      error: function(xhr, status, error) {
+        Toast.fire({
+            icon: 'error',
+            title: `terjadi kesalahan: ${error}`
+        })
+      }
+    });
+  }
+
+  function hapusDataKomisi(pk_id_komisi_penjualan_produk, pk_id_penjualan_produk) {
+    Swal.fire({
+      title: `Apa Anda yakin akan menghapus komisi ini?`,
+      text: "Anda tidak akan dapat mengembalikan ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "<?= base_url()?>/penjualan/hapusDataKomisi/" + pk_id_komisi_penjualan_produk,
+          type: "get",
+          dataType: "json",
+          success: function(response) {
+            Toast.fire({
+                icon: response.status,
+                title: response.message
+            })
+
+            historyKomisi(pk_id_penjualan_produk)
             $('#table-data').DataTable().ajax.reload();
             
           },

@@ -111,7 +111,8 @@ class Akomisi extends BaseController
                 c.nama_agent,
                 e.nama_agent as nama_leader_agent,
                 b.tgl_closing,
-                a.is_paid
+                a.is_paid,
+                a.catatan
             FROM komisi_penjualan_produk a
             JOIN penjualan_produk b ON a.fk_id_penjualan_produk = b.pk_id_penjualan_produk
             JOIN agent bb ON b.fk_id_agent_closing = bb.pk_id_agent

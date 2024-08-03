@@ -571,48 +571,43 @@
 
             if(row.to_agent == 1){
               btnAgent = `
-                <a href="javascript:void(0)" class="me-1" onclick='toAgent(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
-                  <span class="badge bg-gradient-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill-up" viewBox="0 0 16 16">
-                      <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                      <path d="M2 13c0 1 1 1 1 1h5.256A4.5 4.5 0 0 1 8 12.5a4.5 4.5 0 0 1 1.544-3.393Q8.844 9.002 8 9c-5 0-6 3-6 4"/>
-                    </svg>
-                  </span>
-                </a>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='toAgent(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
+                      jadi agent
+                  </a>
+                </li>
               `
             }
 
             return `
-              <a href="javascript:void(0)" class="me-1" onclick='editData(${row.pk_id_penjualan_produk})'>
-                <span class="badge bg-gradient-info">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                  </svg>
-                </span>
+              <a href="javascript:void(0)" id="${row.pk_id_penjualan_produk}" class="badge badge-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                action
               </a>
-              <a href="javascript:void(0)" class="me-1" onclick='historyPembayaran(${row.pk_id_penjualan_produk})'>
-                <span class="badge bg-gradient-success">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
-                    <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
-                    <path d="M0 4a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V6a2 2 0 0 1-2-2z"/>
-                  </svg>
-                </span>
-              </a>
-              <a href="javascript:void(0)" class="me-1" onclick='duplicateData(${row.pk_id_penjualan_produk})'>
-                <span class="badge bg-gold-custom">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z"/>
-                  </svg>
-                </span>
-              </a>
-              ${btnAgent}
-              <a href="javascript:void(0)" onclick='hapusData(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
-                <span class="badge bg-gradient-danger">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                  </svg>
-                </span>
-              </a>
+              <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='editData(${row.pk_id_penjualan_produk})'>
+                      detail
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='historyPembayaran(${row.pk_id_penjualan_produk})'>
+                      history pembayaran
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='duplicateData(${row.pk_id_penjualan_produk})'>
+                      duplikat
+                  </a>
+                </li>
+                ${btnAgent}
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='hapusData(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
+                      <span class="text-danger">
+                        hapus penjualan
+                      </span>
+                  </a>
+                </li>
+              </ul>
               `;
           },
           searchable: false,

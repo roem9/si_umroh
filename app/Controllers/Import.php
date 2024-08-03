@@ -394,7 +394,7 @@ class Import extends BaseController
                         'tgl_closing' => date('Y-m-d'),
                         'fk_id_travel' => $produk['fk_id_travel'],
                         'fk_id_agent_closing' => $data['fk_id_agent'],
-                        'status' => ($produk['tipe_produk'] == 'free offer') ? 'lunas' : 'pending'
+                        'status' => ($produk['jenis_produk'] == 'free offer') ? 'lunas' : 'pending'
                     ];
 
                     if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {

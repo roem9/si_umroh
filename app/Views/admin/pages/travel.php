@@ -289,20 +289,23 @@
           data: null,
           render: function(data, type, row) {
             return `
-              <a href="javascript:void(0)" class="me-1" onclick='editData(${row.pk_id_travel})'>
-                <span class="badge bg-gradient-info">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill" viewBox="0 0 16 16">
-                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
-                  </svg>
-                </span>
+              <a href="javascript:void(0)" id="${row.pk_id_travel}" class="badge badge-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                action
               </a>
-              <a href="javascript:void(0)" onclick='hapusData(${row.pk_id_travel}, "${row.nama_travel}")'>
-                <span class="badge bg-gradient-danger">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
-                  </svg>
-                </span>
-              </a>
+              <ul class="dropdown-menu" aria-labelledby="${row.pk_id_travel}">
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='editData(${row.pk_id_travel})'>
+                      detail
+                  </a>
+                </li>
+                <li>
+                  <a href="javascript:void(0)" class="dropdown-item" onclick='hapusData(${row.pk_id_travel})'>
+                      <span class="text-danger">
+                        hapus travel
+                      </span>
+                  </a>
+                </li>
+              </ul>
               `;
           },
           searchable: false,
