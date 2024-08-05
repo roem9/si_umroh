@@ -430,7 +430,7 @@ class Apenjualan extends BaseController
         if($this->customerModel->save($dataCustomer) === true){
             // cek data pembayaran
             $produk = $this->produkModel->find($dataCustomer['fk_id_produk']);
-            $is_send_wa = $produk['send_wa_after_input_admin'];
+            $is_send_wa = $produk['send_wa_after_input_agent'];
             $wa_message = $produk['wa_message'];
 
             $fk_id_customer = $this->customerModel->getInsertID();

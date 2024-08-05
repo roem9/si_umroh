@@ -8,6 +8,7 @@ use App\Models\StgAgentModel;
 use App\Models\CustomerModel;
 use App\Models\ProdukModel;
 use App\Models\PenjualanProdukModel;
+use App\Models\ListSendWaModel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -21,10 +22,12 @@ class Import extends BaseController
     public $produkModel;
     public $customerModel;
     public $penjualanProdukModel;
+    public $listSendWaModel;
     public $db;
     public $ses_pk_id_agent;
 
     public function __construct(){
+        $this->listSendWaModel = new ListSendWaModel();
         $this->stgAgentModel = new StgAgentModel();
         $this->agentModel = new AgentModel();
         $this->produkModel = new ProdukModel();
@@ -283,8 +286,6 @@ class Import extends BaseController
     }
 
 
-
-
     public function download_template(){
         // Load the model to get the data (assuming you have a model for fetching products)
         $produk = $this->produkModel->where("is_active", 1)->find(); // Fetch all products
@@ -385,7 +386,13 @@ class Import extends BaseController
                     'fk_id_leader_agent' => $agent['fk_id_leader_agent']
                 ];
 
+                $is_send_wa = 0;
+                $wa_message = '';
+
                 if($this->customerModel->save($data) === true){
+                    $is_send_wa = $produk['send_wa_after_input_agent'];
+                    $wa_message = $produk['wa_message'];
+
                     $fk_id_customer = $this->customerModel->getInsertID();
 
                     $dataPenjualan = [
@@ -414,6 +421,38 @@ class Import extends BaseController
                         $failed = true;
 
                         break;
+                    }
+
+                    if($is_send_wa){
+                        $messageData = $wa_message;
+            
+                        $replace = [
+                            '$nama_customer$' => $data['nama_customer']
+                        ];
+            
+                        // Replace placeholders with actual values
+                        $message = str_replace(array_keys($replace), array_values($replace), $messageData);
+            
+                        // send_wa($data['no_wa'], $message);
+                        $dataPesan = [
+                            'no_wa' => $data['no_wa'],
+                            'text' => $message
+                        ];
+
+                        if($this->listSendWaModel->save($dataPesan) !== true){
+                            $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+                            <ul>
+                                <li>Nama</li>
+                                <li>No WA</li>
+                                <li>Email</li>
+                                <li>Produk</li>
+                            </ul>
+                            <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+
+                            $failed = true;
+
+                            break;
+                        }
                     }
                 } else {
                     // $response = [
@@ -460,5 +499,24 @@ class Import extends BaseController
         }
 
         return json_encode($response);
+    }
+
+    public function cronJobSendWa(){
+        $data = $this->db->query("
+            SELECT
+                *
+            FROM list_send_wa
+            WHERE is_send = 0
+        ")->getRowArray();
+
+        if($data){
+            send_wa($data['no_wa'], $data['text']);
+
+            $this->db->query("
+                UPDATE list_send_wa
+                SET is_send = 1
+                WHERE pk_id_list_send_wa = $data[pk_id_list_send_wa]
+            ");
+        }
     }
 }
