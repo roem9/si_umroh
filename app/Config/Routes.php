@@ -72,8 +72,6 @@ $routes->get('/agentarea/home', 'Agreetingagent::index');
 $routes->get('/agentarea/kelas/(.*)', 'Akelas::kelas/$1');
 $routes->get('/agentarea/materi/(.*)', 'Akelas::materi/$1');
 
-$routes->get('/registrasiulangagent', 'Aagent::registrasi');
-
 
 
 
