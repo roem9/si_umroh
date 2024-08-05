@@ -2004,6 +2004,7 @@ class Penjualan extends BaseController
             "kota_kabupaten" => $customer['kota_kabupaten'],
             "tipe_agent" => $produk['tipe_agent'],
             "batch" => $batch['setting_value'],
+            "area_status" => 1,
             'confirmed_at' => date('Y-m-d')
         ];
 

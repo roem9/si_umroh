@@ -407,6 +407,7 @@ class Agent extends BaseController
             'kecamatan' => $this->request->getPost('kecamatan'),
             'kelurahan' => $this->request->getPost('kelurahan'),
             'username' => $this->request->getPost('username'),
+            'area_status' => 1,
             'password' => password_hash($password, PASSWORD_DEFAULT),
         ];
 
