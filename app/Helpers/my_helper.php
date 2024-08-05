@@ -419,6 +419,17 @@ function intToRupiah($int) {
     return $rupiah;
 }
 
+function get_parameter($setting_name){
+    $db = db_connect();
+    $data = $db->query("
+        SELECT
+            *
+        FROM system_parameter WHERE setting_name = '$setting_name'
+    ")->getRowArray();
+
+    return json_encode($data['setting_value']);
+}
+
 function send_wa($phone, $message){
     $db = db_connect();
 
@@ -428,6 +439,18 @@ function send_wa($phone, $message){
         FROM system_parameter
         WHERE setting_name = 'wa_token'
     ")->getRowArray();
+
+    // String data yang akan diproses
+    $data = $token['setting_value'];
+
+    // Menggunakan explode() untuk memecah string berdasarkan koma
+    $array = explode(',', $data);
+
+    // Menggunakan array_rand() untuk mendapatkan indeks acak dari array
+    $indeksAcak = array_rand($array);
+
+    // Mengambil nilai berdasarkan indeks acak
+    $tokenAcak = $array[$indeksAcak];
 
     $curl = curl_init();
 
@@ -446,7 +469,7 @@ function send_wa($phone, $message){
     // 'countryCode' => '62', //optional
     ),
     CURLOPT_HTTPHEADER => array(
-        "Authorization: $token[setting_value]" //change TOKEN to your actual token
+        "Authorization: $tokenAcak" //change TOKEN to your actual token
     ),
     ));
 

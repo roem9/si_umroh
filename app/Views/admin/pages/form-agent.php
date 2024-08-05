@@ -16,12 +16,27 @@
           <div id="message-success" class="alert alert-info" style="background-image: none; display: none" role="alert">
             <?= $message['setting_value'];?>
           </div>
-          <form id="form-registrasi">
-            <input type="hidden" name="pk_id_agent" id="pk_id_agent" value="<?= $agent['pk_id_agent']?>">
+          <form id="cari-agent">
+            <div id="message-success" class="alert alert-info bg-gold-custom" style="background-image: none;" role="alert">
+              silakan mengisi no whatsapp Anda pada form berikut ini!
+            </div>
+            <div class="col-12 mb-3">
+              <label>No. Whatsapp</label>
+              <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" type="text" placeholder="628122xxxx" >
+              <small class="text-xxs text-dark">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
+              <div class="invalid-feedback" data-id="no_wa"></div>
+            </div>
+            
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn bg-gold-custom" id="btnSimpan">Cari</button>
+            </div>
+          </form>
+          <form id="form-registrasi" style="display:none">
+            <input type="hidden" name="pk_id_agent" id="pk_id_agent">
 
             <div class="col-12 mb-3">
                 <label>Nama Anda <span class="text-danger">*</span></label>
-                <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="Nama Anda" value="<?= $agent['nama_agent']?>">
+                <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="Nama Anda" >
                 <div class="invalid-feedback" data-id="nama_agent"></div>
             </div>
     
@@ -36,7 +51,7 @@
             </div>
             <div class="col-12 mb-3">
               <label>Tempat Lahir</label>
-              <input name="t4_lahir" id="t4_lahir" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+              <input name="t4_lahir" id="t4_lahir" class="multisteps-form__input form-control" type="text" placeholder="tempat lahir">
               <div class="invalid-feedback" data-id="t4_lahir"></div>
             </div>
             <div class="col-12 mb-3">
@@ -46,23 +61,23 @@
             </div>
             <div class="col-12 mb-3">
               <label>No. Whatsapp</label>
-              <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" type="text" placeholder="628122xxxx" value="<?= $agent['no_wa']?>">
+              <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" type="text" placeholder="628122xxxx" >
               <small class="text-xxs text-dark">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
               <div class="invalid-feedback" data-id="no_wa"></div>
             </div>
             <div class="col-12 mb-3">
               <label>Email</label>
-              <input name="email" id="email" class="multisteps-form__input form-control" type="text" placeholder="nama client" value="<?= $agent['email']?>">
+              <input name="email" id="email" class="multisteps-form__input form-control" type="text" placeholder="email" >
               <div class="invalid-feedback" data-id="email"></div>
             </div>
             <div class="col-12 mb-3">
               <label>Rekening Bank</label>
-              <input name="bank_rekening" id="bank_rekening" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+              <input name="bank_rekening" id="bank_rekening" class="multisteps-form__input form-control" type="text" placeholder="bank">
               <div class="invalid-feedback" data-id="bank_rekening"></div>
             </div>
             <div class="col-12 mb-3">
               <label>No Rekening</label>
-              <input name="no_rekening" id="no_rekening" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+              <input name="no_rekening" id="no_rekening" class="multisteps-form__input form-control" type="text" placeholder="nomor rekening">
               <div class="invalid-feedback" data-id="no_rekening"></div>
             </div>
             <div class="form-group">
@@ -119,6 +134,39 @@
                 <button type="button" class="btn btn-info" id="btnSimpan">Simpan</button>
             </div>
           </form>
+          <div id="data-peminat" style="display:none">
+            <div id="message-success" class="alert alert-info bg-gold-custom" style="background-image: none;" role="alert">
+              Data Anda belum aktif. berikut ini adalah list-list peminat Anda yang telah terdaftar di sistem. Silakan menghubungi admin untuk mengaktifkan data Anda.
+            </div>
+            <a href="" id="hubungiAdmin" class="btn btn-sm bg-gold-custom ps-3" target="_blank">
+              hubungi admin
+            </a>
+            <div class="col-12 mb-3">
+                <label>Nama Anda <span class="text-danger"></span></label>
+                <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="Nama Anda" disabled>
+            </div>
+            <div class="col-12 mb-3">
+                <label>Batch <span class="text-danger"></span></label>
+                <input name="batch" id="batch" class="multisteps-form__input form-control" placeholder="batch" disabled>
+            </div>
+            <div class="col-12 mb-3">
+                <label>No WA <span class="text-danger"></span></label>
+                <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="no whatsapp" disabled>
+            </div>
+
+            <div class="overflow-auto">
+              <table class="table text-dark">
+                <thead>
+                  <td class="w-1">No</td>
+                  <td>Nama Peminat</td>
+                  <td>Produk</td>
+                </thead>
+                <tbody id="list-peminat">
+  
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
     </div>
 </div>
@@ -132,15 +180,16 @@
   document.addEventListener('DOMContentLoaded', () => {
     showListProvinsi();
     // showAllKota();
-
-    $("#message-success").hide();
-    $("#form-registrasi").show();
     
     $('#no_wa').on('keyup', function() {
       this.value = this.value.replace(/[^0-9]/g, '');
     });
 
-    $("#btnSimpan").click(function(){
+    $("#cari-agent #btnSimpan").click(function(){
+        searchAgent();
+    })
+
+    $("#form-registrasi #btnSimpan").click(function(){
         tambahData();
     })
 
@@ -213,7 +262,98 @@
           // })
 
           $("#message-success").show();
+          $("#cari-agent").hide()
+          $("#data-peminat").hide()
           $("#form-registrasi").hide();
+        }
+        
+      },
+      error: function(xhr, status, error) {
+        Toast.fire({
+            icon: 'error',
+            title: `terjadi kesalahan: ${error}`
+        })
+      }
+    });
+  }
+
+  function searchAgent() {
+    let form = '#cari-agent'
+
+    let no_wa = $(`${form} #no_wa`).val();
+
+    let data = {
+      'no_wa' : no_wa,
+    };
+
+    $.ajax({
+      url: "<?= base_url()?>/aagent/searchAgent",
+      type: "POST",
+      data: data,
+      dataType: "json",
+      success: function(response) {
+        if(response.error){
+          let errorMessage = '';
+          for (var key in response.error) {
+              var error = response.error[key];
+              $(`[name='${key}']`).addClass("is-invalid")
+              $(`[data-id='${key}']`).show()
+              $(`[data-id='${key}']`).text(error)
+          }
+
+          Swal.fire({
+            icon: response.status,
+            title: "Oops...",
+            text: response.message,
+          });
+  
+        } else {
+
+          let textWa = encodeURIComponent(`Permisi Admin saya ${response.data.nama_agent} ingin mengaktifkan agent saya. Terima kasih
+          `);
+
+          let no_wa = <?= get_parameter('no_wa')?>;
+
+          
+        $("#hubungiAdmin").attr('href', `https://wa.me/${no_wa}?text=${textWa}`);
+
+          Swal.fire({
+            icon: response.status,
+            text: response.message,
+          });
+
+          if(response.agent_area == 0){
+            let html = ''
+            let number = 1;
+
+            response.data_peminat.forEach(data_peminat => {
+              html += `<tr>
+                <td>${number}</td>
+                <td>${data_peminat.nama_customer}</td>
+                <td>${data_peminat.nama_produk}</td>
+              </tr>`
+
+              number++;
+            });
+
+            $("#data-peminat #nama_agent").val(response.data.nama_agent);
+            $("#data-peminat #no_wa").val(response.data.no_wa);
+            $("#data-peminat #batch").val(response.data.batch);
+
+            $("#list-peminat").html(html);
+            $("#data-peminat").show()
+            $("#cari-agent").hide();
+
+          } else if(response.agent_area == 1 && response.data.username != ''){
+            let form = "#form-registrasi";
+            $("#cari-agent").hide();
+            $(form).show();
+            
+            $(`${form} #pk_id_agent`).val(response.data.pk_id_agent);
+            $(`${form} #nama_agent`).val(response.data.nama_agent);
+            $(`${form} #no_wa`).val(response.data.no_wa);
+            $(`${form} #email`).val(response.data.email);
+          }
         }
         
       },

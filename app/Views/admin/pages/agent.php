@@ -63,12 +63,12 @@
         <input type="hidden" name="pk_id_agent" id="pk_id_agent">
         <div class="col-12 mb-3">
           <label>Leader Agent</label>
-          <input name="leader_agent" id="leader_agent" class="multisteps-form__input form-control" type="text" placeholder="nama client" disabled>
+          <input name="leader_agent" id="leader_agent" class="multisteps-form__input form-control" type="text" placeholder="nama leader agent" disabled>
           <div class="invalid-feedback" data-id="leader_agent"></div>
         </div>
         <div class="col-12 mb-3">
           <label>Kode Agent</label>
-          <input name="kode_agent" id="kode_agent" class="multisteps-form__input form-control" type="text" placeholder="nama client" disabled>
+          <input name="kode_agent" id="kode_agent" class="multisteps-form__input form-control" type="text" placeholder="kode agent" disabled>
           <div class="invalid-feedback" data-id="kode_agent"></div>
         </div>
         <div class="col-12 mb-3">
@@ -88,7 +88,7 @@
         </div>
         <div class="col-12 mb-3">
           <label>Nama Agent</label>
-          <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+          <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" type="text" placeholder="nama agent">
           <div class="invalid-feedback" data-id="nama_agent"></div>
         </div>
         <div class="col-12 mb-3">
@@ -102,7 +102,7 @@
         </div>
         <div class="col-12 mb-3">
           <label>Tempat Lahir</label>
-          <input name="t4_lahir" id="t4_lahir" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+          <input name="t4_lahir" id="t4_lahir" class="multisteps-form__input form-control" type="text" placeholder="tempat lahir">
           <div class="invalid-feedback" data-id="t4_lahir"></div>
         </div>
         <div class="col-12 mb-3">
@@ -118,17 +118,17 @@
         </div>
         <div class="col-12 mb-3">
           <label>Email</label>
-          <input name="email" id="email" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+          <input name="email" id="email" class="multisteps-form__input form-control" type="text" placeholder="email">
           <div class="invalid-feedback" data-id="email"></div>
         </div>
         <div class="col-12 mb-3">
           <label>Rekening Bank</label>
-          <input name="bank_rekening" id="bank_rekening" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+          <input name="bank_rekening" id="bank_rekening" class="multisteps-form__input form-control" type="text" placeholder="bank">
           <div class="invalid-feedback" data-id="bank_rekening"></div>
         </div>
         <div class="col-12 mb-3">
           <label>No Rekening</label>
-          <input name="no_rekening" id="no_rekening" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+          <input name="no_rekening" id="no_rekening" class="multisteps-form__input form-control" type="text" placeholder="nomor rekening">
           <div class="invalid-feedback" data-id="no_rekening"></div>
         </div>
         <div class="form-group">
@@ -166,7 +166,7 @@
         </div>
         <div class="col-12 mb-3">
           <label>Username</label>
-          <input name="username" id="username" class="multisteps-form__input form-control" type="text" placeholder="nama client">
+          <input name="username" id="username" class="multisteps-form__input form-control" type="text" placeholder="username">
           <div class="invalid-feedback" data-id="username"></div>
         </div>
       </div>

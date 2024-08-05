@@ -1989,6 +1989,12 @@ class Penjualan extends BaseController
         $penjualan = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
         $customer = $this->customerModel->find($penjualan['fk_id_customer']);
         $produk = $this->produkModel->find($penjualan['fk_id_produk']);
+        $batch = $this->db->query("
+            SELECT
+                *
+            FROM system_parameter
+            WHERE setting_name = 'batch'
+        ")->getRowArray();
 
         $agent = [
             "tgl_bergabung" => date('Y-m-d'),
@@ -1997,6 +2003,7 @@ class Penjualan extends BaseController
             "email" => $customer['email'],
             "kota_kabupaten" => $customer['kota_kabupaten'],
             "tipe_agent" => $produk['tipe_agent'],
+            "batch" => $batch['setting_value'],
             'confirmed_at' => date('Y-m-d')
         ];
 
