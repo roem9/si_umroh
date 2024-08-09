@@ -199,29 +199,43 @@ class Akelas extends BaseController
 
     public function getAllKelas()
     {
-        if($this->ses_tipe_agent == 'leader agent'){
-            $kelas = $this->db->query("
-                SELECT 
-                *,
-                'on' AS akses
-                FROM kelas a
-                where (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
-                AND (a.akses_kelas = 'semua agent' OR a.akses_kelas = '$this->ses_tipe_agent')
-            ")->getResultArray();
-        } else {
-            $kelas = $this->db->query("
-                SELECT 
+        // if($this->ses_tipe_agent == 'leader agent'){
+        //     $kelas = $this->db->query("
+        //         SELECT 
+        //         *,
+        //         'on' AS akses
+        //         FROM kelas a
+        //         where (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+        //         AND (a.akses_kelas = 'semua agent' OR a.akses_kelas = '$this->ses_tipe_agent')
+        //     ")->getResultArray();
+        // } else {
+        //     $kelas = $this->db->query("
+        //         SELECT 
+        //         *,
+        //         CASE 
+        //             WHEN (a.akses_kelas = 'semua agent') THEN 'on'
+        //             WHEN (a.akses_kelas LIKE '%$this->ses_tipe_agent%') THEN 'on'
+        //             ELSE 'off'
+        //         END AS akses
+        //         FROM kelas a
+        //         where (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+        //         ORDER BY akses DESC
+        //     ")->getResultArray();
+        // }
+
+        $kelas = $this->db->query("
+            SELECT
                 *,
                 CASE 
                     WHEN (a.akses_kelas = 'semua agent') THEN 'on'
                     WHEN (a.akses_kelas LIKE '%$this->ses_tipe_agent%') THEN 'on'
                     ELSE 'off'
                 END AS akses
-                FROM kelas a
-                where (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
-                ORDER BY akses DESC
-            ")->getResultArray();
-        }
+            FROM kelas a
+            where (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+            AND (a.show_kelas LIKE '%$this->ses_tipe_agent%' OR a.show_kelas = 'semua agent')
+            ORDER BY akses DESC
+        ")->getResultArray();
 
         $data = [];
         foreach ($kelas as $i => $kelas) {

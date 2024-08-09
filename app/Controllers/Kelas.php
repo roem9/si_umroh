@@ -147,11 +147,13 @@ class Kelas extends BaseController
         $deskripsi = $this->request->getPost('deskripsi');
         $gambar_sampul = $this->request->getFile('gambar_sampul');
         $akses_kelas = $this->request->getPost('akses_kelas');
+        $show_kelas = $this->request->getPost('show_kelas');
 
         $data = [
             'nama_kelas' => $nama_kelas,
             'deskripsi' => $deskripsi,
             'akses_kelas' => $akses_kelas,
+            'show_kelas' => $show_kelas,
             'nama_mentor' => $nama_mentor,
             'no_wa' => $no_wa,
         ];

@@ -100,7 +100,10 @@ class Produk extends BaseController
             'send_wa_after_input_agent' => $this->request->getPost('send_wa_after_input_agent'),
             'send_wa_after_input_admin' => $this->request->getPost('send_wa_after_input_admin'),
             'wa_message' => $this->request->getPost('wa_message'),
-            'message_after_input_agent' => $this->request->getPost('message_after_input_agent'),
+            'show_lp' => $this->request->getPost('show_lp'),
+            'to_agent' => $this->request->getPost('to_agent'),
+            'tipe_agent' => $this->request->getPost('tipe_agent'),
+            // 'message_after_input_agent' => $this->request->getPost('message_after_input_agent'),
         ];
 
         $pk_id_produk = $this->request->getPost('pk_id_produk');
@@ -109,6 +112,25 @@ class Produk extends BaseController
             $this->produkModel->setValidationRule('wa_message', "required");
             $this->produkModel->setValidationMessage('wa_message', [
                 'required' => 'pesan wa harus diisi',
+            ]);
+        }
+
+        if($data['show_lp'] == 1){
+            $this->produkModel->setValidationRule('link_lp', "required");
+            $this->produkModel->setValidationMessage('link_lp', [
+                'required' => 'Link LP harus diisi',
+            ]);
+            
+            $this->produkModel->setValidationRule('page', "required");
+            $this->produkModel->setValidationMessage('page', [
+                'required' => 'page harus diisi',
+            ]);
+        }
+
+        if($data['to_agent'] == 1){
+            $this->produkModel->setValidationRule('tipe_agent', "required");
+            $this->produkModel->setValidationMessage('tipe_agent', [
+                'required' => 'Tipe agent harus diisi',
             ]);
         }
 

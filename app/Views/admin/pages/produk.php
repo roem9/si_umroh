@@ -103,6 +103,16 @@
         </div>
 
         <div class="col-12 mb-3">
+            <label>Tampilkan Landing Page Agent?</label>
+            <select name="show_lp" id="show_lp" class="multisteps-form__input form-control">
+                <option value="">Pilih Jawaban</option>
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+            <div class="invalid-feedback" data-id="show_lp"></div>
+        </div>
+
+        <div class="col-12 mb-3">
             <label>Link LP</label>
             <input type="text" name="link_lp" id="link_lp" class="multisteps-form__input form-control" type="text" placeholder="Link LP">
             <div class="invalid-feedback" data-id="link_lp"></div>
@@ -150,6 +160,22 @@
         </div>
 
         <div class="col-12 mb-3">
+            <label>Apakah produk adalah produk menjadi agent?</label>
+            <select name="to_agent" id="to_agent" class="multisteps-form__input form-control">
+                <option value="">Pilih Jawaban</option>
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+            <div class="invalid-feedback" data-id="to_agent"></div>
+        </div>
+
+        <div class="col-12 mb-3">
+            <label>Tipe Agent</label>
+            <input type="text" name="tipe_agent" id="tipe_agent" class="multisteps-form__input form-control" placeholder="Tipe Agent">
+            <div class="invalid-feedback" data-id="tipe_agent"></div>
+        </div>
+
+        <div class="col-12 mb-3">
             <label>Kirim Pesan WA ke Peminat Setelah Agent Input Data?</label>
             <select name="send_wa_after_input_agent" id="send_wa_after_input_agent" class="multisteps-form__input form-control">
                 <option value="">Pilih Jawaban</option>
@@ -174,12 +200,6 @@
             <textarea name="wa_message" id="wa_message" class="multisteps-form__input form-control" placeholder="pesan wa yang akan dikirim kepada peminat, dapat berupa link dll" style="height: 400px"></textarea>
             <small class="text-xxs text-dark">* Harap mengisi form ini jika mengaktifkan kirim pesan wa setelah input data</small>
             <div class="invalid-feedback" data-id="wa_message"></div>
-        </div>
-
-        <div class="col-12 mb-3">
-            <label>Pesan Yang Tampil Setelah Agent Menambahkan Data</label>
-            <textarea name="message_after_input_agent" id="message_after_input_agent" class="multisteps-form__input form-control" placeholder="pesan yang tampil setelah agent menginput data peminat" style="height: 400px"></textarea>
-            <div class="invalid-feedback" data-id="message_after_input_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
@@ -404,7 +424,9 @@
     let send_wa_after_input_agent = $(`${form} #send_wa_after_input_agent`).val();
     let send_wa_after_input_admin = $(`${form} #send_wa_after_input_admin`).val();
     let wa_message = $(`${form} #wa_message`).val();
-    let message_after_input_agent = $(`${form} #message_after_input_agent`).val();
+    let show_lp = $(`${form} #show_lp`).val();
+    let to_agent = $(`${form} #to_agent`).val();
+    let tipe_agent = $(`${form} #tipe_agent`).val();
 
     let data = {
       'pk_id_produk': pk_id_produk,
@@ -423,7 +445,9 @@
       'send_wa_after_input_agent' : send_wa_after_input_agent,
       'send_wa_after_input_admin' : send_wa_after_input_admin,
       'wa_message' : wa_message,
-      'message_after_input_agent' : message_after_input_agent,
+      'show_lp' : show_lp,
+      'to_agent' : to_agent,
+      'tipe_agent' : tipe_agent,
     };
 
     $.ajax({
@@ -501,7 +525,9 @@
           $(`${form} #send_wa_after_input_agent`).val(response.send_wa_after_input_agent);
           $(`${form} #send_wa_after_input_admin`).val(response.send_wa_after_input_admin);
           $(`${form} #wa_message`).val(response.wa_message);
-          $(`${form} #message_after_input_agent`).val(response.message_after_input_agent);
+          $(`${form} #show_lp`).val(response.show_lp);
+          $(`${form} #to_agent`).val(response.to_agent);
+          $(`${form} #tipe_agent`).val(response.tipe_agent);
         }
       }
 

@@ -132,6 +132,10 @@
 
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-info" id="btnSimpan">Simpan</button>
+                <button class="btn bg-gold-custom text-light" id="btnLoading" type="button" disabled style="display:none">
+                  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                  <span role="status">Loading...</span>
+                </button>
             </div>
           </form>
           <div id="data-peminat" style="display:none">
@@ -198,6 +202,9 @@
   function tambahData() {
     let form = '#form-registrasi'
 
+    $(`${form} #btnSimpan`).hide();
+    $(`${form} #btnLoading`).show();
+
     let pk_id_agent = $(`${form} #pk_id_agent`).val();
     let nama_agent = $(`${form} #nama_agent`).val();
     let gender = $(`${form} #gender`).val();
@@ -254,6 +261,9 @@
           }
 
           showFormError()
+
+          $(`${form} #btnSimpan`).show();
+          $(`${form} #btnLoading`).hide();
   
         } else {
           // Toast.fire({

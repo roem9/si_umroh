@@ -38,6 +38,7 @@ class AgentModel extends Model
         'confirmed_at',
         'area_status',
         'batch',
+        'la_double',
     ];
 
     // Dates

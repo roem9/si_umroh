@@ -103,7 +103,7 @@ class Aproduk extends BaseController
             SELECT
                 *,
                 CASE 
-                    WHEN link_lp LIKE 'https://www.%' THEN CONCAT('https://www.$this->username.', SUBSTRING(link_lp, 12))
+                    WHEN link_lp LIKE 'https://www.%' THEN CONCAT('https://www.$this->username.', SUBSTRING(link_lp, 13))
                     WHEN link_lp LIKE 'https://%' THEN CONCAT('https://$this->username.', SUBSTRING(link_lp, 9))
                     ELSE link_lp
                 END AS modified_link_lp,

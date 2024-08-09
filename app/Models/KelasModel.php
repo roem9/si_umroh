@@ -20,7 +20,8 @@ class KelasModel extends Model
         'gambar_sampul', 
         'akses_kelas',
         'nama_mentor',
-        'no_wa'
+        'no_wa',
+        'show_kelas',
     ];
 
     // Dates
@@ -36,6 +37,7 @@ class KelasModel extends Model
         'deskripsi' => 'required',
         // 'gambar_sampul' => 'required|uploaded[file]|max_size[file,1024]|ext_in[file,png,jpg,jpeg]',
         'akses_kelas' => 'required',
+        'show_kelas' => 'required',
         'nama_mentor' => 'required',
         'no_wa' => 'required',
     ];
@@ -55,6 +57,9 @@ class KelasModel extends Model
         // ],
         'akses_kelas' => [
             'required' => 'Akses kelas harus diisi'
+        ],
+        'show_kelas' => [
+            'required' => 'Form ini harus diisi'
         ],
         'nama_mentor' => [
             'required' => 'Nama mentor harus diisi'

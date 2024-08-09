@@ -31,7 +31,10 @@ class ProdukModel extends Model
         'send_wa_after_input_agent',
         'send_wa_after_input_admin',
         'wa_message',
-        'message_after_input_agent'
+        'show_lp',
+        'to_agent',
+        'tipe_agent',
+        // 'message_after_input_agent'
     ];
 
     // Dates
@@ -46,14 +49,16 @@ class ProdukModel extends Model
         'nama_produk' => 'required',
         'jenis_komisi' => 'required',
         'jenis_produk' => 'required',
-        'page' => 'required',
+        // 'page' => 'required',
         'harga_produk' => 'required|numeric',
         'komisi_agent' => 'required|numeric',
         'komisi_leader_agent' => 'required|numeric',
         'passive_income_leader_agent' => 'required|numeric',
         'send_wa_after_input_agent' => 'required',
         'send_wa_after_input_admin' => 'required',
-        'message_after_input_agent' => 'required',
+        'show_lp' => 'required',
+        'to_agent' => 'required',
+        // 'message_after_input_agent' => 'required',
     ];
     protected $validationMessages   = [
         'nama_produk' => [
@@ -62,9 +67,9 @@ class ProdukModel extends Model
         'jenis_komisi' => [
             'required' => 'Jenis komisi harus diisi.'
         ],
-        'page' => [
-            'required' => 'page harus diisi.'
-        ],
+        // 'page' => [
+        //     'required' => 'page harus diisi.'
+        // ],
         'jenis_produk' => [
             'required' => 'Jenis produk harus diisi.'
         ],
@@ -90,9 +95,15 @@ class ProdukModel extends Model
         'send_wa_after_input_admin' => [
             'required' => 'Form ini harus diisi'
         ],
-        'message_after_input_agent' => [
+        'show_lp' => [
             'required' => 'Form ini harus diisi'
-        ]
+        ],
+        'to_agent' => [
+            'required' => 'Form ini harus diisi'
+        ],
+        // 'message_after_input_agent' => [
+        //     'required' => 'Form ini harus diisi'
+        // ]
     ];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;

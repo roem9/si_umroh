@@ -475,4 +475,23 @@ class Agent extends BaseController
 
         return json_encode($response);
     }
+
+    public function toggleStatus($pk_id_agent, $area_status){
+        $data = [
+            "area_status" => !$area_status
+        ];
+
+        if($this->agentModel->update($pk_id_agent, $data) === true){
+            $response = [
+                'status' => 'success',
+                'message' => 'Berhasil mengubah status agent area agent'
+            ];
+        } else {
+            $response = [
+                "error" => $this->agentModel->errors()
+            ];
+        }
+
+        return json_encode($response);
+    }
 }

@@ -34,7 +34,9 @@ class PenjualanProdukModel extends Model
         'status',
         'paid_komisi_agent',
         'paid_komisi_leader_agent',
-        'paid_passive_income_leader_agent'
+        'paid_passive_income_leader_agent',
+        // tambahan 
+        'is_komisi'
     ];
 
     // Dates
@@ -96,7 +98,10 @@ class PenjualanProdukModel extends Model
         $customer = $customerModel->find($data['data']['fk_id_customer']);
         
         $data['data']['nama_produk'] = $produk['nama_produk'];
-        $data['data']['harga_produk'] = $produk['harga_produk'];
+        
+        if(!isset($data['data']['harga_produk'])){
+            $data['data']['harga_produk'] = $produk['harga_produk'];
+        }
         
         if(isset($data['data']['fk_id_agent_closing'])){
             $agent = $agentModel->find($data['data']['fk_id_agent_closing']);

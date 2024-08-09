@@ -72,18 +72,15 @@
             <div class="invalid-feedback" data-id="gambar_sampul"></div>
           </div>
           <div class="col-12 mb-3">
-            <label for="akses_kelas">Akses Kelas</label>
-            <select name="akses_kelas" id="akses_kelas" class="multisteps-form__input form-control">
-              <option value="">Pilih Akses</option>
-              <!-- <option value="silver">Silver Agent</option>
-              <option value="gold">Gold Agent</option>
-              <option value="leader agent">Leader Agent</option>
-              <option value="semua agent">Semua Agent</option> -->
-              <option value="silver & gold">Silver & Gold Agent</option>
-              <option value="gold">Gold Agent</option>
-              <option value="leader agent">Leader Agent</option>
-              <option value="semua agent">Semua Agent</option>
-            </select>
+            <label>Tipe Agent yang bisa melihat kelas ini?</label>
+            <input name="show_kelas" id="show_kelas" class="multisteps-form__input form-control" type="text" placeholder="Lihat Kelas">
+            <small class="text-xxs text-dark">* Harap mengisi dengan tipe agent. Jika dapat dilihat oleh lebih dari 2 tipe agent maka berikan pemisah dengan tanda koma (,). contoh : silver,gold,standard. Jika dapat dilihat oleh semua tipe agent maka isi dengan 'semua agent'</small>
+            <div class="invalid-feedback" data-id="show_kelas"></div>
+          </div>
+          <div class="col-12 mb-3">
+            <label>Tipe Agent yang bisa mengakses kelas ini?</label>
+            <input name="akses_kelas" id="akses_kelas" class="multisteps-form__input form-control" type="text" placeholder="Akses Kelas">
+            <small class="text-xxs text-dark">* Harap mengisi akses dengan tipe agent. Jika dapat diakses oleh lebih dari 2 tipe agent maka berikan pemisah dengan tanda koma (,). contoh : silver,gold,standard. Jika dapat diakses oleh semua tipe agent maka isi dengan 'semua agent'</small>
             <div class="invalid-feedback" data-id="akses_kelas"></div>
           </div>
           <div class="col-12 mb-3">
@@ -255,6 +252,7 @@
     let no_wa = $(`#formTambahKelas #no_wa`).val();
     let deskripsi = $(`#formTambahKelas #deskripsi`).val();
     let akses_kelas = $(`#formTambahKelas #akses_kelas`).val();
+    let show_kelas = $(`#formTambahKelas #show_kelas`).val();
     let gambar_sampul = $(`#formTambahKelas #gambar_sampul`)[0].files;
 
     var data = new FormData();
@@ -266,6 +264,7 @@
     data.append('no_wa', no_wa);
     data.append('deskripsi', deskripsi);
     data.append('akses_kelas', akses_kelas);
+    data.append('show_kelas', show_kelas);
     data.append('gambar_sampul', gambar_sampul[0]);
 
     $.ajax({
@@ -337,6 +336,7 @@
           $(`#formTambahKelas #no_wa`).val(obj.no_wa);
           $(`#formTambahKelas #deskripsi`).val(obj.deskripsi);
           $(`#formTambahKelas #akses_kelas`).val(obj.akses_kelas);
+          $(`#formTambahKelas #show_kelas`).val(obj.show_kelas);
           $(`#image-cover`).show();
           $(`#image-cover`).html(
             `<img src="public/assets/img-kelas/${obj.gambar_sampul}" alt="" class="img-fluid" width="30%">`

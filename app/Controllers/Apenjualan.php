@@ -192,8 +192,8 @@ class Apenjualan extends BaseController
                 FROM penjualan_produk a
                 JOIN produk aa ON a.fk_id_produk = aa.pk_id_produk
                 JOIN customer b ON a.fk_id_customer = b.pk_id_customer
-                LEFT JOIN agent c ON b.fk_id_agent = c.pk_id_agent
-                LEFT JOIN agent d ON b.fk_id_leader_agent = d.pk_id_agent
+                LEFT JOIN agent c ON a.fk_id_agent = c.pk_id_agent
+                LEFT JOIN agent d ON a.fk_id_leader_agent = d.pk_id_agent
                 LEFT JOIN travel e ON a.fk_id_travel = e.pk_id_travel
                 WHERE a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL
                 AND (a.fk_id_agent = $this->ses_pk_id_agent OR a.fk_id_leader_agent = $this->ses_pk_id_agent);

@@ -175,6 +175,14 @@ class Aprofile extends BaseController
                 AND (fk_id_agent = $this->ses_pk_id_agent OR fk_id_leader_agent = $this->ses_pk_id_agent)
             ")->getRowArray();
 
+            $data['agent'] = $this->db->query("
+                SELECT
+                    COUNT(*) as total
+                FROM agent 
+                WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
+                AND fk_id_leader_agent = $this->ses_pk_id_agent
+            ")->getRowArray();
+
             $data['closing_agent'] = $data['penjualan_produk_agent']['closing'] + $data['penjualan_produk_travel_agent']['closing'];
             $data['closing_leader_agent'] = $data['penjualan_produk_leader_agent']['closing'] + $data['penjualan_produk_travel_leader_agent']['closing'];
             $data['closing'] = $data['closing_agent'] + $data['closing_leader_agent'];

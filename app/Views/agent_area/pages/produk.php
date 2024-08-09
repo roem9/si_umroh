@@ -81,12 +81,6 @@
         </div>
 
         <div class="col-12 mb-3">
-            <label>Link LP</label>
-            <input type="text" name="link_lp" id="link_lp" class="multisteps-form__input form-control" type="text" placeholder="Link LP" disabled>
-            <div class="invalid-feedback" data-id="link_lp"></div>
-        </div>
-
-        <div class="col-12 mb-3">
             <label>Jenis Komisi</label>
             <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control" disabled>
                 <option value="">Pilih Jenis Komisi</option>
@@ -214,7 +208,7 @@
 
       Toast.fire({
           icon: 'success',
-          title: `Berhasil meyalin link LP`
+          title: `Berhasil menyalin link LP`
       })
     });
 
@@ -318,9 +312,13 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row){
-            return `<a href="javascript:void(0)" data-link="${row.modified_link_lp}" class="copyButton">
-              <span class="badge badge-sm bg-gold-custom">salin link</span>
-            </a>`;
+            if(row.show_lp == '1'){
+              return `<a href="javascript:void(0)" data-link="${row.modified_link_lp}" class="copyButton">
+                <span class="badge badge-sm bg-gold-custom">salin link</span>
+              </a>`;
+            } else {
+              return `-`;
+            }
           }
         },
         // {
@@ -398,7 +396,6 @@
           $(`${form} #nama_produk`).val(response.nama_produk);
           $(`${form} #deskripsi`).val(response.deskripsi);
           $(`${form} #jenis_produk`).val(response.jenis_produk);
-          $(`${form} #link_lp`).val(response.link_lp);
           $(`${form} #jenis_komisi`).val(response.jenis_komisi);
           $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
           $(`${form} #komisi_agent`).val(formatRupiah(response.komisi_agent));

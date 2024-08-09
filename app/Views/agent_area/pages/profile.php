@@ -127,7 +127,7 @@
             <?php else :?>
               <tr>
                   <td>Total Agent</td>
-                  <td class='ps-3'>: 10</td>
+                  <td class='ps-3'>: <?= $agent['total']?></td>
               </tr>
               <tr>
                   <td>Total Customer</td>

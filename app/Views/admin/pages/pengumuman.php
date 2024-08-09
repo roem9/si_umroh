@@ -220,18 +220,9 @@
               </div>
             </div>
             <div class="col-12 mb-3">
-              <label for="akses_informasi">Akses Pengumuman</label>
-              <select name="akses_informasi" id="akses_informasi" class="multisteps-form__input form-control">
-                <option value="">Pilih Akses</option>
-                <option value="silver & gold">Silver & Gold Agent</option>
-                <option value="gold">Gold Agent</option>
-                <option value="leader agent">Leader Agent</option>
-                <option value="semua agent">Semua Agent</option>
-                <!-- <option value="silver">Silver Agent</option>
-                <option value="gold">Gold Agent</option>
-                <option value="leader agent">Leader Agent</option>
-                <option value="semua agent">Semua Agent</option> -->
-              </select>
+              <label>Akses Greeting</label>
+              <input name="akses_informasi" id="akses_informasi" class="multisteps-form__input form-control" type="text" placeholder="akses informasi">
+              <small class="text-xxs text-dark">* Harap mengisi akses dengan tipe agent. Jika dapat diakses oleh lebih dari 2 tipe agent maka berikan pemisah dengan tanda koma (,). contoh : silver,gold,standard. Jika dapat diakses oleh semua tipe agent maka isi dengan 'semua agent'</small>
               <div class="invalid-feedback" data-id="akses_informasi"></div>
             </div>
           </div>
