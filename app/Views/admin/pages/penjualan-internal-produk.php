@@ -1367,72 +1367,71 @@
 
   function toAgent(pk_id_penjualan_produk, nama_customer){
     Swal.fire({
-    title: `Apa Anda yakin akan menjadikan ${nama_customer} sebagai agent?`,
-    text: "Anda tidak akan dapat mengembalikan ini!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Ya',
-    cancelButtonText: 'Tidak',
-    html: `
-      <div class="col-12 mb-3">
-        <label>Status</label>
-        <select name="area_status" id="area_status" class="multisteps-form__input form-control">
-            <option value="">Pilih Status</option>
-            <option value="1">aktif</option>
-            <option value="0">nonaktif</option>
-        </select>
-      </div>
-      <div class="col-12 mb-3">
-          <label>Batch<span class="text-danger">*</span></label>
-          <input name="batch" id="batch" class="multisteps-form__input form-control" placeholder="Batch">
-      </div>
-    `,
-    preConfirm: () => {
-      const status = Swal.getPopup().querySelector('#area_status').value;
-      const batch = Swal.getPopup().querySelector('#batch').value;
-      
-      if (!status || !batch) {
-        Swal.showValidationMessage(`Semua field harus diisi!`);
-      }
-      
-      return { status, batch };
-    }
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const { status, batch } = result.value;
-      
-      let data = {
-        pk_id_penjualan_produk: pk_id_penjualan_produk,
-        area_status: status,
-        batch: batch
-      }
-
-      $.ajax({
-        url: "<?= base_url()?>/penjualan/toAgent",
-        type: "post",
-        dataType: "json",
-        data: data,
-        success: function(response) {
-          Toast.fire({
-              icon: response.status,
-              title: response.message
-          })
-
-          $('#table-data').DataTable().ajax.reload();
-          
-        },
-        error: function(xhr, status, error) {
-          Toast.fire({
-              icon: 'error',
-              title: `terjadi kesalahan: ${error}`
-          })
+      title: `Apa Anda yakin akan menjadikan ${nama_customer} sebagai agent?`,
+      text: "Anda tidak akan dapat mengembalikan ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya',
+      cancelButtonText: 'Tidak',
+      html: `
+        <div class="col-12 mb-3">
+          <label>Status</label>
+          <select name="area_status" id="area_status" class="multisteps-form__input form-control">
+              <option value="">Pilih Status</option>
+              <option value="1">aktif</option>
+              <option value="0">nonaktif</option>
+          </select>
+        </div>
+        <div class="col-12 mb-3">
+            <label>Batch<span class="text-danger">*</span></label>
+            <input name="batch" id="batch" class="multisteps-form__input form-control" placeholder="Batch">
+        </div>
+      `,
+      preConfirm: () => {
+        const status = Swal.getPopup().querySelector('#area_status').value;
+        const batch = Swal.getPopup().querySelector('#batch').value;
+        
+        if (!status || !batch) {
+          Swal.showValidationMessage(`Semua field harus diisi!`);
         }
-      });
-    }
-  });
+        
+        return { status, batch };
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const { status, batch } = result.value;
+        
+        let data = {
+          pk_id_penjualan_produk: pk_id_penjualan_produk,
+          area_status: status,
+          batch: batch
+        }
 
+        $.ajax({
+          url: "<?= base_url()?>/penjualan/toAgent",
+          type: "post",
+          dataType: "json",
+          data: data,
+          success: function(response) {
+            Toast.fire({
+                icon: response.status,
+                title: response.message
+            })
+
+            $('#table-data').DataTable().ajax.reload();
+            
+          },
+          error: function(xhr, status, error) {
+            Toast.fire({
+                icon: 'error',
+                title: `terjadi kesalahan: ${error}`
+            })
+          }
+        });
+      }
+    });
   }
 </script>
 <?= $this->endSection() ?>
