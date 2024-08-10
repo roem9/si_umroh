@@ -363,10 +363,10 @@ class Penjualan extends BaseController
                 a.fk_id_customer,
                 b.nama_customer,
                 a.fk_id_produk,
-                c.nama_produk,
+                a.nama_produk,
                 d.nama_agent as nama_agent,
                 e.nama_agent as nama_leader_agent,
-                c.harga_produk,
+                a.harga_produk,
                 COALESCE(NULLIF(a.fk_id_travel, 0), NULL) as fk_id_travel,
                 a.tgl_closing,
                 COALESCE(a.komisi_agent, 0) AS komisi_agent,
@@ -519,10 +519,10 @@ class Penjualan extends BaseController
                 a.fk_id_customer,
                 b.nama_customer,
                 a.fk_id_produk,
-                c.nama_produk,
+                a.nama_produk,
                 d.nama_agent as nama_agent,
                 e.nama_agent as nama_leader_agent,
-                c.harga_produk,
+                a.harga_produk,
                 f.nama_travel,
                 a.tgl_closing,
                 COALESCE(a.komisi_agent, 0) AS komisi_agent,
@@ -1339,8 +1339,9 @@ class Penjualan extends BaseController
             $wa_message = $produk['wa_message'];
 
             $nominal = $this->request->getPost('nominal');
+            $harga_produk = $this->request->getPost('harga_produk');
 
-            if($nominal > $produk['harga_produk']){
+            if($nominal > $harga_produk){
                 $response['error'] = [
                     'nominal' => 'Nominal tidak boleh lebih besar dari harga produk'
                 ];
@@ -1354,10 +1355,11 @@ class Penjualan extends BaseController
                     'fk_id_customer' => $fk_id_customer,
                     'fk_id_produk' => $dataCustomer['fk_id_produk'],
                     'tgl_closing' => $this->request->getPost('tgl_closing'),
+                    'harga_produk' => $this->request->getPost('harga_produk'),
                     'fk_id_travel' => $this->request->getPost('fk_id_travel')
                 ];
 
-                if($nominal == $produk['harga_produk']){
+                if($nominal == $harga_produk){
                     $dataPenjualan['status'] = 'lunas';
                 } else {
                     $dataPenjualan['status'] = 'cicil';
@@ -1506,6 +1508,7 @@ class Penjualan extends BaseController
             'fk_id_produk'=> $this->request->getPost('fk_id_produk'),
             'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
             'tgl_closing'=> $this->request->getPost('tgl_closing'),
+            'harga_produk'=> $this->request->getPost('harga_produk'),
             'fk_id_customer'=> $this->request->getPost('pk_id_customer')
         ];
 
@@ -1628,10 +1631,11 @@ class Penjualan extends BaseController
                     'fk_id_customer' => $fk_id_customer,
                     'fk_id_produk_travel' => $dataCustomer['fk_id_produk'],
                     'tgl_closing' => $this->request->getPost('tgl_closing'),
-                    'fk_id_travel' => $this->request->getPost('fk_id_travel')
+                    'fk_id_travel' => $this->request->getPost('fk_id_travel'),
+                    'harga_produk' => $this->request->getPost('harga_produk'),
                 ];
 
-                if($nominal == $produk['harga_produk']){
+                if($nominal == $dataPenjualan['harga_produk']){
                     $dataPenjualan['status'] = 'lunas';
                 } else {
                     $dataPenjualan['status'] = 'cicil';
@@ -1767,7 +1771,8 @@ class Penjualan extends BaseController
             'fk_id_produk_travel'=> $this->request->getPost('fk_id_produk'),
             'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
             'tgl_closing'=> $this->request->getPost('tgl_closing'),
-            'fk_id_customer'=> $this->request->getPost('pk_id_customer')
+            'harga_produk'=> $this->request->getPost('harga_produk'),
+            'fk_id_customer'=> $this->request->getPost('pk_id_customer'),
         ];
 
         // var_dump($data);
@@ -1985,16 +1990,20 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function toAgent($pk_id_penjualan_produk){
+    public function toAgent(){
+        $pk_id_penjualan_produk = $this->request->getPost('pk_id_penjualan_produk');
+        $area_status = $this->request->getPost('area_status');
+        $batch = $this->request->getPost('batch');
+
         $penjualan = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
         $customer = $this->customerModel->find($penjualan['fk_id_customer']);
         $produk = $this->produkModel->find($penjualan['fk_id_produk']);
-        $batch = $this->db->query("
-            SELECT
-                *
-            FROM system_parameter
-            WHERE setting_name = 'batch'
-        ")->getRowArray();
+        // $batch = $this->db->query("
+        //     SELECT
+        //         *
+        //     FROM system_parameter
+        //     WHERE setting_name = 'batch'
+        // ")->getRowArray();
 
         $agent = [
             "tgl_bergabung" => date('Y-m-d'),
@@ -2003,8 +2012,8 @@ class Penjualan extends BaseController
             "email" => $customer['email'],
             "kota_kabupaten" => $customer['kota_kabupaten'],
             "tipe_agent" => $produk['tipe_agent'],
-            "batch" => $batch['setting_value'],
-            "area_status" => 1,
+            "batch" => $batch,
+            "area_status" => $area_status,
             'confirmed_at' => date('Y-m-d')
         ];
 
@@ -2065,7 +2074,8 @@ class Penjualan extends BaseController
 
             $replace = [
                 '$nama_agent$' => $customer['nama_customer'],
-                '$link_data$' => base_url()."/lengkapidataagent/".md5($pk_id_agent)
+                // '$link_data$' => base_url()."/lengkapidataagent/".md5($pk_id_agent)
+                '$link_data$' => base_url()."/registrasiulangagent"
             ];
 
             $message = str_replace(array_keys($replace), array_values($replace), $messageData['setting_value']);

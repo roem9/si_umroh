@@ -44,7 +44,7 @@ $routes->post('/login/auth', 'Login::auth');
 
 $routes->get('/leaderagent', 'Agent::leaderAgent');
 $routes->get('/pengumuman', 'Informasi::index');
-$routes->get('/lengkapidataagent/(.*)', 'Agent::lengkapiDataAgent/$1');
+// $routes->get('/lengkapidataagent/(.*)', 'Agent::lengkapiDataAgent/$1');
 $routes->post('/savedataagent', 'Agent::saveData');
 
 $routes->get('/agentarea/produk', 'Aproduk::index');

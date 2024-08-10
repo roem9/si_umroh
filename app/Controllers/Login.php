@@ -110,6 +110,11 @@ class Login extends BaseController
                 $pass = $data['password'];
                 $verify_pass = password_verify($password, $pass);
 
+                if($data['area_status'] == 0){
+                    $session->setFlashdata('msg', 'Agent Anda belum diaktifkan. Silakan menghubungi Admin');
+                    return redirect()->to(base_url('/login'));
+                }
+
                 if ($verify_pass) {
                     $ses_data = [
                         'username'           => $data['username'],

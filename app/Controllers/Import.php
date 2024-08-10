@@ -41,450 +41,450 @@ class Import extends BaseController
         $this->ses_pk_id_agent = session()->get('pk_id_agent');
     }
 
-    public function agent_new(){
-        $this->db->query("
-            TRUNCATE TABLE agent
-        ");
+    // public function agent_new(){
+    //     $this->db->query("
+    //         TRUNCATE TABLE agent
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE customer
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE customer
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE penjualan_produk
+    //     ");
         
-        $this->db->query("
-            TRUNCATE TABLE komisi_penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE komisi_penjualan_produk
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE pembayaran_penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE pembayaran_penjualan_produk
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE stg_agent
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE stg_agent
+    //     ");
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $reader->setReadDataOnly(true);
-        $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
-        $agent = $spreadsheet->getActiveSheet()->toArray();
+    //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //     $reader->setReadDataOnly(true);
+    //     $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
+    //     $agent = $spreadsheet->getActiveSheet()->toArray();
 
-        $no = 1;
+    //     $no = 1;
 
-        // masukkan data sebagai customer
-        foreach ($agent as $key => $value) {
-            if($key <= 1){
-                continue;
-            }
+    //     // masukkan data sebagai customer
+    //     foreach ($agent as $key => $value) {
+    //         if($key <= 1){
+    //             continue;
+    //         }
 
-            // if($no == 5){
-            //     break;
-            // }
+    //         // if($no == 5){
+    //         //     break;
+    //         // }
             
 
-            if($value[4] == 'leader agent'){
-                $produk = $this->db->query("
-                    SELECT
-                        *
-                    FROM produk 
-                    WHERE nama_produk = 'Upgrade Agent Ke Leader Agent'
-                ")->getRowArray();
-            } else if($value[4] == 'silver'){
-                $produk = $this->db->query("
-                    SELECT
-                        *
-                    FROM produk 
-                    WHERE nama_produk = 'Agent Silver'
-                ")->getRowArray();
-            } else if($value[4] == 'gold'){
-                $produk = $this->db->query("
-                    SELECT
-                        *
-                    FROM produk 
-                    WHERE nama_produk = 'Agent Gold'
-                ")->getRowArray();
-            } else {
-                $produk['pk_id_produk'] = 1;
-                $produk['fk_id_travel'] = 0;
-            }
+    //         if($value[4] == 'leader agent'){
+    //             $produk = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM produk 
+    //                 WHERE nama_produk = 'Upgrade Agent Ke Leader Agent'
+    //             ")->getRowArray();
+    //         } else if($value[4] == 'silver'){
+    //             $produk = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM produk 
+    //                 WHERE nama_produk = 'Agent Silver'
+    //             ")->getRowArray();
+    //         } else if($value[4] == 'gold'){
+    //             $produk = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM produk 
+    //                 WHERE nama_produk = 'Agent Gold'
+    //             ")->getRowArray();
+    //         } else {
+    //             $produk['pk_id_produk'] = 1;
+    //             $produk['fk_id_travel'] = 0;
+    //         }
 
-            $dataCustomer = [
-                "nama_customer" => $value[1],
-                "no_wa" => $value[2],
-                "email" => $value[3],
-                "fk_id_produk" => $produk['pk_id_produk'],
-                'jenis_produk' => 'produk'
-            ];
+    //         $dataCustomer = [
+    //             "nama_customer" => $value[1],
+    //             "no_wa" => $value[2],
+    //             "email" => $value[3],
+    //             "fk_id_produk" => $produk['pk_id_produk'],
+    //             'jenis_produk' => 'produk'
+    //         ];
 
-            if($value[7] != '' || $value[7] !== NULL){
-                $dataAgent = $this->db->query("
-                    SELECT
-                        *
-                    FROM agent
-                    WHERE no_wa LIKE '%".$value[7]."%'
-                ")->getRowArray();
-            }
+    //         if($value[7] != '' || $value[7] !== NULL){
+    //             $dataAgent = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM agent
+    //                 WHERE no_wa LIKE '%".$value[7]."%'
+    //             ")->getRowArray();
+    //         }
 
-            $dataCustomer['fk_id_agent'] = NULL;
-            $dataCustomer['fk_id_leader_agent'] = NULL;
+    //         $dataCustomer['fk_id_agent'] = NULL;
+    //         $dataCustomer['fk_id_leader_agent'] = NULL;
 
-            // jika ada data agent tentukan agent
-            if(isset($dataAgent)){
-                if($dataAgent['tipe_agent'] == 'leader agent'){
-                    $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //         // jika ada data agent tentukan agent
+    //         if(isset($dataAgent)){
+    //             if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                 $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
 
-                    $fk_id_agent_closing = $dataAgent['pk_id_agent'];
-                } else {
-                    $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
-                    // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
-                    if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
-                        $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
-                    }
+    //                 $fk_id_agent_closing = $dataAgent['pk_id_agent'];
+    //             } else {
+    //                 $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
+    //                 // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
+    //                 if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
+    //                     $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
+    //                 }
 
-                    $fk_id_agent_closing = $dataAgent['pk_id_agent'];
-                }
-            }
+    //                 $fk_id_agent_closing = $dataAgent['pk_id_agent'];
+    //             }
+    //         }
 
-            $query = '';
-            if($dataCustomer['fk_id_agent'] === NULL){
-                $query .= "AND fk_id_agent IS NULL ";
-            } else {
-                $query .= "AND fk_id_agent = $dataCustomer[fk_id_agent] ";
-            }
+    //         $query = '';
+    //         if($dataCustomer['fk_id_agent'] === NULL){
+    //             $query .= "AND fk_id_agent IS NULL ";
+    //         } else {
+    //             $query .= "AND fk_id_agent = $dataCustomer[fk_id_agent] ";
+    //         }
 
-            if($dataCustomer['fk_id_leader_agent'] === NULL){
-                $query .= "AND fk_id_leader_agent IS NULL ";
-            } else {
-                $query .= "AND fk_id_leader_agent = $dataCustomer[fk_id_leader_agent] ";
-            }
-            // cek customer 
-            $cekCustomer = $this->db->query("
-                SELECT
-                    *
-                FROM customer WHERE no_wa = '$dataCustomer[no_wa]'
-                $query
-            ")->getRowArray();
+    //         if($dataCustomer['fk_id_leader_agent'] === NULL){
+    //             $query .= "AND fk_id_leader_agent IS NULL ";
+    //         } else {
+    //             $query .= "AND fk_id_leader_agent = $dataCustomer[fk_id_leader_agent] ";
+    //         }
+    //         // cek customer 
+    //         $cekCustomer = $this->db->query("
+    //             SELECT
+    //                 *
+    //             FROM customer WHERE no_wa = '$dataCustomer[no_wa]'
+    //             $query
+    //         ")->getRowArray();
 
-            if(empty($cekCustomer)){
-                // simpan data leads
-                $this->customerModel->skipValidation(true);
-                if($this->customerModel->save($dataCustomer) === true){
-                    $fk_id_customer = $this->customerModel->getInsertID();
+    //         if(empty($cekCustomer)){
+    //             // simpan data leads
+    //             $this->customerModel->skipValidation(true);
+    //             if($this->customerModel->save($dataCustomer) === true){
+    //                 $fk_id_customer = $this->customerModel->getInsertID();
     
-                    $dataPenjualan = [
-                        'fk_id_customer' => $fk_id_customer,
-                        'fk_id_produk' => $produk['pk_id_produk'],
-                        'tgl_closing' => $this->convertToDate($value[13]),
-                        'fk_id_travel' => $produk['fk_id_travel'],
-                        'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
-                        'status' => $value[9],
-                        'harga_produk' => $value[10],
-                        'is_komisi' => $value[12]
-                    ];
+    //                 $dataPenjualan = [
+    //                     'fk_id_customer' => $fk_id_customer,
+    //                     'fk_id_produk' => $produk['pk_id_produk'],
+    //                     'tgl_closing' => $this->convertToDate($value[13]),
+    //                     'fk_id_travel' => $produk['fk_id_travel'],
+    //                     'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
+    //                     'status' => $value[9],
+    //                     'harga_produk' => $value[10],
+    //                     'is_komisi' => $value[12]
+    //                 ];
     
-                    $this->penjualanProdukModel->skipValidation(true);
-                    if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
-                        $response = [
-                            "error" => $this->penjualanProdukModel->errors()
-                        ];
+    //                 $this->penjualanProdukModel->skipValidation(true);
+    //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+    //                     $response = [
+    //                         "error" => $this->penjualanProdukModel->errors()
+    //                     ];
     
-                        $failed = true;
+    //                     $failed = true;
     
-                        break;
-                    } else {
-                        $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
+    //                     break;
+    //                 } else {
+    //                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
     
-                        $dataPembayaran = [
-                            'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
-                            'tgl_pembayaran' => $this->convertToDate($value[13]),
-                            'nominal' => $value[11],
-                            'keterangan' => '-'
-                        ];
+    //                     $dataPembayaran = [
+    //                         'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
+    //                         'tgl_pembayaran' => $this->convertToDate($value[13]),
+    //                         'nominal' => $value[11],
+    //                         'keterangan' => '-'
+    //                     ];
     
-                        if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
-                            $response = [
-                                "error" => $this->pembayaranPenjualanProdukModel->errors()
-                            ];
+    //                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
+    //                         $response = [
+    //                             "error" => $this->pembayaranPenjualanProdukModel->errors()
+    //                         ];
         
-                            $failed = true;
+    //                         $failed = true;
         
-                            break;
-                        } else {
-                            $data = [
-                                "nama_agent" => $value[1],
-                                "no_wa" => $value[2],
-                                "email" => $value[3],
-                                "tipe_agent" => $value[4],
-                                "batch" => $value[5],
-                                "confirmed_at" => date('Y-m-d')
-                            ];
+    //                         break;
+    //                     } else {
+    //                         $data = [
+    //                             "nama_agent" => $value[1],
+    //                             "no_wa" => $value[2],
+    //                             "email" => $value[3],
+    //                             "tipe_agent" => $value[4],
+    //                             "batch" => $value[5],
+    //                             "confirmed_at" => date('Y-m-d')
+    //                         ];
                 
-                            if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
-                                $data['area_status'] = 1;
-                            }
+    //                         if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
+    //                             $data['area_status'] = 1;
+    //                         }
                 
-                            if($value[7] !== NULL){
-                                $dataAgent = $this->db->query("
-                                    SELECT
-                                        *
-                                    FROM agent
-                                    WHERE no_wa LIKE '%".$value[7]."%'
-                                    AND tipe_agent = 'leader agent'
-                                ")->getRowArray();
+    //                         if($value[7] !== NULL){
+    //                             $dataAgent = $this->db->query("
+    //                                 SELECT
+    //                                     *
+    //                                 FROM agent
+    //                                 WHERE no_wa LIKE '%".$value[7]."%'
+    //                                 AND tipe_agent = 'leader agent'
+    //                             ")->getRowArray();
                     
-                                if(!empty($dataAgent)){
-                                    $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
-                                    $data['la_double'] = $dataAgent['pk_id_agent'];
-                                    // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
-                                }
-                            }
+    //                             if(!empty($dataAgent)){
+    //                                 $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //                                 $data['la_double'] = $dataAgent['pk_id_agent'];
+    //                                 // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
+    //                             }
+    //                         }
     
-                            // cek apakah agent sudah terdaftar
-                            $is_agent = $this->db->query("
-                                SELECT
-                                    *
-                                FROM agent
-                                WHERE no_wa LIKE '%$value[2]%'
-                            ")->getRowArray();
+    //                         // cek apakah agent sudah terdaftar
+    //                         $is_agent = $this->db->query("
+    //                             SELECT
+    //                                 *
+    //                             FROM agent
+    //                             WHERE no_wa LIKE '%$value[2]%'
+    //                         ")->getRowArray();
     
-                            if(empty($is_agent)){
-                                $this->agentModel->skipValidation(true);
-                                if($this->agentModel->save($data) !== true){
-                                    $response = [
-                                        "error" => $this->agentModel->errors()
-                                    ];
+    //                         if(empty($is_agent)){
+    //                             $this->agentModel->skipValidation(true);
+    //                             if($this->agentModel->save($data) !== true){
+    //                                 $response = [
+    //                                     "error" => $this->agentModel->errors()
+    //                                 ];
                     
-                                    $failed = true;
-                                    break;
-                                } else {
-                                    $fk_id_agent = $this->agentModel->getInsertID();
+    //                                 $failed = true;
+    //                                 break;
+    //                             } else {
+    //                                 $fk_id_agent = $this->agentModel->getInsertID();
         
-                                    $this->db->query("
-                                        UPDATE customer
-                                        SET fk_id_to_agent = $fk_id_agent
-                                        WHERE pk_id_customer = $fk_id_customer
-                                    ");
-                                }
-                            } else {
-                                // jika agent sudah terdaftar dan memiliki leader agent
-                                if($is_agent['fk_id_leader_agent'] != NULL || $is_agent['fk_id_leader_agent'] != 0){
-                                    if($value[7] != '' || $value[7] !== NULL){
-                                        $dataAgent = $this->db->query("
-                                            SELECT
-                                                *
-                                            FROM agent
-                                            WHERE no_wa LIKE '%".$value[7]."%'
-                                        ")->getRowArray();
+    //                                 $this->db->query("
+    //                                     UPDATE customer
+    //                                     SET fk_id_to_agent = $fk_id_agent
+    //                                     WHERE pk_id_customer = $fk_id_customer
+    //                                 ");
+    //                             }
+    //                         } else {
+    //                             // jika agent sudah terdaftar dan memiliki leader agent
+    //                             if($is_agent['fk_id_leader_agent'] != NULL || $is_agent['fk_id_leader_agent'] != 0){
+    //                                 if($value[7] != '' || $value[7] !== NULL){
+    //                                     $dataAgent = $this->db->query("
+    //                                         SELECT
+    //                                             *
+    //                                         FROM agent
+    //                                         WHERE no_wa LIKE '%".$value[7]."%'
+    //                                     ")->getRowArray();
     
-                                        if($dataAgent['tipe_agent'] == 'leader agent'){
-                                            $this->db->query("
-                                                UPDATE agent
-                                                SET la_double = CONCAT(la_double, ',', $dataAgent[pk_id_agent])
-                                                WHERE pk_id_agent = $is_agent[pk_id_agent]
-                                            ");
-                                        }
-                                    }
-                                } else {
-                                    // jika agent sudah terdaftar dan tidak memiliki leader agent
-                                    if($value[7] != '' || $value[7] !== NULL){
-                                        $dataAgent = $this->db->query("
-                                            SELECT
-                                                *
-                                            FROM agent
-                                            WHERE no_wa LIKE '%".$value[7]."%'
-                                        ")->getRowArray();
+    //                                     if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                                         $this->db->query("
+    //                                             UPDATE agent
+    //                                             SET la_double = CONCAT(la_double, ',', $dataAgent[pk_id_agent])
+    //                                             WHERE pk_id_agent = $is_agent[pk_id_agent]
+    //                                         ");
+    //                                     }
+    //                                 }
+    //                             } else {
+    //                                 // jika agent sudah terdaftar dan tidak memiliki leader agent
+    //                                 if($value[7] != '' || $value[7] !== NULL){
+    //                                     $dataAgent = $this->db->query("
+    //                                         SELECT
+    //                                             *
+    //                                         FROM agent
+    //                                         WHERE no_wa LIKE '%".$value[7]."%'
+    //                                     ")->getRowArray();
     
-                                        if($dataAgent['tipe_agent'] == 'leader agent'){
-                                            $this->db->query("
-                                                UPDATE agent
-                                                SET 
-                                                la_double = CASE
-                                                    WHEN la_double = '' OR la_double IS NULL THEN CAST($dataAgent[pk_id_agent] AS CHAR)
-                                                    ELSE CONCAT(la_double, ',', $dataAgent[pk_id_agent])
-                                                END,
-                                                fk_id_leader_agent = $dataAgent[pk_id_agent]
-                                                WHERE pk_id_agent = $is_agent[pk_id_agent]
-                                            ");
-                                        }
-                                    }
-                                }
+    //                                     if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                                         $this->db->query("
+    //                                             UPDATE agent
+    //                                             SET 
+    //                                             la_double = CASE
+    //                                                 WHEN la_double = '' OR la_double IS NULL THEN CAST($dataAgent[pk_id_agent] AS CHAR)
+    //                                                 ELSE CONCAT(la_double, ',', $dataAgent[pk_id_agent])
+    //                                             END,
+    //                                             fk_id_leader_agent = $dataAgent[pk_id_agent]
+    //                                             WHERE pk_id_agent = $is_agent[pk_id_agent]
+    //                                         ");
+    //                                     }
+    //                                 }
+    //                             }
     
     
-                            }
-                        }
-                    }
-                }
-            } else {
-                $fk_id_customer = $cekCustomer['pk_id_customer'];
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         } else {
+    //             $fk_id_customer = $cekCustomer['pk_id_customer'];
     
-                $dataPenjualan = [
-                    'fk_id_customer' => $fk_id_customer,
-                    'fk_id_produk' => $produk['pk_id_produk'],
-                    'tgl_closing' => $this->convertToDate($value[13]),
-                    'fk_id_travel' => $produk['fk_id_travel'],
-                    'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
-                    'status' => $value[9],
-                    'harga_produk' => $value[10],
-                    'is_komisi' => $value[12]
-                ];
+    //             $dataPenjualan = [
+    //                 'fk_id_customer' => $fk_id_customer,
+    //                 'fk_id_produk' => $produk['pk_id_produk'],
+    //                 'tgl_closing' => $this->convertToDate($value[13]),
+    //                 'fk_id_travel' => $produk['fk_id_travel'],
+    //                 'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
+    //                 'status' => $value[9],
+    //                 'harga_produk' => $value[10],
+    //                 'is_komisi' => $value[12]
+    //             ];
 
-                $this->penjualanProdukModel->skipValidation(true);
-                if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
-                    $response = [
-                        "error" => $this->penjualanProdukModel->errors()
-                    ];
+    //             $this->penjualanProdukModel->skipValidation(true);
+    //             if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+    //                 $response = [
+    //                     "error" => $this->penjualanProdukModel->errors()
+    //                 ];
 
-                    $failed = true;
+    //                 $failed = true;
 
-                    break;
-                } else {
-                    $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
+    //                 break;
+    //             } else {
+    //                 $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
 
-                    $dataPembayaran = [
-                        'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
-                        'tgl_pembayaran' => $this->convertToDate($value[13]),
-                        'nominal' => $value[11],
-                        'keterangan' => '-'
-                    ];
+    //                 $dataPembayaran = [
+    //                     'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
+    //                     'tgl_pembayaran' => $this->convertToDate($value[13]),
+    //                     'nominal' => $value[11],
+    //                     'keterangan' => '-'
+    //                 ];
 
-                    if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
-                        $response = [
-                            "error" => $this->pembayaranPenjualanProdukModel->errors()
-                        ];
+    //                 if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
+    //                     $response = [
+    //                         "error" => $this->pembayaranPenjualanProdukModel->errors()
+    //                     ];
     
-                        $failed = true;
+    //                     $failed = true;
     
-                        break;
-                    } else {
-                        $data = [
-                            "nama_agent" => $value[1],
-                            "no_wa" => $value[2],
-                            "email" => $value[3],
-                            "tipe_agent" => $value[4],
-                            "batch" => $value[5],
-                            "confirmed_at" => date('Y-m-d')
-                        ];
+    //                     break;
+    //                 } else {
+    //                     $data = [
+    //                         "nama_agent" => $value[1],
+    //                         "no_wa" => $value[2],
+    //                         "email" => $value[3],
+    //                         "tipe_agent" => $value[4],
+    //                         "batch" => $value[5],
+    //                         "confirmed_at" => date('Y-m-d')
+    //                     ];
             
-                        if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
-                            $data['area_status'] = 1;
-                        }
+    //                     if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
+    //                         $data['area_status'] = 1;
+    //                     }
             
-                        if($value[7] !== NULL){
-                            $dataAgent = $this->db->query("
-                                SELECT
-                                    *
-                                FROM agent
-                                WHERE no_wa LIKE '%".$value[7]."%'
-                                AND tipe_agent = 'leader agent'
-                            ")->getRowArray();
+    //                     if($value[7] !== NULL){
+    //                         $dataAgent = $this->db->query("
+    //                             SELECT
+    //                                 *
+    //                             FROM agent
+    //                             WHERE no_wa LIKE '%".$value[7]."%'
+    //                             AND tipe_agent = 'leader agent'
+    //                         ")->getRowArray();
                 
-                            if(!empty($dataAgent)){
-                                $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
-                                $data['la_double'] = $dataAgent['pk_id_agent'];
-                                // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
-                            }
-                        }
+    //                         if(!empty($dataAgent)){
+    //                             $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //                             $data['la_double'] = $dataAgent['pk_id_agent'];
+    //                             // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
+    //                         }
+    //                     }
 
-                        // cek apakah agent sudah terdaftar
-                        $is_agent = $this->db->query("
-                            SELECT
-                                *
-                            FROM agent
-                            WHERE no_wa LIKE '%$value[2]%'
-                        ")->getRowArray();
+    //                     // cek apakah agent sudah terdaftar
+    //                     $is_agent = $this->db->query("
+    //                         SELECT
+    //                             *
+    //                         FROM agent
+    //                         WHERE no_wa LIKE '%$value[2]%'
+    //                     ")->getRowArray();
 
-                        if(empty($is_agent)){
-                            $this->agentModel->skipValidation(true);
-                            if($this->agentModel->save($data) !== true){
-                                $response = [
-                                    "error" => $this->agentModel->errors()
-                                ];
+    //                     if(empty($is_agent)){
+    //                         $this->agentModel->skipValidation(true);
+    //                         if($this->agentModel->save($data) !== true){
+    //                             $response = [
+    //                                 "error" => $this->agentModel->errors()
+    //                             ];
                 
-                                $failed = true;
-                                break;
-                            } else {
-                                $fk_id_agent = $this->agentModel->getInsertID();
+    //                             $failed = true;
+    //                             break;
+    //                         } else {
+    //                             $fk_id_agent = $this->agentModel->getInsertID();
     
-                                $this->db->query("
-                                    UPDATE customer
-                                    SET fk_id_to_agent = $fk_id_agent
-                                    WHERE pk_id_customer = $fk_id_customer
-                                ");
-                            }
-                        } else {
-                            // jika agent sudah terdaftar dan memiliki leader agent
-                            if($is_agent['fk_id_leader_agent'] != NULL || $is_agent['fk_id_leader_agent'] != 0){
-                                if($value[7] != '' || $value[7] !== NULL){
-                                    $dataAgent = $this->db->query("
-                                        SELECT
-                                            *
-                                        FROM agent
-                                        WHERE no_wa LIKE '%".$value[7]."%'
-                                    ")->getRowArray();
+    //                             $this->db->query("
+    //                                 UPDATE customer
+    //                                 SET fk_id_to_agent = $fk_id_agent
+    //                                 WHERE pk_id_customer = $fk_id_customer
+    //                             ");
+    //                         }
+    //                     } else {
+    //                         // jika agent sudah terdaftar dan memiliki leader agent
+    //                         if($is_agent['fk_id_leader_agent'] != NULL || $is_agent['fk_id_leader_agent'] != 0){
+    //                             if($value[7] != '' || $value[7] !== NULL){
+    //                                 $dataAgent = $this->db->query("
+    //                                     SELECT
+    //                                         *
+    //                                     FROM agent
+    //                                     WHERE no_wa LIKE '%".$value[7]."%'
+    //                                 ")->getRowArray();
 
-                                    if($dataAgent['tipe_agent'] == 'leader agent'){
-                                        $this->db->query("
-                                            UPDATE agent
-                                            SET la_double = CONCAT(la_double, ',', $dataAgent[pk_id_agent])
-                                            WHERE pk_id_agent = $is_agent[pk_id_agent]
-                                        ");
-                                    }
-                                }
-                            } else {
-                                // jika agent sudah terdaftar dan tidak memiliki leader agent
-                                if($value[7] != '' || $value[7] !== NULL){
-                                    $dataAgent = $this->db->query("
-                                        SELECT
-                                            *
-                                        FROM agent
-                                        WHERE no_wa LIKE '%".$value[7]."%'
-                                    ")->getRowArray();
+    //                                 if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                                     $this->db->query("
+    //                                         UPDATE agent
+    //                                         SET la_double = CONCAT(la_double, ',', $dataAgent[pk_id_agent])
+    //                                         WHERE pk_id_agent = $is_agent[pk_id_agent]
+    //                                     ");
+    //                                 }
+    //                             }
+    //                         } else {
+    //                             // jika agent sudah terdaftar dan tidak memiliki leader agent
+    //                             if($value[7] != '' || $value[7] !== NULL){
+    //                                 $dataAgent = $this->db->query("
+    //                                     SELECT
+    //                                         *
+    //                                     FROM agent
+    //                                     WHERE no_wa LIKE '%".$value[7]."%'
+    //                                 ")->getRowArray();
 
-                                    if($dataAgent['tipe_agent'] == 'leader agent'){
-                                        $this->db->query("
-                                            UPDATE agent
-                                            SET 
-                                            la_double = CASE
-                                                WHEN la_double = '' OR la_double IS NULL THEN CAST($dataAgent[pk_id_agent] AS CHAR)
-                                                ELSE CONCAT(la_double, ',', $dataAgent[pk_id_agent])
-                                            END,
-                                            fk_id_leader_agent = $dataAgent[pk_id_agent]
-                                            WHERE pk_id_agent = $is_agent[pk_id_agent]
-                                        ");
-                                    }
-                                }
-                            }
-
-
-                        }
-                    }
-                }
-            }
+    //                                 if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                                     $this->db->query("
+    //                                         UPDATE agent
+    //                                         SET 
+    //                                         la_double = CASE
+    //                                             WHEN la_double = '' OR la_double IS NULL THEN CAST($dataAgent[pk_id_agent] AS CHAR)
+    //                                             ELSE CONCAT(la_double, ',', $dataAgent[pk_id_agent])
+    //                                         END,
+    //                                         fk_id_leader_agent = $dataAgent[pk_id_agent]
+    //                                         WHERE pk_id_agent = $is_agent[pk_id_agent]
+    //                                     ");
+    //                                 }
+    //                             }
+    //                         }
 
 
+    //                     }
+    //                 }
+    //             }
+    //         }
 
-            $no++;
-        }
 
-        $data = $this->db->query("
-            SELECT pk_id_agent, nama_agent, la_double FROM agent WHERE la_double LIKE '%,%';
-        ")->getResultArray();
 
-        foreach ($data as $agent) {
-            $id_id = explode(',', $agent['la_double']);
-            if (!$this->allValuesAreSame($id_id)) {
-                $this->db->query("
-                    UPDATE agent 
-                    SET fk_id_leader_agent = NULL
-                    WHERE pk_id_agent = $agent[pk_id_agent]
-                ");
-            }
-        }
+    //         $no++;
+    //     }
 
-        echo "selesai";
-    }
+    //     $data = $this->db->query("
+    //         SELECT pk_id_agent, nama_agent, la_double FROM agent WHERE la_double LIKE '%,%';
+    //     ")->getResultArray();
+
+    //     foreach ($data as $agent) {
+    //         $id_id = explode(',', $agent['la_double']);
+    //         if (!$this->allValuesAreSame($id_id)) {
+    //             $this->db->query("
+    //                 UPDATE agent 
+    //                 SET fk_id_leader_agent = NULL
+    //                 WHERE pk_id_agent = $agent[pk_id_agent]
+    //             ");
+    //         }
+    //     }
+
+    //     echo "selesai";
+    // }
 
     public function allValuesAreSame($values) {
         $firstValue = $values[0];
@@ -496,750 +496,750 @@ class Import extends BaseController
         return true;
     }
 
-    public function agent(){
-        $this->db->query("
-            TRUNCATE TABLE agent
-        ");
+    // public function agent(){
+    //     $this->db->query("
+    //         TRUNCATE TABLE agent
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE customer
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE customer
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE penjualan_produk
+    //     ");
         
-        $this->db->query("
-            TRUNCATE TABLE komisi_penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE komisi_penjualan_produk
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE pembayaran_penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE pembayaran_penjualan_produk
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE stg_agent
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE stg_agent
+    //     ");
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $reader->setReadDataOnly(true);
-        $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
-        $agent = $spreadsheet->getActiveSheet()->toArray();
+    //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //     $reader->setReadDataOnly(true);
+    //     $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
+    //     $agent = $spreadsheet->getActiveSheet()->toArray();
 
-        $no = 1;
+    //     $no = 1;
 
-        // masukkan data sebagai customer
-        foreach ($agent as $key => $value) {
-            if($key <= 1){
-                continue;
-            }
+    //     // masukkan data sebagai customer
+    //     foreach ($agent as $key => $value) {
+    //         if($key <= 1){
+    //             continue;
+    //         }
 
-            // if($no == 5){
-            //     break;
-            // }
+    //         // if($no == 5){
+    //         //     break;
+    //         // }
             
-            // cek apakah agent sudah terdaftar
-            $is_agent = $this->db->query("
-                SELECT
-                    *
-                FROM agent
-                WHERE no_wa LIKE '%$value[2]%'
-            ")->getRowArray();
+    //         // cek apakah agent sudah terdaftar
+    //         $is_agent = $this->db->query("
+    //             SELECT
+    //                 *
+    //             FROM agent
+    //             WHERE no_wa LIKE '%$value[2]%'
+    //         ")->getRowArray();
 
-            if($value[4] == 'leader agent'){
-                $produk = $this->db->query("
-                    SELECT
-                        *
-                    FROM produk 
-                    WHERE nama_produk = 'Upgrade Agent Ke Leader Agent'
-                ")->getRowArray();
-            } else if($value[4] == 'silver'){
-                $produk = $this->db->query("
-                    SELECT
-                        *
-                    FROM produk 
-                    WHERE nama_produk = 'Agent Silver'
-                ")->getRowArray();
-            } else if($value[4] == 'gold'){
-                $produk = $this->db->query("
-                    SELECT
-                        *
-                    FROM produk 
-                    WHERE nama_produk = 'Agent Gold'
-                ")->getRowArray();
-            } else {
-                $produk['pk_id_produk'] = 1;
-                $produk['fk_id_travel'] = 0;
-            }
+    //         if($value[4] == 'leader agent'){
+    //             $produk = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM produk 
+    //                 WHERE nama_produk = 'Upgrade Agent Ke Leader Agent'
+    //             ")->getRowArray();
+    //         } else if($value[4] == 'silver'){
+    //             $produk = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM produk 
+    //                 WHERE nama_produk = 'Agent Silver'
+    //             ")->getRowArray();
+    //         } else if($value[4] == 'gold'){
+    //             $produk = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM produk 
+    //                 WHERE nama_produk = 'Agent Gold'
+    //             ")->getRowArray();
+    //         } else {
+    //             $produk['pk_id_produk'] = 1;
+    //             $produk['fk_id_travel'] = 0;
+    //         }
 
-            // jika agent belum terdaftar 
-            if(empty($is_agent)){
-                $dataCustomer = [
-                    "nama_customer" => $value[1],
-                    "no_wa" => $value[2],
-                    "email" => $value[3],
-                    "fk_id_produk" => $produk['pk_id_produk'],
-                    'jenis_produk' => 'produk'
-                ];
+    //         // jika agent belum terdaftar 
+    //         if(empty($is_agent)){
+    //             $dataCustomer = [
+    //                 "nama_customer" => $value[1],
+    //                 "no_wa" => $value[2],
+    //                 "email" => $value[3],
+    //                 "fk_id_produk" => $produk['pk_id_produk'],
+    //                 'jenis_produk' => 'produk'
+    //             ];
     
-                if($value[7] != '' || $value[7] !== NULL){
-                    $dataAgent = $this->db->query("
-                        SELECT
-                            *
-                        FROM agent
-                        WHERE no_wa LIKE '%".$value[7]."%'
-                    ")->getRowArray();
-                }
+    //             if($value[7] != '' || $value[7] !== NULL){
+    //                 $dataAgent = $this->db->query("
+    //                     SELECT
+    //                         *
+    //                     FROM agent
+    //                     WHERE no_wa LIKE '%".$value[7]."%'
+    //                 ")->getRowArray();
+    //             }
     
-                // jika ada data agent tentukan agent
-                if(isset($dataAgent)){
-                    if($dataAgent['tipe_agent'] == 'leader agent'){
-                        $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //             // jika ada data agent tentukan agent
+    //             if(isset($dataAgent)){
+    //                 if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                     $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
     
-                        $fk_id_agent_closing = $dataAgent['pk_id_agent'];
-                    } else {
-                        $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
-                        // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
-                        if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
-                            $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
-                        }
+    //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
+    //                 } else {
+    //                     $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
+    //                     // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
+    //                     if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
+    //                         $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
+    //                     }
     
-                        $fk_id_agent_closing = $dataAgent['pk_id_agent'];
-                    }
-                }
+    //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
+    //                 }
+    //             }
     
-                // simpan data leads
-                $this->customerModel->skipValidation(true);
-                if($this->customerModel->save($dataCustomer) === true){
-                    $fk_id_customer = $this->customerModel->getInsertID();
+    //             // simpan data leads
+    //             $this->customerModel->skipValidation(true);
+    //             if($this->customerModel->save($dataCustomer) === true){
+    //                 $fk_id_customer = $this->customerModel->getInsertID();
     
-                    $dataPenjualan = [
-                        'fk_id_customer' => $fk_id_customer,
-                        'fk_id_produk' => $produk['pk_id_produk'],
-                        'tgl_closing' => $this->convertToDate($value[13]),
-                        'fk_id_travel' => $produk['fk_id_travel'],
-                        'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
-                        'status' => $value[9],
-                        'harga_produk' => $value[10],
-                        'is_komisi' => $value[12]
-                    ];
+    //                 $dataPenjualan = [
+    //                     'fk_id_customer' => $fk_id_customer,
+    //                     'fk_id_produk' => $produk['pk_id_produk'],
+    //                     'tgl_closing' => $this->convertToDate($value[13]),
+    //                     'fk_id_travel' => $produk['fk_id_travel'],
+    //                     'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
+    //                     'status' => $value[9],
+    //                     'harga_produk' => $value[10],
+    //                     'is_komisi' => $value[12]
+    //                 ];
     
-                    $this->penjualanProdukModel->skipValidation(true);
-                    if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
-                        $response = [
-                            "error" => $this->penjualanProdukModel->errors()
-                        ];
+    //                 $this->penjualanProdukModel->skipValidation(true);
+    //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+    //                     $response = [
+    //                         "error" => $this->penjualanProdukModel->errors()
+    //                     ];
     
-                        $failed = true;
+    //                     $failed = true;
     
-                        break;
-                    } else {
-                        $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
+    //                     break;
+    //                 } else {
+    //                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
     
-                        $dataPembayaran = [
-                            'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
-                            'tgl_pembayaran' => $this->convertToDate($value[13]),
-                            'nominal' => $value[11],
-                            'keterangan' => '-'
-                        ];
+    //                     $dataPembayaran = [
+    //                         'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
+    //                         'tgl_pembayaran' => $this->convertToDate($value[13]),
+    //                         'nominal' => $value[11],
+    //                         'keterangan' => '-'
+    //                     ];
     
-                        if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
-                            $response = [
-                                "error" => $this->pembayaranPenjualanProdukModel->errors()
-                            ];
+    //                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
+    //                         $response = [
+    //                             "error" => $this->pembayaranPenjualanProdukModel->errors()
+    //                         ];
         
-                            $failed = true;
+    //                         $failed = true;
         
-                            break;
-                        } else {
-                            $data = [
-                                "nama_agent" => $value[1],
-                                "no_wa" => $value[2],
-                                "email" => $value[3],
-                                "tipe_agent" => $value[4],
-                                "batch" => $value[5],
-                                "confirmed_at" => date('Y-m-d')
-                            ];
+    //                         break;
+    //                     } else {
+    //                         $data = [
+    //                             "nama_agent" => $value[1],
+    //                             "no_wa" => $value[2],
+    //                             "email" => $value[3],
+    //                             "tipe_agent" => $value[4],
+    //                             "batch" => $value[5],
+    //                             "confirmed_at" => date('Y-m-d')
+    //                         ];
                 
-                            if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
-                                $data['area_status'] = 1;
-                            }
+    //                         if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
+    //                             $data['area_status'] = 1;
+    //                         }
                 
-                            if($value[7] !== NULL){
-                                $dataAgent = $this->db->query("
-                                    SELECT
-                                        *
-                                    FROM agent
-                                    WHERE no_wa LIKE '%".$value[7]."%'
-                                    AND tipe_agent = 'leader agent'
-                                ")->getRowArray();
+    //                         if($value[7] !== NULL){
+    //                             $dataAgent = $this->db->query("
+    //                                 SELECT
+    //                                     *
+    //                                 FROM agent
+    //                                 WHERE no_wa LIKE '%".$value[7]."%'
+    //                                 AND tipe_agent = 'leader agent'
+    //                             ")->getRowArray();
                     
-                                if(!empty($dataAgent)){
-                                    $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //                             if(!empty($dataAgent)){
+    //                                 $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
                     
-                                    // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
-                                }
-                            }
+    //                                 // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
+    //                             }
+    //                         }
                 
-                            $this->agentModel->skipValidation(true);
-                            if($this->agentModel->save($data) !== true){
-                                $response = [
-                                    "error" => $this->agentModel->errors()
-                                ];
+    //                         $this->agentModel->skipValidation(true);
+    //                         if($this->agentModel->save($data) !== true){
+    //                             $response = [
+    //                                 "error" => $this->agentModel->errors()
+    //                             ];
                 
-                                $failed = true;
-                                break;
-                            } else {
-                                $fk_id_agent = $this->agentModel->getInsertID();
+    //                             $failed = true;
+    //                             break;
+    //                         } else {
+    //                             $fk_id_agent = $this->agentModel->getInsertID();
     
-                                $this->db->query("
-                                    UPDATE customer
-                                    SET fk_id_to_agent = $fk_id_agent
-                                    WHERE pk_id_customer = $fk_id_customer
-                                ");
-                            }
-                        }
-                    }
-                }
-            } else {
-                // jika agent sudah terdaftar
+    //                             $this->db->query("
+    //                                 UPDATE customer
+    //                                 SET fk_id_to_agent = $fk_id_agent
+    //                                 WHERE pk_id_customer = $fk_id_customer
+    //                             ");
+    //                         }
+    //                     }
+    //                 }
+    //             }
+    //         } else {
+    //             // jika agent sudah terdaftar
 
-                $customer = $this->db->query("
-                    SELECT
-                        *
-                    FROM customer
-                    WHERE no_wa LIKE '%$value[2]%'
-                ")->getRowArray();
+    //             $customer = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM customer
+    //                 WHERE no_wa LIKE '%$value[2]%'
+    //             ")->getRowArray();
 
-                $fk_id_customer = $customer['pk_id_customer'];
+    //             $fk_id_customer = $customer['pk_id_customer'];
 
-                if($value[7] != '' || $value[7] !== NULL){
-                    $dataAgent = $this->db->query("
-                        SELECT
-                            *
-                        FROM agent
-                        WHERE no_wa LIKE '%".$value[7]."%'
-                    ")->getRowArray();
-                }
+    //             if($value[7] != '' || $value[7] !== NULL){
+    //                 $dataAgent = $this->db->query("
+    //                     SELECT
+    //                         *
+    //                     FROM agent
+    //                     WHERE no_wa LIKE '%".$value[7]."%'
+    //                 ")->getRowArray();
+    //             }
     
-                // jika ada data agent tentukan agent
-                if(isset($dataAgent)){
-                    if($dataAgent['tipe_agent'] == 'leader agent'){
-                        $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //             // jika ada data agent tentukan agent
+    //             if(isset($dataAgent)){
+    //                 if($dataAgent['tipe_agent'] == 'leader agent'){
+    //                     $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
     
-                        $fk_id_agent_closing = $dataAgent['pk_id_agent'];
-                    } else {
-                        $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
-                        // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
-                        if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
-                            $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
-                        }
+    //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
+    //                 } else {
+    //                     $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
+    //                     // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
+    //                     if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
+    //                         $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
+    //                     }
     
-                        $fk_id_agent_closing = $dataAgent['pk_id_agent'];
-                    }
-                }
+    //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
+    //                 }
+    //             }
     
-                $dataPenjualan = [
-                    'fk_id_customer' => $fk_id_customer,
-                    'fk_id_produk' => $produk['pk_id_produk'],
-                    'tgl_closing' => $this->convertToDate($value[13]),
-                    'fk_id_travel' => $produk['fk_id_travel'],
-                    'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
-                    'status' => ($value[9] == 'upgrade') ? 'lunas' : $value[9],
-                    'harga_produk' => $value[10],
-                    'is_komisi' => $value[12]
-                ];
+    //             $dataPenjualan = [
+    //                 'fk_id_customer' => $fk_id_customer,
+    //                 'fk_id_produk' => $produk['pk_id_produk'],
+    //                 'tgl_closing' => $this->convertToDate($value[13]),
+    //                 'fk_id_travel' => $produk['fk_id_travel'],
+    //                 'fk_id_agent_closing' => (isset($fk_id_agent_closing)) ? $fk_id_agent_closing : NULL,
+    //                 'status' => ($value[9] == 'upgrade') ? 'lunas' : $value[9],
+    //                 'harga_produk' => $value[10],
+    //                 'is_komisi' => $value[12]
+    //             ];
 
-                $this->penjualanProdukModel->skipValidation(true);
-                if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
-                    $response = [
-                        "error" => $this->penjualanProdukModel->errors()
-                    ];
+    //             $this->penjualanProdukModel->skipValidation(true);
+    //             if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+    //                 $response = [
+    //                     "error" => $this->penjualanProdukModel->errors()
+    //                 ];
 
-                    $failed = true;
+    //                 $failed = true;
 
-                    break;
-                } else {
-                    $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
+    //                 break;
+    //             } else {
+    //                 $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
 
-                    $dataPembayaran = [
-                        'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
-                        'tgl_pembayaran' => $this->convertToDate($value[13]),
-                        'nominal' => $value[11],
-                        'keterangan' => '-'
-                    ];
+    //                 $dataPembayaran = [
+    //                     'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
+    //                     'tgl_pembayaran' => $this->convertToDate($value[13]),
+    //                     'nominal' => $value[11],
+    //                     'keterangan' => '-'
+    //                 ];
 
-                    if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
-                        $response = [
-                            "error" => $this->pembayaranPenjualanProdukModel->errors()
-                        ];
+    //                 if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
+    //                     $response = [
+    //                         "error" => $this->pembayaranPenjualanProdukModel->errors()
+    //                     ];
     
-                        $failed = true;
+    //                     $failed = true;
     
-                        break;
-                    } else {
-                        if($value[4] != 'leader agent' && $is_agent['tipe_agent'] != 'leader agent'){
-                            $this->db->query("
-                                UPDATE agent
-                                SET tipe_agent = '$value[4]',
-                                batch = $value[5]
-                                WHERE pk_id_agent = $is_agent[pk_id_agent]
-                            ");
-                        }
-                    }
-                }
-            }
+    //                     break;
+    //                 } else {
+    //                     if($value[4] != 'leader agent' && $is_agent['tipe_agent'] != 'leader agent'){
+    //                         $this->db->query("
+    //                             UPDATE agent
+    //                             SET tipe_agent = '$value[4]',
+    //                             batch = $value[5]
+    //                             WHERE pk_id_agent = $is_agent[pk_id_agent]
+    //                         ");
+    //                     }
+    //                 }
+    //             }
+    //         }
 
 
-            $no++;
-        }
+    //         $no++;
+    //     }
 
-        echo "selesai";
-    }
+    //     echo "selesai";
+    // }
 
-    public function index()
-    {
-        // $this->db->transBegin();
-        // $failed = false;
+    // public function index()
+    // {
+    //     // $this->db->transBegin();
+    //     // $failed = false;
 
-        $this->db->query("
-            TRUNCATE TABLE agent
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE agent
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE customer
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE customer
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE penjualan_produk
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE penjualan_produk
+    //     ");
 
-        $this->db->query("
-            TRUNCATE TABLE stg_agent
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE stg_agent
+    //     ");
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $reader->setReadDataOnly(true);
-        $spreadsheet = $reader->load("public/Data Agent.xlsx");
-        $agent = $spreadsheet->getActiveSheet()->toArray();
+    //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //     $reader->setReadDataOnly(true);
+    //     $spreadsheet = $reader->load("public/Data Agent.xlsx");
+    //     $agent = $spreadsheet->getActiveSheet()->toArray();
 
-        foreach ($agent as $key => $value) {
-            if($key == 0){
-                continue;
-            }
+    //     foreach ($agent as $key => $value) {
+    //         if($key == 0){
+    //             continue;
+    //         }
 
-            $data = [
-                "nama_agent" => $value[1],
-                "no_wa" => $value[2],
-                "email" => $value[3],
-                "tipe_agent" => $value[4],
-                "batch" => $value[5],
-                "confirmed_at" => date('Y-m-d')
-            ];
+    //         $data = [
+    //             "nama_agent" => $value[1],
+    //             "no_wa" => $value[2],
+    //             "email" => $value[3],
+    //             "tipe_agent" => $value[4],
+    //             "batch" => $value[5],
+    //             "confirmed_at" => date('Y-m-d')
+    //         ];
 
-            if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
-                $data['area_status'] = 1;
-            }
+    //         if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
+    //             $data['area_status'] = 1;
+    //         }
 
-            if($value[7] !== NULL){
-                $dataAgent = $this->db->query("
-                    SELECT
-                        *
-                    FROM agent
-                    WHERE no_wa LIKE '%".$value[7]."%'
-                    AND tipe_agent = 'leader agent'
-                ")->getRowArray();
+    //         if($value[7] !== NULL){
+    //             $dataAgent = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM agent
+    //                 WHERE no_wa LIKE '%".$value[7]."%'
+    //                 AND tipe_agent = 'leader agent'
+    //             ")->getRowArray();
     
-                if(!empty($dataAgent)){
-                    $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
+    //             if(!empty($dataAgent)){
+    //                 $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
     
-                    // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
-                }
-            }
+    //                 // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
+    //             }
+    //         }
 
-            $this->agentModel->skipValidation(true);
-            if($this->agentModel->save($data) !== true){
-                $response = [
-                    "error" => $this->agentModel->errors()
-                ];
+    //         $this->agentModel->skipValidation(true);
+    //         if($this->agentModel->save($data) !== true){
+    //             $response = [
+    //                 "error" => $this->agentModel->errors()
+    //             ];
 
-                $failed = true;
-                break;
-            }
-        }
+    //             $failed = true;
+    //             break;
+    //         }
+    //     }
 
-        // if ($this->db->transStatus() === false || $failed) {
-        //     $this->db->transRollback();
+    //     // if ($this->db->transStatus() === false || $failed) {
+    //     //     $this->db->transRollback();
 
-        //     if(!isset($response['error'])){
-        //         $response = [
-        //             'status' => 'error',
-        //             'message' => 'Gagal import data agent'
-        //         ];
-        //     }
-        // } else {
-        //     $this->db->transCommit();
+    //     //     if(!isset($response['error'])){
+    //     //         $response = [
+    //     //             'status' => 'error',
+    //     //             'message' => 'Gagal import data agent'
+    //     //         ];
+    //     //     }
+    //     // } else {
+    //     //     $this->db->transCommit();
 
-        //     $response = [
-        //         'status' => 'success',
-        //         'message' => 'Berhasil import data agent'
-        //     ];
-        // }
+    //     //     $response = [
+    //     //         'status' => 'success',
+    //     //         'message' => 'Berhasil import data agent'
+    //     //     ];
+    //     // }
 
-        // var_dump($response);
-        echo "selesai";
-    }
+    //     // var_dump($response);
+    //     echo "selesai";
+    // }
 
-    public function kelas_gratis(){
-        ini_set("memory_limit","512M");
+    // public function kelas_gratis(){
+    //     ini_set("memory_limit","512M");
 
-        // $this->db->query("
-        //     TRUNCATE TABLE customer
-        // ");
+    //     // $this->db->query("
+    //     //     TRUNCATE TABLE customer
+    //     // ");
 
-        // $this->db->query("
-        //     TRUNCATE TABLE penjualan_produk
-        // ");
+    //     // $this->db->query("
+    //     //     TRUNCATE TABLE penjualan_produk
+    //     // ");
 
-        // $this->db->query("
-        //     TRUNCATE TABLE komisi_penjualan_produk
-        // ");
+    //     // $this->db->query("
+    //     //     TRUNCATE TABLE komisi_penjualan_produk
+    //     // ");
 
-        $this->db->transBegin();
-        $failed = false;
+    //     $this->db->transBegin();
+    //     $failed = false;
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $reader->setReadDataOnly(true);
+    //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //     $reader->setReadDataOnly(true);
 
-        $files = [
-            // [
-            //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 1.xlsx",
-            //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
-            // ],
-            // [
-            //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 2.xlsx",
-            //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
-            // ],
-            // [
-            //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 3.xlsx",
-            //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
-            // ],
-            // [
-            //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 4.xlsx",
-            //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
-            // ],
-            // [
-            //     "file" => "public/Data Peminat Haji Tanpa Antri.xlsx",
-            //     "produk" => "Webinar Haji Tanpa Antri"
-            // ],
-            // [
-            //     "file" => "public/Data Peminat Umroh Mudah.xlsx",
-            //     "produk" => "Webinar Umroh Mudah"
-            // ],
-            // [
-            //     "file" => "public/Data Peminat Umroh Ramadhan.xlsx",
-            //     "produk" => "Webinar Umroh Ramadhan"
-            // ],
-            // [
-            //     "file" => "public/Data Peminat Webinar Umroh Edukasi.xlsx",
-            //     "produk" => "Webinar Umroh Edukasi"
-            // ],
-            // [
-            //     "file" => "public/Data Baru/Data Peminat Webinar Kelas 7 Hari Digital Marketing Tambahan.xlsx",
-            //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
-            // ],
-            [
-                "file" => "public/Data Baru/Data Peminat Webinar Umroh Edukasi Tambahan.xlsx",
-                "produk" => "Webinar Umroh Edukasi"
-            ],
-        ];
+    //     $files = [
+    //         // [
+    //         //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 1.xlsx",
+    //         //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 2.xlsx",
+    //         //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 3.xlsx",
+    //         //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Kelas 7 Hari Digital Marketing Umroh 4.xlsx",
+    //         //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Data Peminat Haji Tanpa Antri.xlsx",
+    //         //     "produk" => "Webinar Haji Tanpa Antri"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Data Peminat Umroh Mudah.xlsx",
+    //         //     "produk" => "Webinar Umroh Mudah"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Data Peminat Umroh Ramadhan.xlsx",
+    //         //     "produk" => "Webinar Umroh Ramadhan"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Data Peminat Webinar Umroh Edukasi.xlsx",
+    //         //     "produk" => "Webinar Umroh Edukasi"
+    //         // ],
+    //         // [
+    //         //     "file" => "public/Data Baru/Data Peminat Webinar Kelas 7 Hari Digital Marketing Tambahan.xlsx",
+    //         //     "produk" => "Kelas 7 Hari Digital Marketing Umroh"
+    //         // ],
+    //         [
+    //             "file" => "public/Data Baru/Data Peminat Webinar Umroh Edukasi Tambahan.xlsx",
+    //             "produk" => "Webinar Umroh Edukasi"
+    //         ],
+    //     ];
 
-        foreach ($files as $file) {
-            $spreadsheet = $reader->load($file['file']);
-            $leads = $spreadsheet->getActiveSheet()->toArray();
+    //     foreach ($files as $file) {
+    //         $spreadsheet = $reader->load($file['file']);
+    //         $leads = $spreadsheet->getActiveSheet()->toArray();
     
-            $produk = $this->db->query("
-                SELECT
-                    *
-                FROM produk
-                WHERE nama_produk = '$file[produk]'
-            ")->getRowArray();
+    //         $produk = $this->db->query("
+    //             SELECT
+    //                 *
+    //             FROM produk
+    //             WHERE nama_produk = '$file[produk]'
+    //         ")->getRowArray();
     
-            foreach ($leads as $key => $value) {
-                if($key == 0 || $value[1] == "" || $value[1] == NULL){
-                    continue;
-                }
+    //         foreach ($leads as $key => $value) {
+    //             if($key == 0 || $value[1] == "" || $value[1] == NULL){
+    //                 continue;
+    //             }
     
-                $agent = $this->db->query("
-                    SELECT
-                        *
-                    FROM agent
-                    WHERE no_wa LIKE '%".$value[6]."%'
-                ")->getRowArray();
+    //             $agent = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM agent
+    //                 WHERE no_wa LIKE '%".$value[6]."%'
+    //             ")->getRowArray();
     
-                $data = [
-                    'nama_customer' => $value[1],
-                    'no_wa' => $value[2],
-                    'email' => $value[3],
-                    'kota_kabupaten' => $value[4],
-                    'fk_id_produk' => $produk['pk_id_produk'],
-                    'jenis_produk' => 'produk'
-                ];
+    //             $data = [
+    //                 'nama_customer' => $value[1],
+    //                 'no_wa' => $value[2],
+    //                 'email' => $value[3],
+    //                 'kota_kabupaten' => $value[4],
+    //                 'fk_id_produk' => $produk['pk_id_produk'],
+    //                 'jenis_produk' => 'produk'
+    //             ];
     
-                // jika ada data agent tentukan agent
-                if(isset($agent)){
-                    $data['fk_id_agent'] = $agent['pk_id_agent'];
-                    // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
-                    if($agent['fk_id_leader_agent'] != '' || $agent['fk_id_leader_agent'] !== NULL){
-                        $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
-                    }
-                }
+    //             // jika ada data agent tentukan agent
+    //             if(isset($agent)){
+    //                 $data['fk_id_agent'] = $agent['pk_id_agent'];
+    //                 // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
+    //                 if($agent['fk_id_leader_agent'] != '' || $agent['fk_id_leader_agent'] !== NULL){
+    //                     $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
+    //                 }
+    //             }
     
-                // simpan data leads
-                $this->customerModel->skipValidation(true);
-                if($this->customerModel->save($data) === true){
-                    $fk_id_customer = $this->customerModel->getInsertID();
+    //             // simpan data leads
+    //             $this->customerModel->skipValidation(true);
+    //             if($this->customerModel->save($data) === true){
+    //                 $fk_id_customer = $this->customerModel->getInsertID();
     
-                    $dataPenjualan = [
-                        'fk_id_customer' => $fk_id_customer,
-                        'fk_id_produk' => $produk['pk_id_produk'],
-                        'tgl_closing' => date('Y-m-d'),
-                        'fk_id_travel' => $produk['fk_id_travel'],
-                        'fk_id_agent_closing' => (isset($data['fk_id_agent'])) ? $data['fk_id_agent'] : NULL,
-                        'status' => 'lunas'
-                    ];
+    //                 $dataPenjualan = [
+    //                     'fk_id_customer' => $fk_id_customer,
+    //                     'fk_id_produk' => $produk['pk_id_produk'],
+    //                     'tgl_closing' => date('Y-m-d'),
+    //                     'fk_id_travel' => $produk['fk_id_travel'],
+    //                     'fk_id_agent_closing' => (isset($data['fk_id_agent'])) ? $data['fk_id_agent'] : NULL,
+    //                     'status' => 'lunas'
+    //                 ];
     
-                    $this->penjualanProdukModel->skipValidation(true);
-                    if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
-                        $response = [
-                            "error" => $this->penjualanProdukModel->errors()
-                        ];
+    //                 $this->penjualanProdukModel->skipValidation(true);
+    //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+    //                     $response = [
+    //                         "error" => $this->penjualanProdukModel->errors()
+    //                     ];
     
-                        $failed = true;
+    //                     $failed = true;
     
-                        break;
-                    }
-                } else {
-                    $response = [
-                        "error" => $this->customerModel->errors()
-                    ];
+    //                     break;
+    //                 }
+    //             } else {
+    //                 $response = [
+    //                     "error" => $this->customerModel->errors()
+    //                 ];
     
-                    $failed = true;
+    //                 $failed = true;
     
-                    break;
-                }
-            }
-        }
+    //                 break;
+    //             }
+    //         }
+    //     }
 
 
-        if ($this->db->transStatus() === false || $failed) {
-            $this->db->transRollback();
+    //     if ($this->db->transStatus() === false || $failed) {
+    //         $this->db->transRollback();
 
-            if(!isset($response['error'])){
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Gagal import data'
-                ];
-            }
-        } else {
-            $this->db->transCommit();
+    //         if(!isset($response['error'])){
+    //             $response = [
+    //                 'status' => 'error',
+    //                 'message' => 'Gagal import data'
+    //             ];
+    //         }
+    //     } else {
+    //         $this->db->transCommit();
 
-            $response = [
-                'status' => 'success',
-                'message' => 'Berhasil import data'
-            ];
-        }
+    //         $response = [
+    //             'status' => 'success',
+    //             'message' => 'Berhasil import data'
+    //         ];
+    //     }
 
-        var_dump($response);
-    }
+    //     var_dump($response);
+    // }
 
-    public function kelas_berbayar(){
-        ini_set("memory_limit","512M");
+    // public function kelas_berbayar(){
+    //     ini_set("memory_limit","512M");
 
-        // $this->db->query("
-        //     TRUNCATE TABLE customer
-        // ");
+    //     // $this->db->query("
+    //     //     TRUNCATE TABLE customer
+    //     // ");
 
-        // $this->db->query("
-        //     TRUNCATE TABLE penjualan_produk
-        // ");
+    //     // $this->db->query("
+    //     //     TRUNCATE TABLE penjualan_produk
+    //     // ");
 
-        // $this->db->query("
-        //     TRUNCATE TABLE komisi_penjualan_produk
-        // ");
+    //     // $this->db->query("
+    //     //     TRUNCATE TABLE komisi_penjualan_produk
+    //     // ");
 
-        $this->db->transBegin();
-        $failed = false;
+    //     $this->db->transBegin();
+    //     $failed = false;
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $reader->setReadDataOnly(true);
+    //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //     $reader->setReadDataOnly(true);
 
-        $files = [
-            // [
-            //     "file" => "public/Data Baru/Data Closing Badal Haji 2024.xlsx",
-            //     "produk" => "Badal Haji"
-            // ],
-            [
-                "file" => "public/Data Baru/Data Closing Badal Umroh 2024.xlsx",
-                "produk" => "Badal Umroh"
-            ],
-        ];
+    //     $files = [
+    //         // [
+    //         //     "file" => "public/Data Baru/Data Closing Badal Haji 2024.xlsx",
+    //         //     "produk" => "Badal Haji"
+    //         // ],
+    //         [
+    //             "file" => "public/Data Baru/Data Closing Badal Umroh 2024.xlsx",
+    //             "produk" => "Badal Umroh"
+    //         ],
+    //     ];
 
-        foreach ($files as $file) {
-            $spreadsheet = $reader->load($file['file']);
-            $leads = $spreadsheet->getActiveSheet()->toArray();
+    //     foreach ($files as $file) {
+    //         $spreadsheet = $reader->load($file['file']);
+    //         $leads = $spreadsheet->getActiveSheet()->toArray();
     
-            $produk = $this->db->query("
-                SELECT
-                    *
-                FROM produk
-                WHERE nama_produk = '$file[produk]'
-            ")->getRowArray();
+    //         $produk = $this->db->query("
+    //             SELECT
+    //                 *
+    //             FROM produk
+    //             WHERE nama_produk = '$file[produk]'
+    //         ")->getRowArray();
     
-            $no = 1;
-            $dataFile = $file;
-            foreach ($leads as $key => $value) {
-                if($key <= 0){
-                    continue;
+    //         $no = 1;
+    //         $dataFile = $file;
+    //         foreach ($leads as $key => $value) {
+    //             if($key <= 0){
+    //                 continue;
 
-                    $no++;
-                }
+    //                 $no++;
+    //             }
 
-                $dataFile['value'] = $value;
+    //             $dataFile['value'] = $value;
     
-                $agent = $this->db->query("
-                    SELECT
-                        *
-                    FROM agent
-                    WHERE no_wa LIKE '%".$value[6]."%'
-                ")->getRowArray();
+    //             $agent = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM agent
+    //                 WHERE no_wa LIKE '%".$value[6]."%'
+    //             ")->getRowArray();
     
-                $data = [
-                    'nama_customer' => $value[1],
-                    'no_wa' => $value[2],
-                    'email' => $value[3],
-                    'kota_kabupaten' => $value[4],
-                    'fk_id_produk' => $produk['pk_id_produk'],
-                    'jenis_produk' => 'produk'
-                ];
+    //             $data = [
+    //                 'nama_customer' => $value[1],
+    //                 'no_wa' => $value[2],
+    //                 'email' => $value[3],
+    //                 'kota_kabupaten' => $value[4],
+    //                 'fk_id_produk' => $produk['pk_id_produk'],
+    //                 'jenis_produk' => 'produk'
+    //             ];
     
-                // jika ada data agent tentukan agent
-                if(isset($agent)){
-                    $data['fk_id_agent'] = $agent['pk_id_agent'];
-                    // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
-                    if($agent['fk_id_leader_agent'] != '' || $agent['fk_id_leader_agent'] !== NULL){
-                        $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
-                    }
-                }
+    //             // jika ada data agent tentukan agent
+    //             if(isset($agent)){
+    //                 $data['fk_id_agent'] = $agent['pk_id_agent'];
+    //                 // jika agent memiliki leader agent maka set leader agent leads seperti milik agent
+    //                 if($agent['fk_id_leader_agent'] != '' || $agent['fk_id_leader_agent'] !== NULL){
+    //                     $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
+    //                 }
+    //             }
     
-                // simpan data leads
-                $this->customerModel->skipValidation(true);
-                if($this->customerModel->save($data) === true){
-                    $fk_id_customer = $this->customerModel->getInsertID();
+    //             // simpan data leads
+    //             $this->customerModel->skipValidation(true);
+    //             if($this->customerModel->save($data) === true){
+    //                 $fk_id_customer = $this->customerModel->getInsertID();
     
-                    $dataPenjualan = [
-                        'fk_id_customer' => $fk_id_customer,
-                        'fk_id_produk' => $produk['pk_id_produk'],
-                        'tgl_closing' => $this->convertToDate($value[8]),
-                        'fk_id_travel' => $produk['fk_id_travel'],
-                        'fk_id_agent_closing' => (isset($data['fk_id_agent'])) ? $data['fk_id_agent'] : NULL,
-                        'status' => 'lunas'
-                    ];
+    //                 $dataPenjualan = [
+    //                     'fk_id_customer' => $fk_id_customer,
+    //                     'fk_id_produk' => $produk['pk_id_produk'],
+    //                     'tgl_closing' => $this->convertToDate($value[8]),
+    //                     'fk_id_travel' => $produk['fk_id_travel'],
+    //                     'fk_id_agent_closing' => (isset($data['fk_id_agent'])) ? $data['fk_id_agent'] : NULL,
+    //                     'status' => 'lunas'
+    //                 ];
     
-                    $this->penjualanProdukModel->skipValidation(true);
-                    if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
-                        $response = [
-                            "error" => $this->penjualanProdukModel->errors()
-                        ];
+    //                 $this->penjualanProdukModel->skipValidation(true);
+    //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+    //                     $response = [
+    //                         "error" => $this->penjualanProdukModel->errors()
+    //                     ];
 
-                        $response['message'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
-                        <ul>
-                            <li>Nama</li>
-                            <li>No WA</li>
-                            <li>Email</li>
-                            <li>Produk</li>
-                        </ul>
-                        <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+    //                     $response['message'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+    //                     <ul>
+    //                         <li>Nama</li>
+    //                         <li>No WA</li>
+    //                         <li>Email</li>
+    //                         <li>Produk</li>
+    //                     </ul>
+    //                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
     
-                        $failed = true;
+    //                     $failed = true;
     
-                        break;
-                    } else {
-                        $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
+    //                     break;
+    //                 } else {
+    //                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
 
-                        $dataPembayaran = [
-                            'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
-                            'tgl_pembayaran' => $this->convertToDate($value[8]),
-                            'nominal' => $value[7],
-                            'keterangan' => '-'
-                        ];
+    //                     $dataPembayaran = [
+    //                         'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
+    //                         'tgl_pembayaran' => $this->convertToDate($value[8]),
+    //                         'nominal' => $value[7],
+    //                         'keterangan' => '-'
+    //                     ];
 
-                        if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
-                            $response = [
-                                "error" => $this->pembayaranPenjualanProdukModel->errors()
-                            ];
+    //                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
+    //                         $response = [
+    //                             "error" => $this->pembayaranPenjualanProdukModel->errors()
+    //                         ];
 
-                            $response['message'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
-                            <ul>
-                                <li>Nama</li>
-                                <li>No WA</li>
-                                <li>Email</li>
-                                <li>Produk</li>
-                            </ul>
-                            <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+    //                         $response['message'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+    //                         <ul>
+    //                             <li>Nama</li>
+    //                             <li>No WA</li>
+    //                             <li>Email</li>
+    //                             <li>Produk</li>
+    //                         </ul>
+    //                         <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
         
-                            $failed = true;
+    //                         $failed = true;
         
-                            break;
-                        }
-                    }
-                } else {
-                    $response = [
-                        "error" => $this->customerModel->errors()
-                    ];
+    //                         break;
+    //                     }
+    //                 }
+    //             } else {
+    //                 $response = [
+    //                     "error" => $this->customerModel->errors()
+    //                 ];
 
-                    $response['message'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
-                    <ul>
-                        <li>Nama</li>
-                        <li>No WA</li>
-                        <li>Email</li>
-                        <li>Produk</li>
-                    </ul>
-                    <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+    //                 $response['message'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+    //                 <ul>
+    //                     <li>Nama</li>
+    //                     <li>No WA</li>
+    //                     <li>Email</li>
+    //                     <li>Produk</li>
+    //                 </ul>
+    //                 <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
     
-                    $failed = true;
+    //                 $failed = true;
     
-                    break;
-                }
-            }
+    //                 break;
+    //             }
+    //         }
 
-            $no++;
-        }
+    //         $no++;
+    //     }
 
 
-        if ($this->db->transStatus() === false || $failed) {
-            $this->db->transRollback();
+    //     if ($this->db->transStatus() === false || $failed) {
+    //         $this->db->transRollback();
 
-            if(!isset($response['error'])){
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Gagal import data'
-                ];
-            }
+    //         if(!isset($response['error'])){
+    //             $response = [
+    //                 'status' => 'error',
+    //                 'message' => 'Gagal import data'
+    //             ];
+    //         }
 
-            $response['no'] = $no;
-            $response['file'] = $dataFile;
-        } else {
-            $this->db->transCommit();
+    //         $response['no'] = $no;
+    //         $response['file'] = $dataFile;
+    //     } else {
+    //         $this->db->transCommit();
 
-            $response = [
-                'status' => 'success',
-                'message' => 'Berhasil import data'
-            ];
-        }
+    //         $response = [
+    //             'status' => 'success',
+    //             'message' => 'Berhasil import data'
+    //         ];
+    //     }
 
-        var_dump($response);
-    }
+    //     var_dump($response);
+    // }
 
 
     public function download_template(){

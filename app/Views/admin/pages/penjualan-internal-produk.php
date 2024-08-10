@@ -109,7 +109,7 @@
         </div>
         <div class="col-12 mb-3">
           <label>Harga Produk</label>
-          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="" disabled>
+          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="">
           <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
         <div class="col-12 mb-3">
@@ -299,7 +299,7 @@
         </div>
         <div class="col-12 mb-3">
           <label>Harga Produk</label>
-          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="" disabled>
+          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="">
           <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
         <div class="col-12 mb-3">
@@ -647,6 +647,7 @@
     let fk_id_travel = $(`${form} #fk_id_travel`).val();
     // let fk_id_agent_closing = $(`${form} #fk_id_agent_closing`).val();
     let tgl_closing = $(`${form} #tgl_closing`).val();
+    let harga_produk = $(`${form} #harga_produk`).val();
     let nominal = $(`${form} #nominal`).val();
     let keterangan = $(`${form} #keterangan`).val();
     let bukti_pembayaran = $(`${form} #bukti_pembayaran`)[0].files;
@@ -663,6 +664,7 @@
     data.append('fk_id_travel', fk_id_travel);
     // data.append('fk_id_agent_closing', fk_id_agent_closing);
     data.append('tgl_closing', tgl_closing);
+    data.append('harga_produk', harga_produk);
     data.append('nominal', nominal);
     data.append('keterangan', keterangan);
     data.append('bukti_pembayaran', bukti_pembayaran[0]);
@@ -726,6 +728,7 @@
     let kota_kabupaten = $(`${form} #kota_kabupaten`).val();
     let email = $(`${form} #email`).val();
     let tgl_closing = $(`${form} #tgl_closing`).val();
+    let harga_produk = $(`${form} #harga_produk`).val();
 
     let data = {
       'pk_id_penjualan_produk': pk_id_penjualan_produk,
@@ -737,6 +740,7 @@
       'kota_kabupaten': kota_kabupaten,
       'email': email,
       'tgl_closing': tgl_closing,
+      'harga_produk': harga_produk,
     }
 
     $.ajax({
@@ -819,7 +823,7 @@
           $(`${form} #fk_id_produk`).html(html);
 
           // $(`${form} #fk_id_produk`).val(response.fk_id_produk);
-          $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
+          $(`${form} #harga_produk`).val(response.harga_produk);
           $(`${form} #fk_id_travel`).val((response.fk_id_travel === 0) ? NULL : response.fk_id_travel);
           $(`${form} #tgl_closing`).val(response.tgl_closing);
 
@@ -1034,7 +1038,7 @@
         type: "get",
         dataType: "json",
         success: function(response) {
-          $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
+          $(`${form} #harga_produk`).val(response.harga_produk);
           $(`${form} #nominal`).val(response.harga_produk);
         }
   
@@ -1326,39 +1330,109 @@
     })
   }
 
-  function toAgent(pk_id_penjualan_produk, nama_customer) {
-    Swal.fire({
-      title: `Apa Anda yakin akan menjadikan ${nama_customer} sebagai agent?`,
-      text: "Anda tidak akan dapat mengembalikan ini!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ya'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: "<?= base_url()?>/penjualan/toAgent/" + pk_id_penjualan_produk,
-          type: "get",
-          dataType: "json",
-          success: function(response) {
-            Toast.fire({
-                icon: response.status,
-                title: response.message
-            })
+  // function toAgent(pk_id_penjualan_produk, nama_customer) {
+  //   Swal.fire({
+  //     title: `Apa Anda yakin akan menjadikan ${nama_customer} sebagai agent?`,
+  //     text: "Anda tidak akan dapat mengembalikan ini!",
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Ya'
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       $.ajax({
+  //         url: "<?= base_url()?>/penjualan/toAgent/" + pk_id_penjualan_produk,
+  //         type: "get",
+  //         dataType: "json",
+  //         success: function(response) {
+  //           Toast.fire({
+  //               icon: response.status,
+  //               title: response.message
+  //           })
 
-            $('#table-data').DataTable().ajax.reload();
+  //           $('#table-data').DataTable().ajax.reload();
             
-          },
-          error: function(xhr, status, error) {
-            Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
-            })
-          }
-        });
+  //         },
+  //         error: function(xhr, status, error) {
+  //           Toast.fire({
+  //               icon: 'error',
+  //               title: `terjadi kesalahan: ${error}`
+  //           })
+  //         }
+  //       });
+  //     }
+  //   })
+  // }
+
+  function toAgent(pk_id_penjualan_produk, nama_customer){
+    Swal.fire({
+    title: `Apa Anda yakin akan menjadikan ${nama_customer} sebagai agent?`,
+    text: "Anda tidak akan dapat mengembalikan ini!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya',
+    cancelButtonText: 'Tidak',
+    html: `
+      <div class="col-12 mb-3">
+        <label>Status</label>
+        <select name="area_status" id="area_status" class="multisteps-form__input form-control">
+            <option value="">Pilih Status</option>
+            <option value="1">aktif</option>
+            <option value="0">nonaktif</option>
+        </select>
+      </div>
+      <div class="col-12 mb-3">
+          <label>Batch<span class="text-danger">*</span></label>
+          <input name="batch" id="batch" class="multisteps-form__input form-control" placeholder="Batch">
+      </div>
+    `,
+    preConfirm: () => {
+      const status = Swal.getPopup().querySelector('#area_status').value;
+      const batch = Swal.getPopup().querySelector('#batch').value;
+      
+      if (!status || !batch) {
+        Swal.showValidationMessage(`Semua field harus diisi!`);
       }
-    })
+      
+      return { status, batch };
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const { status, batch } = result.value;
+      
+      let data = {
+        pk_id_penjualan_produk: pk_id_penjualan_produk,
+        area_status: status,
+        batch: batch
+      }
+
+      $.ajax({
+        url: "<?= base_url()?>/penjualan/toAgent",
+        type: "post",
+        dataType: "json",
+        data: data,
+        success: function(response) {
+          Toast.fire({
+              icon: response.status,
+              title: response.message
+          })
+
+          $('#table-data').DataTable().ajax.reload();
+          
+        },
+        error: function(xhr, status, error) {
+          Toast.fire({
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
+          })
+        }
+      });
+    }
+  });
+
   }
 </script>
 <?= $this->endSection() ?>
