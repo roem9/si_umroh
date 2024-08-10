@@ -38,31 +38,36 @@ class Registrasiulangagent extends BaseController
             WHERE no_wa = '$no_wa'
         ")->getRowArray();
 
-        $data_peminat = $this->db->query("
-            SELECT
-                b.nama_customer,
-                a.nama_produk
-            FROM penjualan_produk a
-            JOIN customer b ON a.fk_id_customer = b.pk_id_customer
-            WHERE (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
-            AND (b.deleted_at = '0000-00-00 00:00:00' OR b.deleted_at IS NULL)
-            AND (a.fk_id_agent = $agent[pk_id_agent] OR a.fk_id_leader_agent = $agent[pk_id_agent])
-        ")->getResultArray();
+        if($agent){
+            $data_peminat = $this->db->query("
+                SELECT
+                    b.nama_customer,
+                    a.nama_produk
+                FROM penjualan_produk a
+                JOIN customer b ON a.fk_id_customer = b.pk_id_customer
+                WHERE (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+                AND (b.deleted_at = '0000-00-00 00:00:00' OR b.deleted_at IS NULL)
+                AND (a.fk_id_agent = $agent[pk_id_agent] OR a.fk_id_leader_agent = $agent[pk_id_agent])
+            ")->getResultArray();
+        }
 
-        if($agent['username'] != ''){
-            $response = [
-                'status' => 'success',
-                'message' => 'Data Anda telah diregistrasi ulang. Silakan hubungi admin',
-                'data' => $agent,
-            ];
-        } else if($agent){
-            $response = [
-                'status' => 'success',
-                'message' => 'Data Anda ditemukan',
-                'data' => $agent,
-                'agent_area' => $agent['area_status'],
-                'data_peminat' => $data_peminat,
-            ];
+        
+        if($agent){
+            if($agent['username'] != ''){
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Data Anda telah diregistrasi ulang. Silakan hubungi admin',
+                    'data' => $agent,
+                ];
+            } else {
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Data Anda ditemukan',
+                    'data' => $agent,
+                    'agent_area' => $agent['area_status'],
+                    'data_peminat' => $data_peminat,
+                ];
+            }
         } else {
             $response = [
                 'status' => 'error',
