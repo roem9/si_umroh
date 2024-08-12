@@ -55,7 +55,7 @@ class Login extends BaseController
                 $session->set($ses_data);
 
                 // Redirect to the "produk" page
-                return redirect()->to(base_url('/myProfile'));
+                return redirect()->to(base_url('/agentarea/home'));
             }
         }
 
