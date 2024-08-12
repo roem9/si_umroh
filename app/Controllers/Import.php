@@ -41,6 +41,49 @@ class Import extends BaseController
         $this->ses_pk_id_agent = session()->get('pk_id_agent');
     }
 
+    public function agentSalah(){
+        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+        $reader->setReadDataOnly(true);
+        $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
+        $agent = $spreadsheet->getActiveSheet()->toArray();
+
+        $no = 1;
+
+        $this->db->query("
+            TRUNCATE TABLE data_agent_keliru
+        ");
+
+        // masukkan data sebagai customer
+        foreach ($agent as $key => $value) {
+            if($key <= 1){
+                continue;
+            }
+            
+            $have_leader = 0;
+            if($value[8] == 'Leader Agent'){
+                $have_leader = 1;
+            }
+
+            $data = [
+                "nama_agent" => $value[1],
+                "no_wa" => $value[2],
+                "email" => $value[3],
+                "tipe_agent" => $value[4],
+                "status" => $value[9],
+                "tgl_closing" => $value[13],
+                "have_leader" => $have_leader
+            ];
+
+            // Load the query builder
+            $builder = $this->db->table('data_agent_keliru');
+            
+            // Insert the data
+            $builder->insert($data);
+        }
+
+        echo "cek";
+    }
+
     // public function agent_new(){
     //     $this->db->query("
     //         TRUNCATE TABLE agent

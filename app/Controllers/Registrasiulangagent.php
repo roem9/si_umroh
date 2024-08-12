@@ -36,6 +36,7 @@ class Registrasiulangagent extends BaseController
                 *
             FROM agent
             WHERE no_wa = '$no_wa'
+            AND deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL
         ")->getRowArray();
 
         if($agent){
