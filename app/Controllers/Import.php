@@ -41,6 +41,235 @@ class Import extends BaseController
         $this->ses_pk_id_agent = session()->get('pk_id_agent');
     }
 
+    public function fixAgent(){
+        
+        $this->db->transBegin();
+        $failed = false;
+
+        $listAgent = $this->db->query("
+            SELECT
+                *
+            FROM edit_data_agent
+        ")->getResultArray();
+
+        foreach ($listAgent as $agent) {
+            if($agent['agent_condition'] == 0){
+                // seharusnya agent tidak memiliki leader
+                // update terlebih dahulu fk_id_leader_agent = NULL data customernya
+                $this->db->query("
+                    UPDATE customer SET fk_id_leader_agent = NULL WHERE pk_id_customer = $agent[fk_id_customer]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update terlebih dahulu fk_id_leader_agent = NULL data agentnya
+                $this->db->query("
+                    UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
+                ");
+                
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update terlebih dahulu fk_id_leader_agent = NULL data penjualan agentnya
+                $this->db->query("
+                    UPDATE penjualan_produk SET fk_id_leader_agent = NULL WHERE fk_id_agent_closing = $agent[fk_id_to_agent]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update terlebih dahulu fk_id_leader_agent = NULL data penjualan customernya
+                $this->db->query("
+                    UPDATE penjualan_produk SET fk_id_leader_agent = NULL WHERE fk_id_customer = $agent[fk_id_customer]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update status
+                $this->db->query("
+                    UPDATE edit_data_agent SET status = 1 WHERE id = $agent[id]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+            } else if($agent['agent_condition'] == 2){
+                // memiliki leader tapi sebelumnya leader adalah agent biasa
+                // update terlebih dahulu fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL data customernya
+                $this->db->query("
+                    UPDATE customer SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE pk_id_customer = $agent[fk_id_customer]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update terlebih dahulu fk_id_leader_agent = NULL data agentnya
+                $this->db->query("
+                    UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update terlebih dahulu fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL data penjualan agentnya
+                $this->db->query("
+                    UPDATE penjualan_produk SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE fk_id_agent_closing = $agent[fk_id_to_agent]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update terlebih dahulu fk_id_leader_agent = NULL data penjualan customernya
+                $this->db->query("
+                    UPDATE penjualan_produk SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE fk_id_customer = $agent[fk_id_customer]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+
+                // update status
+                $this->db->query("
+                    UPDATE edit_data_agent SET status = 1 WHERE id = $agent[id]
+                ");
+
+                if ($this->db->error()['code'] != 0) {
+                    // Menampilkan informasi error
+                    echo 'Error Code: ' . $this->db->error()['code'];
+                    echo 'Error Message: ' . $this->db->error()['message'];
+                    $failed = true;
+
+                    return;
+                }
+            }
+        }
+
+        // update penjualan yang fk_id_agent_closing ada tapi fk_id_agent dan fk_id_leader_agent tidak ada 
+        $this->db->query("
+            update penjualan_produk 
+            set fk_id_agent_closing = null 
+            where fk_id_agent_closing is not null 
+            and fk_id_agent is null 
+            and fk_id_leader_agent is null
+        ");
+
+        if ($this->db->error()['code'] != 0) {
+            // Menampilkan informasi error
+            echo 'Error Code: ' . $this->db->error()['code'];
+            echo 'Error Message: ' . $this->db->error()['message'];
+            $failed = true;
+
+            return;
+        }
+
+        // update status penjualan menjadi lunas untuk yang harga_produk = 0 dan status != 'lunas'
+        $this->db->query("
+            update penjualan_produk 
+            set status = 'lunas' 
+            where harga_produk = 0 
+            and status != 'lunas'
+        ");
+
+        if ($this->db->error()['code'] != 0) {
+            // Menampilkan informasi error
+            echo 'Error Code: ' . $this->db->error()['code'];
+            echo 'Error Message: ' . $this->db->error()['message'];
+            $failed = true;
+
+            return;
+        }
+        
+        // update produk yang statusnya upgrade menjad lunas 
+        $this->db->query("
+            update penjualan_produk 
+            set status = 'lunas' 
+            where status = 'upgrade'
+        ");
+
+        if ($this->db->error()['code'] != 0) {
+            // Menampilkan informasi error
+            echo 'Error Code: ' . $this->db->error()['code'];
+            echo 'Error Message: ' . $this->db->error()['message'];
+            $failed = true;
+
+            return;
+        }
+
+        if ($this->db->transStatus() === false || $failed) {
+            $this->db->transRollback();
+
+            if(!isset($response['error'])){
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Gagal import data'
+                ];
+            }
+        } else {
+            $this->db->transCommit();
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Berhasil import data'
+            ];
+        }
+
+        var_dump($response);
+    }
+
     public function agentSalah(){
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
         $reader->setReadDataOnly(true);
@@ -59,9 +288,22 @@ class Import extends BaseController
                 continue;
             }
             
-            $have_leader = 0;
+            $agent_condition = 0;
             if($value[8] == 'Leader Agent'){
-                $have_leader = 1;
+                $agent_condition = 1;
+            } else if($value[8] != 'Leader Agent' && $value[8] !== NULL){
+                $cekAgent = $this->db->query("
+                    SELECT
+                        *
+                    FROM agent
+                    WHERE no_wa LIKE '%$value[7]%'
+                ")->getRowArray();
+
+                if($cekAgent){
+                    if($cekAgent['tipe_agent'] == 'leader agent'){
+                        $agent_condition = 2;
+                    }
+                }
             }
 
             $data = [
@@ -71,7 +313,7 @@ class Import extends BaseController
                 "tipe_agent" => $value[4],
                 "status" => $value[9],
                 "tgl_closing" => $value[13],
-                "have_leader" => $have_leader
+                "agent_condition" => $agent_condition
             ];
 
             // Load the query builder

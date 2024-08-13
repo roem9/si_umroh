@@ -435,12 +435,17 @@ class Apenjualan extends BaseController
 
             $fk_id_customer = $this->customerModel->getInsertID();
             
+            $status = 'pending';
+            if($produk['harga_produk'] == 0){
+                $status = 'lunas';
+            }
+
             $dataPenjualan = [
                 'fk_id_customer' => $fk_id_customer,
                 'fk_id_produk' => $dataCustomer['fk_id_produk'],
                 'tgl_closing' => date('Y-m-d'),
                 'fk_id_agent_closing' => $agent['pk_id_agent'],
-                'status' => 'pending'
+                'status' => $status
             ];
 
             // $this->penjualanProdukModel->skipValidation(true);
