@@ -31,6 +31,10 @@ class ProdukModel extends Model
         'send_wa_after_input_agent',
         'send_wa_after_input_admin',
         'wa_message',
+        'send_email_after_input_agent',
+        'send_email_after_input_admin',
+        'email_message',
+        'subject_email',
         'show_lp',
         'to_agent',
         'tipe_agent',
@@ -56,6 +60,8 @@ class ProdukModel extends Model
         'passive_income_leader_agent' => 'required|numeric',
         'send_wa_after_input_agent' => 'required',
         'send_wa_after_input_admin' => 'required',
+        'send_email_after_input_agent' => 'required',
+        'send_email_after_input_admin' => 'required',
         'show_lp' => 'required',
         'to_agent' => 'required',
         // 'message_after_input_agent' => 'required',
@@ -93,6 +99,12 @@ class ProdukModel extends Model
             'required' => 'Form ini harus diisi'
         ],
         'send_wa_after_input_admin' => [
+            'required' => 'Form ini harus diisi'
+        ],
+        'send_email_after_input_agent' => [
+            'required' => 'Form ini harus diisi'
+        ],
+        'send_email_after_input_admin' => [
             'required' => 'Form ini harus diisi'
         ],
         'show_lp' => [

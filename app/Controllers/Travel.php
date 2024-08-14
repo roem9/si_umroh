@@ -53,10 +53,17 @@ class Travel extends BaseController
         if ($searchTravel) {
             if($company_profile){
                 $rules = [
+                    // 'company_profile' => [
+                    //     'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                    //     'errors' => [
+                    //         'uploaded' => 'Company profile harus diupload',
+                    //         'max_size' => 'File terlalu besar (max 5 mb)',
+                    //         'ext_in' => 'file harus berupa pdf'
+                    //     ]
+                    // ]
                     'company_profile' => [
-                        'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                        'rules' => 'max_size[company_profile,5120]|ext_in[company_profile,pdf]',
                         'errors' => [
-                            'uploaded' => 'Company profile harus diupload',
                             'max_size' => 'File terlalu besar (max 5 mb)',
                             'ext_in' => 'file harus berupa pdf'
                         ]
@@ -112,10 +119,17 @@ class Travel extends BaseController
             }
         } else {
             $rules = [
+                // 'company_profile' => [
+                //     'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                //     'errors' => [
+                //         'uploaded' => 'Company profile harus diupload',
+                //         'max_size' => 'File terlalu besar (max 5 mb)',
+                //         'ext_in' => 'file harus berupa pdf'
+                //     ]
+                // ]
                 'company_profile' => [
-                    'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                    'rules' => 'max_size[company_profile,5120]|ext_in[company_profile,pdf]',
                     'errors' => [
-                        'uploaded' => 'Company profile harus diupload',
                         'max_size' => 'File terlalu besar (max 5 mb)',
                         'ext_in' => 'file harus berupa pdf'
                     ]

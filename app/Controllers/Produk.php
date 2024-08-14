@@ -100,6 +100,10 @@ class Produk extends BaseController
             'send_wa_after_input_agent' => $this->request->getPost('send_wa_after_input_agent'),
             'send_wa_after_input_admin' => $this->request->getPost('send_wa_after_input_admin'),
             'wa_message' => $this->request->getPost('wa_message'),
+            'send_email_after_input_agent' => $this->request->getPost('send_email_after_input_agent'),
+            'send_email_after_input_admin' => $this->request->getPost('send_email_after_input_admin'),
+            'email_message' => $this->request->getPost('email_message'),
+            'subject_email' => $this->request->getPost('subject_email'),
             'show_lp' => $this->request->getPost('show_lp'),
             'to_agent' => $this->request->getPost('to_agent'),
             'tipe_agent' => $this->request->getPost('tipe_agent'),
@@ -112,6 +116,18 @@ class Produk extends BaseController
             $this->produkModel->setValidationRule('wa_message', "required");
             $this->produkModel->setValidationMessage('wa_message', [
                 'required' => 'pesan wa harus diisi',
+            ]);
+        }
+
+        if($data['send_email_after_input_agent'] || $data['send_email_after_input_admin']){
+            $this->produkModel->setValidationRule('email_message', "required");
+            $this->produkModel->setValidationMessage('email_message', [
+                'required' => 'pesan email harus diisi',
+            ]);
+
+            $this->produkModel->setValidationRule('subject_email', "required");
+            $this->produkModel->setValidationMessage('subject_email', [
+                'required' => 'subject email harus diisi',
             ]);
         }
 

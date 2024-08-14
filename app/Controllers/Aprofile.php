@@ -197,40 +197,69 @@ class Aprofile extends BaseController
     public function ubahPassword(){
         $db = db_connect();
 
-        $validasi  = \Config\Services::validation();
-        $aturan = [
-            'password' => [
-                'label' => 'Password',
-                'rules' => 'required',
-                'errors' => [
-                    'required' => '{field} harus diisi'
-                ]
-            ]
+        $password = $this->request->getPost('password');
+        $confirm_password = $this->request->getPost('confirm_password');
+
+        $data = [
+            'nama_agent' => $this->request->getPost('nama_agent'),
+            'gender' => $this->request->getPost('gender'),
+            't4_lahir' => $this->request->getPost('t4_lahir'),
+            'tgl_lahir' => $this->request->getPost('tgl_lahir'),
+            'no_wa' => $this->request->getPost('no_wa'),
+            'email' => $this->request->getPost('email'),
+            'bank_rekening' => $this->request->getPost('bank_rekening'),
+            'no_rekening' => $this->request->getPost('no_rekening'),
+            'alamat' => $this->request->getPost('alamat'),
+            'provinsi' => $this->request->getPost('provinsi'),
+            'kota_kabupaten' => $this->request->getPost('kota_kabupaten'),
+            'kecamatan' => $this->request->getPost('kecamatan'),
+            'kelurahan' => $this->request->getPost('kelurahan'),
+            'username' => $this->request->getPost('username'),
         ];
 
-        $validasi->setRules($aturan);
-        if ($validasi->withRequest($this->request)->run()) {
-            $password = $this->request->getPost('password');
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        if($password != '' || $confirm_password != ''){
+            if($password != $confirm_password){
+                $response['error'] = [
+                    "password" => 'password tidak sama dengan konfirmasi password',
+                    "confirm_password" => 'Konfirmasi password tidak sama dengan konfirmasi password',
+                ];
+    
+                return json_encode($response);
+            }
 
-            $db->query("UPDATE agent SET password = '$hashed_password' WHERE pk_id_agent = $this->ses_pk_id_agent");
+            $data['password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
 
-            // Cek apakah ada baris yang terpengaruh
-            if ($db->affectedRows() > 0) {
-                // Update berhasil
+
+        $pk_id_agent = $this->ses_pk_id_agent;
+
+        $searchAgent = $this->agentModel->find($pk_id_agent);
+        if ($searchAgent) {
+
+            $this->agentModel->setValidationRule('username', "required|regex_match[/^[a-z0-9]+$/]|is_unique[agent.username,pk_id_agent,$pk_id_agent]");
+            $this->agentModel->setValidationMessage('username', [
+                'required' => 'username harus diisi',
+                'regex_match' => 'Username hanya boleh mengandung huruf kecil, angka, dan tidak boleh ada spasi.',
+                'is_unique' => 'username telah digunakan, gunakan username yang lain',
+            ]);
+
+            if($this->agentModel->update($pk_id_agent, $data) === true){
+                session()->set('username', $data['username']);
+
                 $response = [
                     'status' => 'success',
-                    'message' => 'Password berhasil diubah'
+                    'message' => 'berhasil mengubah data'
                 ];
             } else {
-                // Update gagal
                 $response = [
-                    'status' => 'error',
-                    'message' => 'Gagal mengubah password'
+                    "error" => $this->agentModel->errors()
                 ];
             }
         } else {
-            $response['error'] = $validasi->listErrors();
+            $response = [
+                'status' => 'error',
+                'message' => 'terjadi kesalahan, silakan muat ulang halaman'
+            ];
         }
 
         return json_encode($response);

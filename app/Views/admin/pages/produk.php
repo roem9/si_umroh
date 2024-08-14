@@ -203,6 +203,40 @@
         </div>
 
         <div class="col-12 mb-3">
+            <label>Kirim Email ke Peminat Setelah Agent Input Data?</label>
+            <select name="send_email_after_input_agent" id="send_email_after_input_agent" class="multisteps-form__input form-control">
+                <option value="">Pilih Jawaban</option>
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+            <div class="invalid-feedback" data-id="send_email_after_input_agent"></div>
+        </div>
+
+        <div class="col-12 mb-3">
+            <label>Kirim Email ke Peminat Setelah Admin Input Data?</label>
+            <select name="send_email_after_input_admin" id="send_email_after_input_admin" class="multisteps-form__input form-control">
+                <option value="">Pilih Jawaban</option>
+                <option value="1">Ya</option>
+                <option value="0">Tidak</option>
+            </select>
+            <div class="invalid-feedback" data-id="send_email_after_input_admin"></div>
+        </div>
+
+        <div class="col-12 mb-3">
+            <label>Subject Email</label>
+            <textarea name="subject_email" id="subject_email" class="multisteps-form__input form-control" placeholder="subject email yang akan dikirim kepada peminat" style="height: 400px"></textarea>
+            <small class="text-xxs text-dark">* Harap mengisi form ini jika mengaktifkan kirim email setelah input data</small>
+            <div class="invalid-feedback" data-id="subject_email"></div>
+        </div>
+
+        <div class="col-12 mb-3">
+            <label>Email</label>
+            <textarea name="email_message" id="email_message" class="multisteps-form__input form-control" placeholder="email yang akan dikirim kepada peminat, dapat berupa link dll" style="height: 400px"></textarea>
+            <small class="text-xxs text-dark">* Harap mengisi form ini jika mengaktifkan kirim email setelah input data</small>
+            <div class="invalid-feedback" data-id="email_message"></div>
+        </div>
+
+        <div class="col-12 mb-3">
             <label>JSON LP</label>
             <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP"></textarea>
             <div class="invalid-feedback" data-id="json_lp"></div>
@@ -424,6 +458,10 @@
     let send_wa_after_input_agent = $(`${form} #send_wa_after_input_agent`).val();
     let send_wa_after_input_admin = $(`${form} #send_wa_after_input_admin`).val();
     let wa_message = $(`${form} #wa_message`).val();
+    let send_email_after_input_agent = $(`${form} #send_email_after_input_agent`).val();
+    let send_email_after_input_admin = $(`${form} #send_email_after_input_admin`).val();
+    let email_message = $(`${form} #email_message`).val();
+    let subject_email = $(`${form} #subject_email`).val();
     let show_lp = $(`${form} #show_lp`).val();
     let to_agent = $(`${form} #to_agent`).val();
     let tipe_agent = $(`${form} #tipe_agent`).val();
@@ -445,6 +483,10 @@
       'send_wa_after_input_agent' : send_wa_after_input_agent,
       'send_wa_after_input_admin' : send_wa_after_input_admin,
       'wa_message' : wa_message,
+      'send_email_after_input_agent' : send_email_after_input_agent,
+      'send_email_after_input_admin' : send_email_after_input_admin,
+      'email_message' : email_message,
+      'subject_email' : subject_email,
       'show_lp' : show_lp,
       'to_agent' : to_agent,
       'tipe_agent' : tipe_agent,
@@ -525,6 +567,10 @@
           $(`${form} #send_wa_after_input_agent`).val(response.send_wa_after_input_agent);
           $(`${form} #send_wa_after_input_admin`).val(response.send_wa_after_input_admin);
           $(`${form} #wa_message`).val(response.wa_message);
+          $(`${form} #send_email_after_input_agent`).val(response.send_email_after_input_agent);
+          $(`${form} #send_email_after_input_admin`).val(response.send_email_after_input_admin);
+          $(`${form} #email_message`).val(response.email_message);
+          $(`${form} #subject_email`).val(response.subject_email);
           $(`${form} #show_lp`).val(response.show_lp);
           $(`${form} #to_agent`).val(response.to_agent);
           $(`${form} #tipe_agent`).val(response.tipe_agent);

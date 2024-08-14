@@ -1526,6 +1526,186 @@ class Import extends BaseController
     //     var_dump($response);
     // }
 
+    // import penjualan kelas gratis dari admin 
+    public function peminat_gratis(){
+        $this->db->transBegin();
+        $failed = false;
+
+        // Aturan validasi
+        $rules = [
+            'fileUpload' => [
+                'rules' => 'uploaded[fileUpload]|max_size[fileUpload,1024]|ext_in[fileUpload,xlsx]',
+                'errors' => [
+                    'uploaded' => 'File harus diisi',
+                    'max_size' => 'File terlalu besar (maksimal 1 MB)',
+                    'ext_in' => 'File harus berupa xlsx'
+                ]
+            ]
+        ];
+
+        // Validasi
+        if ($this->validate($rules)) {
+            $file = $this->request->getFile('fileUpload');
+
+            $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+            $reader->setReadDataOnly(true);
+            $spreadsheet = $reader->load($file);
+            $leads = $spreadsheet->getActiveSheet()->toArray();
+
+            foreach ($leads as $key => $value) {
+                if($key == 0){
+                    continue;
+                }
+
+                if($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL || $value[6] === NULL || $value[7] === NULL)){
+                    $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+                    <ul>
+                        <li>Nama</li>
+                        <li>No WA</li>
+                        <li>Email</li>
+                        <li>Produk</li>
+                        <li>Nama Agent</li>
+                        <li>No WA Agent</li>
+                    </ul>
+                    <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+
+                
+                    $failed = true;
+                    return json_encode($response);
+                }
+
+                $produk = $this->db->query("
+                    SELECT
+                        *
+                    FROM produk
+                    WHERE nama_produk = '$value[5]'
+                ")->getRowArray();
+
+                $data = [
+                    'nama_customer' => $value[1],
+                    'no_wa' => $value[2],
+                    'kota_kabupaten' => $value[3],
+                    'email' => $value[4],
+                    'fk_id_produk' => $produk['pk_id_produk'],
+                    'jenis_produk' => 'produk',
+                    'fk_id_agent' => $agent['pk_id_agent'],
+                    'fk_id_leader_agent' => $agent['fk_id_leader_agent']
+                ];
+
+                $is_send_wa = 0;
+                $wa_message = '';
+
+                if($this->customerModel->save($data) === true){
+                    $is_send_wa = $produk['send_wa_after_input_agent'];
+                    $wa_message = $produk['wa_message'];
+
+                    $fk_id_customer = $this->customerModel->getInsertID();
+
+                    $dataPenjualan = [
+                        'fk_id_customer' => $fk_id_customer,
+                        'fk_id_produk' => $produk['pk_id_produk'],
+                        'tgl_closing' => date('Y-m-d'),
+                        'fk_id_travel' => $produk['fk_id_travel'],
+                        'fk_id_agent_closing' => $data['fk_id_agent'],
+                        'status' => ($produk['jenis_produk'] == 'free offer') ? 'lunas' : 'pending'
+                    ];
+
+                    if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
+                        // $response = [
+                        //     "error" => $this->penjualanProdukModel->errors()
+                        // ];
+
+                        $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+                        <ul>
+                            <li>Nama</li>
+                            <li>No WA</li>
+                            <li>Email</li>
+                            <li>Produk</li>
+                        </ul>
+                        <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+
+                        $failed = true;
+
+                        break;
+                    }
+
+                    if($is_send_wa){
+                        $messageData = $wa_message;
+            
+                        $replace = [
+                            '$nama_customer$' => $data['nama_customer']
+                        ];
+            
+                        // Replace placeholders with actual values
+                        $message = str_replace(array_keys($replace), array_values($replace), $messageData);
+            
+                        // send_wa($data['no_wa'], $message);
+                        $dataPesan = [
+                            'no_wa' => $data['no_wa'],
+                            'text' => $message
+                        ];
+
+                        if($this->listSendWaModel->save($dataPesan) !== true){
+                            $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+                            <ul>
+                                <li>Nama</li>
+                                <li>No WA</li>
+                                <li>Email</li>
+                                <li>Produk</li>
+                            </ul>
+                            <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+
+                            $failed = true;
+
+                            break;
+                        }
+                    }
+                } else {
+                    // $response = [
+                    //     "error" => $this->customerModel->errors()
+                    // ];
+                    $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
+                    <ul>
+                        <li>Nama</li>
+                        <li>No WA</li>
+                        <li>Email</li>
+                        <li>Produk</li>
+                    </ul>
+                    <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
+
+                    $failed = true;
+
+                    break;
+                }
+            }
+        } else {
+            $response = [
+                "error" => $this->validator->getErrors()
+            ];
+
+            $failed = true;
+        }
+        
+        if ($this->db->transStatus() === false || $failed) {
+            $this->db->transRollback();
+
+            if(!isset($response['error'])){
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Gagal import data'
+                ];
+            }
+        } else {
+            $this->db->transCommit();
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Berhasil import data'
+            ];
+        }
+
+        return json_encode($response);
+    }
 
     public function download_template(){
         // Load the model to get the data (assuming you have a model for fetching products)
@@ -1622,10 +1802,16 @@ class Import extends BaseController
                     'kota_kabupaten' => $value[3],
                     'email' => $value[4],
                     'fk_id_produk' => $produk['pk_id_produk'],
-                    'jenis_produk' => 'produk',
-                    'fk_id_agent' => $agent['pk_id_agent'],
-                    'fk_id_leader_agent' => $agent['fk_id_leader_agent']
+                    'jenis_produk' => 'produk'
                 ];
+
+                if($agent['tipe_agent'] == 'leader agent'){
+                    $data['fk_id_agent'] = NULL;
+                    $data['fk_id_leader_agent'] = $agent['pk_id_agent'];
+                } else {
+                    $data['fk_id_agent'] = $agent['pk_id_agent'];
+                    $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
+                }
 
                 $is_send_wa = 0;
                 $wa_message = '';

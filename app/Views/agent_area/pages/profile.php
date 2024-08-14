@@ -173,12 +173,97 @@
       <div class="col">
         <div class="h-100">
           <h6 class="mb-1">
-            Ubah Password
+            Ubah Data
           </h6>
           <p class="text-muted mb-2">
-            Silakan mengisi form berikut untuk mengubah password Anda
+            Silakan mengisi form berikut untuk mengubah data Anda
           </p>
           <div id="formUbahPassword">
+            <div class="col-12 mb-3">
+                <label>Nama Anda <span class="text-danger">*</span></label>
+                <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="Nama Anda" value="<?= $profile['nama_agent']?>">
+                <div class="invalid-feedback" data-id="nama_agent"></div>
+            </div>
+    
+            <div class="col-12 mb-3">
+              <label for="gender">Gender</label>
+              <select name="gender" id="gender" class="multisteps-form__input form-control">
+                <option value="">Pilih Gender</option>
+                <option value="pria" <?= ($profile['gender'] == 'pria') ? 'selected' : ''?>>Pria</option>
+                <option value="wanita" <?= ($profile['gender'] == 'wanita') ? 'selected' : ''?>>Wanita</option>
+              </select>
+              <div class="invalid-feedback" data-id="gender"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Tempat Lahir</label>
+              <input name="t4_lahir" id="t4_lahir" class="multisteps-form__input form-control" type="text" placeholder="tempat lahir" value="<?= $profile['t4_lahir']?>">
+              <div class="invalid-feedback" data-id="t4_lahir"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Tgl Lahir</label>
+              <input name="tgl_lahir" id="tgl_lahir" class="multisteps-form__input form-control" type="date" value="<?= $profile['tgl_lahir']?>">
+              <div class="invalid-feedback" data-id="tgl_lahir"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>No. Whatsapp</label>
+              <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" type="text" placeholder="628122xxxx" value="<?= $profile['no_wa']?>">
+              <small class="text-xxs text-dark">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
+              <div class="invalid-feedback" data-id="no_wa"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Email</label>
+              <input name="email" id="email" class="multisteps-form__input form-control" type="text" placeholder="email" value="<?= $profile['email']?>">
+              <div class="invalid-feedback" data-id="email"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Rekening Bank</label>
+              <input name="bank_rekening" id="bank_rekening" class="multisteps-form__input form-control" type="text" placeholder="bank" value="<?= $profile['bank_rekening']?>">
+              <div class="invalid-feedback" data-id="bank_rekening"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>No Rekening</label>
+              <input name="no_rekening" id="no_rekening" class="multisteps-form__input form-control" type="text" placeholder="nomor rekening" value="<?= $profile['no_rekening']?>">
+              <div class="invalid-feedback" data-id="no_rekening"></div>
+            </div>
+            <div class="form-group">
+              <label for="alamat">Alamat</label>
+              <textarea name="alamat" class="form-control" id="alamat" rows="3"><?= $profile['alamat']?></textarea>
+              <div class="invalid-feedback" data-id="alamat"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Provinsi</label>
+              <input class="form-control" list="listprovinsi" name="provinsi" id="provinsi" placeholder="Ketik untuk mencari..." autocomplete="off" value="<?= $profile['provinsi']?>">
+              <datalist id="listprovinsi">
+              </datalist>
+              <div class="invalid-feedback" data-id="provinsi"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Kota/Kabupaten</label>
+              <input class="form-control" list="listkota_kabupaten" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off" value="<?= $profile['kota_kabupaten']?>">
+              <datalist id="listkota_kabupaten">
+              </datalist>
+              <div class="invalid-feedback" data-id="kota_kabupaten"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Kecamatan</label>
+              <input class="form-control" list="listkecamatan" name="kecamatan" id="kecamatan" placeholder="Ketik untuk mencari..." autocomplete="off" value="<?= $profile['kecamatan']?>">
+              <datalist id="listkecamatan">
+              </datalist>
+              <div class="invalid-feedback" data-id="kecamatan"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Kelurahan/Desa</label>
+              <input class="form-control" list="listkelurahan" name="kelurahan" id="kelurahan" placeholder="Ketik untuk mencari..." autocomplete="off" value="<?= $profile['kelurahan']?>">
+              <datalist id="listkelurahan">
+              </datalist>
+              <div class="invalid-feedback" data-id="kelurahan"></div>
+            </div>
+            <div class="col-12 mb-3">
+              <label>Username</label>
+              <input name="username" id="username" class="multisteps-form__input form-control" type="text" placeholder="username" value="<?= $profile['username']?>">
+              <small class="text-xxs text-dark">* username akan menjadii link subdomain landing page anda untuk seterusnya dan tidak bisa diganti.</small>
+              <div class="invalid-feedback" data-id="username"></div>
+            </div>
             <div class="col-12 mb-3">
               <label>Password Baru</label>
               <input name="password" id="password" class="multisteps-form__input form-control" type="password" placeholder="password baru">
@@ -187,7 +272,7 @@
               <label>Konfirmasi Password Baru</label>
               <input name="confirm_password" id="confirm_password" class="multisteps-form__input form-control" type="password" placeholder="konfirmasi password baru">
             </div>
-            <button class="btn bg-gold-custom btn-sm float-end mb-0" id="btnUbahPassword">Ubah password</button>
+            <button class="btn bg-gold-custom btn-sm float-end mb-0" id="btnUbahPassword">Ubah Data</button>
           </div>
         </div>
       </div>
@@ -198,33 +283,69 @@
 
 <?= $this->section('js-script') ?>
 <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      showListProvinsi();
+    })
+
     $("#btnUbahPassword").on("click", function () {
-        let password = $("#formUbahPassword [name='password']").val();
-        let confirm_password = $("#formUbahPassword [name='confirm_password']").val();
+        let form = '#formUbahPassword';
+
+        let nama_agent = $(`${form} #nama_agent`).val();
+        let gender = $(`${form} #gender`).val();
+        let t4_lahir = $(`${form} #t4_lahir`).val();
+        let tgl_lahir = $(`${form} #tgl_lahir`).val();
+        let no_wa = $(`${form} #no_wa`).val();
+        let email = $(`${form} #email`).val();
+        let bank_rekening = $(`${form} #bank_rekening`).val();
+        let no_rekening = $(`${form} #no_rekening`).val();
+        let alamat = $(`${form} #alamat`).val();
+        let provinsi = $(`${form} #provinsi`).val();
+        let kota_kabupaten = $(`${form} #kota_kabupaten`).val();
+        let kecamatan = $(`${form} #kecamatan`).val();
+        let kelurahan = $(`${form} #kelurahan`).val();
+        let username = $(`${form} #username`).val();
+        let password = $(`${form} #password`).val();
+        let confirm_password = $(`${form} #confirm_password`).val();
         let submit = true;
 
-        if(password == "" || confirm_password == ""){
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Mohon isi semua field terlebih dahulu"
-            });
-
-            let submit = false;
-        }
-
-        if(password != confirm_password){
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "password dan konfirmasi password berbeda"
-            });
-
-            let submit = false;
+        if(password != '' || confirm_password != ''){
+          if(password == "" || confirm_password == ""){
+              Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Mohon lengkapi form password & confirm password"
+              });
+  
+              let submit = false;
+          }
+  
+          if(password != confirm_password){
+              Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "password dan konfirmasi password berbeda"
+              });
+  
+              let submit = false;
+          }
         }
 
         if(submit){
             let data = {
+                'nama_agent' : nama_agent,
+                'gender' : gender,
+                't4_lahir' : t4_lahir,
+                'tgl_lahir' : tgl_lahir,
+                'no_wa' : no_wa,
+                'email' : email,
+                'bank_rekening' : bank_rekening,
+                'no_rekening' : no_rekening,
+                'alamat' : alamat,
+                'provinsi' : provinsi,
+                'kota_kabupaten' : kota_kabupaten,
+                'kecamatan' : kecamatan,
+                'kelurahan' : kelurahan,
+                'username' : username,
                 'password' : password,
                 'confirm_password' : confirm_password
             }
@@ -235,20 +356,39 @@
                 data: data,
                 dataType: "json",
                 success: function(response) {
+                  if(response.error){
+                    bersihkanValidasi(`${form}`);
+
+                    let errorMessage = '';
+                    for (var key in response.error) {
+                        var error = response.error[key];
+                        $(`[name='${key}']`).addClass("is-invalid")
+                        $(`[data-id='${key}']`).show()
+                        $(`[data-id='${key}']`).text(error)
+                    }
+
+                    showFormError()
+
+                    $(`${form} #btnSimpan`).show();
+                    $(`${form} #btnLoading`).hide();
+            
+                  } else {
                     Toast.fire({
                         icon: response.status,
                         title: response.message
                     })
+                  }
                 },
                 error: function(xhr, status, error) {
                     Toast.fire({
                         icon: 'error',
-                        title: `Gagal mengubah data kelas: ${error}`
+                        title: `Gagal mengubah data : ${error}`
                     })
                 }
             });
 
-            $('#formUbahPassword input').val('');
+            $('#formUbahPassword #password').val('');
+            $('#formUbahPassword #confirm_password').val('');
         }
 
     })

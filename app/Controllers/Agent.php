@@ -461,6 +461,34 @@ class Agent extends BaseController
                 $message = str_replace(array_keys($replace), array_values($replace), $messageData['setting_value']);
 
                 $response = send_wa($this->request->getPost('no_wa'), $message);
+
+                $messageData = $this->db->query("
+                    SELECT 
+                        *
+                    FROM system_parameter
+                    WHERE setting_name = 'email_message_success_agent'
+                ")->getRowArray();
+
+                $subject = $this->db->query("
+                    SELECT 
+                        *
+                    FROM system_parameter
+                    WHERE setting_name = 'subject_email_message_success_agent'
+                ")->getRowArray();
+
+
+                $replace = [
+                    '$nama_agent$' => $this->request->getPost('nama_agent'),
+                    '$link_agent$' => base_url('login'),
+                    '$username$' => $this->request->getPost('username'),
+                    '$password$' => $password
+                ];
+
+                // Replace placeholders with actual values
+                $message = str_replace(array_keys($replace), array_values($replace), $messageData['setting_value']);
+
+                $emailSender = new EmailSender();
+                $emailSender->send($this->request->getPost('email'), $subject['setting_value'], $message);
             } else {
                 $response = [
                     "error" => $this->agentModel->errors()

@@ -419,19 +419,29 @@ class Apenjualan extends BaseController
             'kota_kabupaten' => $this->request->getPost('kota_kabupaten'),
             'email' => $this->request->getPost('email'),
             'fk_id_produk' => $this->request->getPost('fk_id_produk'),
-            'jenis_produk' => 'produk',
-            'fk_id_agent' => $this->ses_pk_id_agent,
-            'fk_id_leader_agent' => $agent['fk_id_leader_agent'],
+            'jenis_produk' => 'produk'
         ];
+
+        if($agent['tipe_agent'] == 'leader agent'){
+            $dataCustomer['fk_id_agent'] = NULL;
+            $dataCustomer['fk_id_leader_agent'] = $agent['pk_id_agent'];
+        } else {
+            $dataCustomer['fk_id_agent'] = $agent['pk_id_agent'];
+            $dataCustomer['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
+        }
 
         $is_send_wa = 0;
         $wa_message = '';
+        $is_send_email = 0;
+        $email_message = '';
 
         if($this->customerModel->save($dataCustomer) === true){
             // cek data pembayaran
             $produk = $this->produkModel->find($dataCustomer['fk_id_produk']);
             $is_send_wa = $produk['send_wa_after_input_agent'];
             $wa_message = $produk['wa_message'];
+            $is_send_email = $produk['send_email_after_input_agent'];
+            $email_message = $produk['email_message'];
 
             $fk_id_customer = $this->customerModel->getInsertID();
             
@@ -492,6 +502,20 @@ class Apenjualan extends BaseController
                 $message = str_replace(array_keys($replace), array_values($replace), $messageData);
     
                 send_wa($dataCustomer['no_wa'], $message);
+            }
+
+            if($is_send_email){
+                $messageData = $email_message;
+    
+                $replace = [
+                    '$nama_customer$' => $dataCustomer['nama_customer']
+                ];
+    
+                // Replace placeholders with actual values
+                $message = str_replace(array_keys($replace), array_values($replace), $messageData);
+    
+                $emailSender = new EmailSender();
+                $emailSender->send($dataCustomer['email'], $produk['subject_email'], $message);
             }
 
             $response = [
