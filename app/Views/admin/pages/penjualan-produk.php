@@ -12,6 +12,45 @@
           </p>
         </div>
       </div>
+      
+      <div class="d-lg-flex">
+        <div>
+          <div class="ms-auto my-auto d-none d-md-none d-lg-block">
+            <a href="javascript:void(0)" class="btn btn-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              +&nbsp; Tambah Peminat
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
+              <li>
+                <a href="javascript:void(0)" class="dropdown-item btnModalFormImportData" data-bs-toggle="modal" data-bs-target="#modalFormImportData">
+                    Import Peminat
+                </a>
+              </li>
+              <li>
+                <a href="<?= base_url()?>/import/download_template_admin" class="dropdown-item">
+                    Download Template
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="ms-auto my-auto d-block d-md-block d-lg-none">
+            <a href="javascript:void(0)" class="btn btn-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              +&nbsp;
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
+              <li>
+                <a href="javascript:void(0)" class="dropdown-item btnModalFormImportData" data-bs-toggle="modal" data-bs-target="#modalFormImportData">
+                    Import Peminat
+                </a>
+              </li>
+              <li>
+                <a href="<?= base_url()?>/import/download_template_admin" class="dropdown-item">
+                    Download Template
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <!-- <div class="d-lg-flex">
         <div>
           <div class="ms-auto my-auto d-none d-md-none d-lg-block">
@@ -163,6 +202,49 @@
     </div>
   </div>
 </div>
+
+<!-- Modal for Upload File -->
+<div class="modal fade" id="modalFormImportData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalFormImportDataLabel">Upload Data Peminat</h5>
+        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="uploadForm">
+        <p>Sebelum meng-upload data peminat, harap perhatikan beberapa hal berikut terkait cara pengisian data:</p>
+        <ul>
+            <li><b>Nama:</b> (harus diisi) Masukkan nama tanpa menggunakan format teks khusus seperti bold, italic, atau underline. Tulis nama lengkap dengan jelas.</li>
+            <li><b>No WA:</b> (harus diisi) Data nomor WhatsApp harus diisi tanpa spasi dan hanya menggunakan angka. Sertakan kode negara. Contoh yang salah: +6281222333444, 6281-222-333-444, 6281 222 333 444. Contoh yang benar: 6281222333444.</li>
+            <li><b>Email:</b> (harus diisi) Pastikan email yang diisi adalah alamat email yang valid dan dapat dihubungi.</li>
+            <li><b>Domisili:</b> Isi data domisili hanya dengan nama kota atau kabupaten tanpa tambahan informasi lain.</li>
+            <li><b>Produk:</b> (harus diisi) Data produk harus sesuai dengan data produk yang terdapat dalam daftar yang tersedia.</li>
+        </ul>
+        <p>Periksa kembali data yang Anda masukkan untuk memastikan semuanya sesuai dengan petunjuk di atas sebelum melakukan upload.</p>
+
+        <div class="mb-3">
+          <label for="fileUpload" class="form-label">Pilih File Excel (.xlsx) <span class="text-danger">*</span></label>
+          <input name="fileUpload" class="form-control" type="file" id="fileUpload">
+          <div class="invalid-feedback" data-id="fileUpload"></div>
+        </div>
+        <div id="uploadFeedback" class="text-danger"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-info" id="btnUpload">Upload</button>
+        <!-- Indikator Loading -->
+        <div id="loadingIndicator" style="display: none;">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div class="modal fade" id="modalFormEditData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -440,12 +522,17 @@
     const btnSimpanFormEditData = $("#modalFormEditData #btnSimpan");
     const btnSimpanFormEditPembayaran = $("#modalFormEditPembayaran #btnSimpan");
     const btnSimpanFormEditKomisi = $("#modalFormEditKomisi #btnSimpan");
+    const btnModalFormImportData = $(".btnModalFormImportData");
 
     btnModalFormData.on("click", showModalFormData);
     btnSimpanFormData.on("click", saveData);
     btnSimpanFormEditData.on("click", saveEditData);
     btnSimpanFormEditPembayaran.on("click", saveDataPembayaran);
     btnSimpanFormEditKomisi.on("click", saveDataKomisi);
+    btnModalFormImportData.on("click", showModalFormUploadData);
+
+    const btnUpload = $("#btnUpload");
+    btnUpload.on("click", saveUpload);
 
     // form validation only number
     $('#formData #nominal').on('keyup', function() {
@@ -508,6 +595,15 @@
 
     bersihkanForm('#formData');
     bersihkanValidasi('#formData');
+
+    $('.alert-sukses').hide();
+  }
+
+  function showModalFormUploadData() {
+    $('#modalFormDataLabel').html('Upload Data Peminat');
+
+    bersihkanForm('#uploadForm');
+    bersihkanValidasi('#uploadForm');
 
     $('.alert-sukses').hide();
   }
@@ -694,6 +790,76 @@
       ]
     });
     $.fn.DataTable.ext.pager.numbers_length = 5;
+  }
+
+  function saveUpload() {
+    let form = '#uploadForm';
+
+    let fileUpload = $(`${form} #fileUpload`)[0].files;
+
+    // Tampilkan indikator loading
+    $('#loadingIndicator').show();
+    $("#btnUpload").hide();
+
+    var formData = new FormData();
+    formData.append('fileUpload', fileUpload[0]);
+
+    $.ajax({
+        url: '<?= base_url()?>/import/peminat_by_admin', 
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function(response) {
+          // Sembunyikan indikator loading
+          $('#loadingIndicator').hide();
+          $("#btnUpload").show();
+
+          if(response.error){
+            bersihkanValidasi(`${form}`);
+
+            // showFormError();
+            Swal.fire({
+              icon: "error",
+              title: "Oops...",
+              html: response.error,
+            });
+
+            $('html, .modal-body').animate({
+              scrollTop: 0
+            }, 'slow');
+
+            let errorMessage = '';
+            for (var key in response.error) {
+                var error = response.error[key];
+                $(`[name='${key}']`).addClass("is-invalid")
+                $(`[data-id='${key}']`).show()
+                $(`[data-id='${key}']`).text(error)
+            }
+    
+          } else {
+            Toast.fire({
+                icon: response.status,
+                title: response.message
+            })
+
+            $('#modalFormImportData').modal("hide");
+            $('#table-data').DataTable().ajax.reload();
+          }
+          
+        },
+        error: function(xhr, status, error) {
+          Toast.fire({
+              icon: 'error',
+              title: `file tidak dapat diupload, silakan pilih file lain`
+          })
+
+          // Sembunyikan indikator loading
+          $('#loadingIndicator').hide();
+          $("#btnUpload").show();
+        }
+    });
   }
 
   function saveData(e) {

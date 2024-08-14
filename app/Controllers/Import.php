@@ -41,290 +41,290 @@ class Import extends BaseController
         $this->ses_pk_id_agent = session()->get('pk_id_agent');
     }
 
-    public function fixAgent(){
+    // public function fixAgent(){
         
-        $this->db->transBegin();
-        $failed = false;
+    //     $this->db->transBegin();
+    //     $failed = false;
 
-        $listAgent = $this->db->query("
-            SELECT
-                *
-            FROM edit_data_agent
-        ")->getResultArray();
+    //     $listAgent = $this->db->query("
+    //         SELECT
+    //             *
+    //         FROM edit_data_agent
+    //     ")->getResultArray();
 
-        foreach ($listAgent as $agent) {
-            if($agent['agent_condition'] == 0){
-                // seharusnya agent tidak memiliki leader
-                // update terlebih dahulu fk_id_leader_agent = NULL data customernya
-                $this->db->query("
-                    UPDATE customer SET fk_id_leader_agent = NULL WHERE pk_id_customer = $agent[fk_id_customer]
-                ");
+    //     foreach ($listAgent as $agent) {
+    //         if($agent['agent_condition'] == 0){
+    //             // seharusnya agent tidak memiliki leader
+    //             // update terlebih dahulu fk_id_leader_agent = NULL data customernya
+    //             $this->db->query("
+    //                 UPDATE customer SET fk_id_leader_agent = NULL WHERE pk_id_customer = $agent[fk_id_customer]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update terlebih dahulu fk_id_leader_agent = NULL data agentnya
-                $this->db->query("
-                    UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
-                ");
+    //             // update terlebih dahulu fk_id_leader_agent = NULL data agentnya
+    //             $this->db->query("
+    //                 UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
+    //             ");
                 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update terlebih dahulu fk_id_leader_agent = NULL data penjualan agentnya
-                $this->db->query("
-                    UPDATE penjualan_produk SET fk_id_leader_agent = NULL WHERE fk_id_agent_closing = $agent[fk_id_to_agent]
-                ");
+    //             // update terlebih dahulu fk_id_leader_agent = NULL data penjualan agentnya
+    //             $this->db->query("
+    //                 UPDATE penjualan_produk SET fk_id_leader_agent = NULL WHERE fk_id_agent_closing = $agent[fk_id_to_agent]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update terlebih dahulu fk_id_leader_agent = NULL data penjualan customernya
-                $this->db->query("
-                    UPDATE penjualan_produk SET fk_id_leader_agent = NULL WHERE fk_id_customer = $agent[fk_id_customer]
-                ");
+    //             // update terlebih dahulu fk_id_leader_agent = NULL data penjualan customernya
+    //             $this->db->query("
+    //                 UPDATE penjualan_produk SET fk_id_leader_agent = NULL WHERE fk_id_customer = $agent[fk_id_customer]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update status
-                $this->db->query("
-                    UPDATE edit_data_agent SET status = 1 WHERE id = $agent[id]
-                ");
+    //             // update status
+    //             $this->db->query("
+    //                 UPDATE edit_data_agent SET status = 1 WHERE id = $agent[id]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
-            } else if($agent['agent_condition'] == 2){
-                // memiliki leader tapi sebelumnya leader adalah agent biasa
-                // update terlebih dahulu fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL data customernya
-                $this->db->query("
-                    UPDATE customer SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE pk_id_customer = $agent[fk_id_customer]
-                ");
+    //                 return;
+    //             }
+    //         } else if($agent['agent_condition'] == 2){
+    //             // memiliki leader tapi sebelumnya leader adalah agent biasa
+    //             // update terlebih dahulu fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL data customernya
+    //             $this->db->query("
+    //                 UPDATE customer SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE pk_id_customer = $agent[fk_id_customer]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update terlebih dahulu fk_id_leader_agent = NULL data agentnya
-                $this->db->query("
-                    UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
-                ");
+    //             // update terlebih dahulu fk_id_leader_agent = NULL data agentnya
+    //             $this->db->query("
+    //                 UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update terlebih dahulu fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL data penjualan agentnya
-                $this->db->query("
-                    UPDATE penjualan_produk SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE fk_id_agent_closing = $agent[fk_id_to_agent]
-                ");
+    //             // update terlebih dahulu fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL data penjualan agentnya
+    //             $this->db->query("
+    //                 UPDATE penjualan_produk SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE fk_id_agent_closing = $agent[fk_id_to_agent]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update terlebih dahulu fk_id_leader_agent = NULL data penjualan customernya
-                $this->db->query("
-                    UPDATE penjualan_produk SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE fk_id_customer = $agent[fk_id_customer]
-                ");
+    //             // update terlebih dahulu fk_id_leader_agent = NULL data penjualan customernya
+    //             $this->db->query("
+    //                 UPDATE penjualan_produk SET fk_id_agent = fk_id_leader_agent, fk_id_leader_agent = NULL WHERE fk_id_customer = $agent[fk_id_customer]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
+    //                 return;
+    //             }
 
-                // update status
-                $this->db->query("
-                    UPDATE edit_data_agent SET status = 1 WHERE id = $agent[id]
-                ");
+    //             // update status
+    //             $this->db->query("
+    //                 UPDATE edit_data_agent SET status = 1 WHERE id = $agent[id]
+    //             ");
 
-                if ($this->db->error()['code'] != 0) {
-                    // Menampilkan informasi error
-                    echo 'Error Code: ' . $this->db->error()['code'];
-                    echo 'Error Message: ' . $this->db->error()['message'];
-                    $failed = true;
+    //             if ($this->db->error()['code'] != 0) {
+    //                 // Menampilkan informasi error
+    //                 echo 'Error Code: ' . $this->db->error()['code'];
+    //                 echo 'Error Message: ' . $this->db->error()['message'];
+    //                 $failed = true;
 
-                    return;
-                }
-            }
-        }
+    //                 return;
+    //             }
+    //         }
+    //     }
 
-        // update penjualan yang fk_id_agent_closing ada tapi fk_id_agent dan fk_id_leader_agent tidak ada 
-        $this->db->query("
-            update penjualan_produk 
-            set fk_id_agent_closing = null 
-            where fk_id_agent_closing is not null 
-            and fk_id_agent is null 
-            and fk_id_leader_agent is null
-        ");
+    //     // update penjualan yang fk_id_agent_closing ada tapi fk_id_agent dan fk_id_leader_agent tidak ada 
+    //     $this->db->query("
+    //         update penjualan_produk 
+    //         set fk_id_agent_closing = null 
+    //         where fk_id_agent_closing is not null 
+    //         and fk_id_agent is null 
+    //         and fk_id_leader_agent is null
+    //     ");
 
-        if ($this->db->error()['code'] != 0) {
-            // Menampilkan informasi error
-            echo 'Error Code: ' . $this->db->error()['code'];
-            echo 'Error Message: ' . $this->db->error()['message'];
-            $failed = true;
+    //     if ($this->db->error()['code'] != 0) {
+    //         // Menampilkan informasi error
+    //         echo 'Error Code: ' . $this->db->error()['code'];
+    //         echo 'Error Message: ' . $this->db->error()['message'];
+    //         $failed = true;
 
-            return;
-        }
+    //         return;
+    //     }
 
-        // update status penjualan menjadi lunas untuk yang harga_produk = 0 dan status != 'lunas'
-        $this->db->query("
-            update penjualan_produk 
-            set status = 'lunas' 
-            where harga_produk = 0 
-            and status != 'lunas'
-        ");
+    //     // update status penjualan menjadi lunas untuk yang harga_produk = 0 dan status != 'lunas'
+    //     $this->db->query("
+    //         update penjualan_produk 
+    //         set status = 'lunas' 
+    //         where harga_produk = 0 
+    //         and status != 'lunas'
+    //     ");
 
-        if ($this->db->error()['code'] != 0) {
-            // Menampilkan informasi error
-            echo 'Error Code: ' . $this->db->error()['code'];
-            echo 'Error Message: ' . $this->db->error()['message'];
-            $failed = true;
+    //     if ($this->db->error()['code'] != 0) {
+    //         // Menampilkan informasi error
+    //         echo 'Error Code: ' . $this->db->error()['code'];
+    //         echo 'Error Message: ' . $this->db->error()['message'];
+    //         $failed = true;
 
-            return;
-        }
+    //         return;
+    //     }
         
-        // update produk yang statusnya upgrade menjad lunas 
-        $this->db->query("
-            update penjualan_produk 
-            set status = 'lunas' 
-            where status = 'upgrade'
-        ");
+    //     // update produk yang statusnya upgrade menjad lunas 
+    //     $this->db->query("
+    //         update penjualan_produk 
+    //         set status = 'lunas' 
+    //         where status = 'upgrade'
+    //     ");
 
-        if ($this->db->error()['code'] != 0) {
-            // Menampilkan informasi error
-            echo 'Error Code: ' . $this->db->error()['code'];
-            echo 'Error Message: ' . $this->db->error()['message'];
-            $failed = true;
+    //     if ($this->db->error()['code'] != 0) {
+    //         // Menampilkan informasi error
+    //         echo 'Error Code: ' . $this->db->error()['code'];
+    //         echo 'Error Message: ' . $this->db->error()['message'];
+    //         $failed = true;
 
-            return;
-        }
+    //         return;
+    //     }
 
-        if ($this->db->transStatus() === false || $failed) {
-            $this->db->transRollback();
+    //     if ($this->db->transStatus() === false || $failed) {
+    //         $this->db->transRollback();
 
-            if(!isset($response['error'])){
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Gagal import data'
-                ];
-            }
-        } else {
-            $this->db->transCommit();
+    //         if(!isset($response['error'])){
+    //             $response = [
+    //                 'status' => 'error',
+    //                 'message' => 'Gagal import data'
+    //             ];
+    //         }
+    //     } else {
+    //         $this->db->transCommit();
 
-            $response = [
-                'status' => 'success',
-                'message' => 'Berhasil import data'
-            ];
-        }
+    //         $response = [
+    //             'status' => 'success',
+    //             'message' => 'Berhasil import data'
+    //         ];
+    //     }
 
-        var_dump($response);
-    }
+    //     var_dump($response);
+    // }
 
-    public function agentSalah(){
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-        $reader->setReadDataOnly(true);
-        $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
-        $agent = $spreadsheet->getActiveSheet()->toArray();
+    // public function agentSalah(){
+    //     $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //     $reader->setReadDataOnly(true);
+    //     $spreadsheet = $reader->load("public/Data Baru/Data Agent.xlsx");
+    //     $agent = $spreadsheet->getActiveSheet()->toArray();
 
-        $no = 1;
+    //     $no = 1;
 
-        $this->db->query("
-            TRUNCATE TABLE data_agent_keliru
-        ");
+    //     $this->db->query("
+    //         TRUNCATE TABLE data_agent_keliru
+    //     ");
 
-        // masukkan data sebagai customer
-        foreach ($agent as $key => $value) {
-            if($key <= 1){
-                continue;
-            }
+    //     // masukkan data sebagai customer
+    //     foreach ($agent as $key => $value) {
+    //         if($key <= 1){
+    //             continue;
+    //         }
             
-            $agent_condition = 0;
-            if($value[8] == 'Leader Agent'){
-                $agent_condition = 1;
-            } else if($value[8] != 'Leader Agent' && $value[8] !== NULL){
-                $cekAgent = $this->db->query("
-                    SELECT
-                        *
-                    FROM agent
-                    WHERE no_wa LIKE '%$value[7]%'
-                ")->getRowArray();
+    //         $agent_condition = 0;
+    //         if($value[8] == 'Leader Agent'){
+    //             $agent_condition = 1;
+    //         } else if($value[8] != 'Leader Agent' && $value[8] !== NULL){
+    //             $cekAgent = $this->db->query("
+    //                 SELECT
+    //                     *
+    //                 FROM agent
+    //                 WHERE no_wa LIKE '%$value[7]%'
+    //             ")->getRowArray();
 
-                if($cekAgent){
-                    if($cekAgent['tipe_agent'] == 'leader agent'){
-                        $agent_condition = 2;
-                    }
-                }
-            }
+    //             if($cekAgent){
+    //                 if($cekAgent['tipe_agent'] == 'leader agent'){
+    //                     $agent_condition = 2;
+    //                 }
+    //             }
+    //         }
 
-            $data = [
-                "nama_agent" => $value[1],
-                "no_wa" => $value[2],
-                "email" => $value[3],
-                "tipe_agent" => $value[4],
-                "status" => $value[9],
-                "tgl_closing" => $value[13],
-                "agent_condition" => $agent_condition
-            ];
+    //         $data = [
+    //             "nama_agent" => $value[1],
+    //             "no_wa" => $value[2],
+    //             "email" => $value[3],
+    //             "tipe_agent" => $value[4],
+    //             "status" => $value[9],
+    //             "tgl_closing" => $value[13],
+    //             "agent_condition" => $agent_condition
+    //         ];
 
-            // Load the query builder
-            $builder = $this->db->table('data_agent_keliru');
+    //         // Load the query builder
+    //         $builder = $this->db->table('data_agent_keliru');
             
-            // Insert the data
-            $builder->insert($data);
-        }
+    //         // Insert the data
+    //         $builder->insert($data);
+    //     }
 
-        echo "cek";
-    }
+    //     echo "cek";
+    // }
 
     // public function agent_new(){
     //     $this->db->query("
@@ -1527,7 +1527,7 @@ class Import extends BaseController
     // }
 
     // import penjualan kelas gratis dari admin 
-    public function peminat_gratis(){
+    public function peminat_by_admin(){
         $this->db->transBegin();
         $failed = false;
 
@@ -1557,15 +1557,15 @@ class Import extends BaseController
                     continue;
                 }
 
-                if($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL || $value[6] === NULL || $value[7] === NULL)){
+                // cek nama, no_wa, email, produk pastikan terisi 
+                if($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL)){
                     $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
                     <ul>
                         <li>Nama</li>
                         <li>No WA</li>
                         <li>Email</li>
                         <li>Produk</li>
-                        <li>Nama Agent</li>
-                        <li>No WA Agent</li>
+                        <li>Tgl Closing</li>
                     </ul>
                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
 
@@ -1581,6 +1581,15 @@ class Import extends BaseController
                     WHERE nama_produk = '$value[5]'
                 ")->getRowArray();
 
+                if(!$produk){
+                    $response['error'] = '<p>Perhatikan kembali file yang Anda upload.</p>
+                    <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data produk pada baris nomor ' . $value[0] . ' valid.</p>';
+
+                    $failed = true;
+
+                    break;
+                }
+
                 $data = [
                     'nama_customer' => $value[1],
                     'no_wa' => $value[2],
@@ -1588,28 +1597,65 @@ class Import extends BaseController
                     'email' => $value[4],
                     'fk_id_produk' => $produk['pk_id_produk'],
                     'jenis_produk' => 'produk',
-                    'fk_id_agent' => $agent['pk_id_agent'],
-                    'fk_id_leader_agent' => $agent['fk_id_leader_agent']
                 ];
+
+                $fk_id_agent_closing = NULL;
+
+                // jika no wa agent terisi maka lakukan pengecekan agent 
+                if($value[7] != NULL){
+                    $agent = $this->db->query("
+                        SELECT
+                            *
+                        FROM agent
+                        WHERE no_wa LIKE '%$value[7]%'
+                    ")->getRowArray();
+
+                    // jika agent ditemukan maka set fk id agent dari customer 
+                    if($agent){
+                        if($agent['tipe_agent'] == 'leader agent'){
+                            $data['fk_id_agent'] = NULL;
+                            $data['fk_id_leader_agent'] = $agent['pk_id_agent'];
+                        } else {
+                            $data['fk_id_agent'] = $agent['pk_id_agent'];
+                            $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
+                        }
+
+                        $fk_id_agent_closing = $agent['pk_id_agent'];
+                    }
+                }
 
                 $is_send_wa = 0;
                 $wa_message = '';
 
+                $this->customerModel->skipValidation(true);
                 if($this->customerModel->save($data) === true){
                     $is_send_wa = $produk['send_wa_after_input_agent'];
                     $wa_message = $produk['wa_message'];
 
                     $fk_id_customer = $this->customerModel->getInsertID();
 
+                    // konversi tanggal terlebih dahulu
+                    $date = $this->convertToDate($value[8]); 
+                    $timestamp = strtotime($date);
+
+                    if (!$timestamp && date('Y-m-d', $timestamp) !== $date) {
+                        $response['error'] = '<p>Perhatikan kembali file yang Anda upload.</p>
+                        <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa tgl closing pada baris nomor ' . $value[0] . ' berformat d/m/Y. ex : 1/1/2024</p>';
+                    
+                        $failed = true;
+                        return json_encode($response);
+                    }
+
                     $dataPenjualan = [
                         'fk_id_customer' => $fk_id_customer,
                         'fk_id_produk' => $produk['pk_id_produk'],
-                        'tgl_closing' => date('Y-m-d'),
+                        'tgl_closing' => $date,
                         'fk_id_travel' => $produk['fk_id_travel'],
-                        'fk_id_agent_closing' => $data['fk_id_agent'],
+                        'fk_id_agent_closing' => $fk_id_agent_closing,
                         'status' => ($produk['jenis_produk'] == 'free offer') ? 'lunas' : 'pending'
                     ];
 
+                    $this->penjualanProdukModel->skipValidation(true);
                     if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
                         // $response = [
                         //     "error" => $this->penjualanProdukModel->errors()
@@ -1628,38 +1674,6 @@ class Import extends BaseController
 
                         break;
                     }
-
-                    if($is_send_wa){
-                        $messageData = $wa_message;
-            
-                        $replace = [
-                            '$nama_customer$' => $data['nama_customer']
-                        ];
-            
-                        // Replace placeholders with actual values
-                        $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-            
-                        // send_wa($data['no_wa'], $message);
-                        $dataPesan = [
-                            'no_wa' => $data['no_wa'],
-                            'text' => $message
-                        ];
-
-                        if($this->listSendWaModel->save($dataPesan) !== true){
-                            $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
-                            <ul>
-                                <li>Nama</li>
-                                <li>No WA</li>
-                                <li>Email</li>
-                                <li>Produk</li>
-                            </ul>
-                            <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
-
-                            $failed = true;
-
-                            break;
-                        }
-                    }
                 } else {
                     // $response = [
                     //     "error" => $this->customerModel->errors()
@@ -1670,6 +1684,7 @@ class Import extends BaseController
                         <li>No WA</li>
                         <li>Email</li>
                         <li>Produk</li>
+                        <li>Tgl Closing</li>
                     </ul>
                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
 
@@ -1729,6 +1744,36 @@ class Import extends BaseController
 
         // Save the updated file to a temporary location
         $tempFilePath = WRITEPATH . 'temp/template setor peminat.xlsx';
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($tempFilePath);
+
+        // Force download of the updated file
+        return $this->response->download($tempFilePath, null)
+        ->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    }
+
+    public function download_template_admin(){
+        // Load the model to get the data (assuming you have a model for fetching products)
+        $produk = $this->produkModel->where("is_active", 1)->find(); // Fetch all products
+
+        // Load the existing Excel file
+        $filePath = FCPATH . 'public/template setor peminat by admin.xlsx';
+        if (!file_exists($filePath)) {
+            throw new PageNotFoundException("File not found: $filePath");
+        }
+
+        $spreadsheet = IOFactory::load($filePath);
+        $sheet = $spreadsheet->getSheetByName('List'); // Select the sheet by name
+
+        // Write product data to column B
+        $row = 1; // Start writing from the first row
+        foreach ($produk as $product) {
+            $sheet->setCellValue('B' . $row, $product['nama_produk']); // Adjust field name as needed
+            $row++;
+        }
+
+        // Save the updated file to a temporary location
+        $tempFilePath = WRITEPATH . 'temp/template setor peminat by admin.xlsx';
         $writer = new Xlsx($spreadsheet);
         $writer->save($tempFilePath);
 
