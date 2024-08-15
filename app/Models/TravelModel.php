@@ -42,16 +42,15 @@ class TravelModel extends Model
 
     // Validation
     protected $validationRules      = [
-        'nama_travel' => 'required|alpha_space|min_length[3]|max_length[50]',
+        'nama_travel' => 'required',
         'unit' => 'required',
-        'nama_pemilik' => 'required|alpha_space|min_length[3]|max_length[50]',
+        'nama_pemilik' => 'required',
         'no_wa' => 'required|numeric|min_length[10]|max_length[13]',
         'alamat' => 'required|string|min_length[10]|max_length[100]',
         'kelurahan' => 'required|string|min_length[3]|max_length[50]',
         'kecamatan' => 'required|string|min_length[3]|max_length[50]',
         'kota_kabupaten' => 'required|string|min_length[3]|max_length[50]',
         'provinsi' => 'required|string|min_length[3]|max_length[50]',
-        'link_landing_page' => 'required|valid_url',
         'tgl_bergabung' => 'required|valid_date',
         'bank_rekening' => 'required|string|min_length[3]|max_length[50]',
         'no_rekening' => 'required|numeric|min_length[10]|max_length[20]',
@@ -62,18 +61,12 @@ class TravelModel extends Model
     protected $validationMessages   = [
         'nama_travel' => [
             'required' => 'Nama travel harus diisi',
-            'alpha_space' => 'Nama travel hanya boleh mengandung huruf dan spasi',
-            'min_length' => 'Nama travel minimal 3 karakter',
-            'max_length' => 'Nama travel maksimal 50 karakter'
         ],
         'unit' => [
             'required' => 'Level travel harus diisi'
         ],
         'nama_pemilik' => [
             'required' => 'Nama pemilik harus diisi',
-            'alpha_space' => 'Nama pemilik hanya boleh mengandung huruf dan spasi',
-            'min_length' => 'Nama pemilik minimal 3 karakter',
-            'max_length' => 'Nama pemilik maksimal 50 karakter'
         ],
         'no_wa' => [
             'required' => 'No WhatsApp harus diisi',
@@ -110,10 +103,6 @@ class TravelModel extends Model
             'string' => 'Provinsi hanya boleh mengandung huruf dan spasi',
             'min_length' => 'Provinsi minimal 3 karakter',
             'max_length' => 'Provinsi maksimal 50 karakter'
-        ],
-        'link_landing_page' => [
-            'required' => 'Link landing page harus diisi',
-            'valid_url' => 'Link landing page tidak valid'
         ],
         'tgl_bergabung' => [
             'required' => 'Tanggal bergabung harus diisi',
