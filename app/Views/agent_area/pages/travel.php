@@ -245,7 +245,7 @@
                   <a href="javascript:void(0)" class="dropdown-item" onclick='editData(${row.pk_id_travel})'>
                       detail
                   </a>
-                  <a class="dropdown-item" href="<?= base_url()?>/public/assets/company-profile/${row.company_profile}" download="${row.nama_travel} (Company Profile)">download company profile</a>
+                  <a class="dropdown-item" href="<?= base_url()?>/public/assets/company-profile/${row.company_profile}" download="${row.nama_travel} (Company Profile).pdf">download company profile</a>
                 </li>
               </ul>
               `;

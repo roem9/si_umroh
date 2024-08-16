@@ -465,7 +465,7 @@
           if(response.company_profile != ''){
             $(`#company-profile`).show();
             $(`#company-profile`).html(
-              `<a class="btn btn-sm bg-gradient-success mt-2" href="<?= base_url()?>/public/assets/company-profile/${response.company_profile}" download="${response.nama_travel} (Company Profile)">Download</a>`
+              `<a class="btn btn-sm bg-gradient-success mt-2" href="<?= base_url()?>/public/assets/company-profile/${response.company_profile}" download="${response.nama_travel} (Company Profile).pdf">Download</a>`
             )
           }
         }
