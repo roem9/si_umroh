@@ -39,6 +39,7 @@ class AgentModel extends Model
         'area_status',
         'batch',
         'la_double',
+        'is_forget_password',
     ];
 
     // Dates

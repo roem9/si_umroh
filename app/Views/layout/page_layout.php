@@ -36,8 +36,8 @@
 
 </head>
 
-<body class="g-sidenav-show <?= ($title != 'Login' && $title != 'Sertifikat') ? "bg-custom" : "bg-gray-100"?>">
-  <?php if ($title != 'Login' && $title != 'Sertifikat') : ?>
+<body class="g-sidenav-show <?= ($title != 'Login' && $title != 'Sertifikat' && $title != 'Lupa Password') ? "bg-custom" : "bg-gray-100"?>">
+  <?php if ($title != 'Login' && $title != 'Sertifikat' && $title != 'Lupa Password') : ?>
     <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-white" id="sidenav-main" data-color="info">
       <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>

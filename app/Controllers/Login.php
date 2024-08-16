@@ -55,6 +55,10 @@ class Login extends BaseController
                 $session->set($ses_data);
 
                 // Redirect to the "produk" page
+                $model->update($data['pk_id_agent'], [
+                    'is_forget_password' => 0
+                ]);
+
                 return redirect()->to(base_url('/agentarea/home'));
             }
         }
@@ -62,6 +66,145 @@ class Login extends BaseController
         $session->destroy();
         $data['title'] = 'Login';
         return view('pages/sign-in', $data);
+    }
+
+    public function lupaPassword(){
+        $data['title'] = 'Lupa Password';
+        return view('pages/lupa-password', $data);
+    }
+
+    public function gantipassword($pk_id_agent){
+        $data['title'] = 'Lupa Password';
+        $db = db_connect();
+        $agent = $db->query("
+            SELECT
+                *
+            FROM agent
+            WHERE MD5(pk_id_agent) = '$pk_id_agent'
+            AND (deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')
+            AND is_forget_password = 1
+        ")->getRowArray();
+
+        if($agent){
+            $messageData = $db->query("
+                SELECT 
+                    *
+                FROM system_parameter
+                WHERE setting_name = 'message_success_reset_password'
+            ")->getRowArray();
+
+            $replace = [
+                '$link$' => "<a href='".base_url()."'>link agent area</a>"
+            ];
+    
+            // Replace placeholders with actual values
+            $data['message'] = str_replace(array_keys($replace), array_values($replace), $messageData['setting_value']);
+            $data['agent'] = $agent;
+
+            return view('pages/form-ganti-password', $data);
+        } else {
+            return redirect()->to(base_url('/login'));
+        }
+
+    }
+
+    public function saveLupaPassword(){
+        $password = $this->request->getPost('password');
+        $confirm_password = $this->request->getPost('confirm_password');
+
+        if($password != $confirm_password){
+            $response['error'] = [
+                "password" => 'password tidak sama dengan konfirmasi password',
+                "confirm_password" => 'Konfirmasi password tidak sama dengan konfirmasi password',
+            ];
+
+            return json_encode($response);
+        }
+
+        $pk_id_agent = $this->request->getPost('pk_id_agent');
+
+        $agentModel = new AgentModel();
+        $searchAgent = $agentModel->find($pk_id_agent);
+        if ($searchAgent) {
+            $data = [
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'is_forget_password' => 0,
+            ];
+
+            if($agentModel->update($pk_id_agent, $data) === true){
+                $response = [
+                    'status' => 'success',
+                    'message' => 'berhasil reset password'
+                ];
+            } else {
+                $response = [
+                    "error" => $agentModel->errors()
+                ];
+            }
+        } else {
+            $response = [
+                'status' => 'error',
+                'message' => 'terjadi kesalahan, silakan muat ulang halaman'
+            ];
+        }
+
+        return json_encode($response);
+    }
+
+    public function sendEmailResetPassword(){
+        $db = db_connect();
+        $email = $this->request->getPost('email');
+
+        $agent = $db->query("
+            SELECT
+                *
+            FROM agent
+            WHERE email = '$email'
+        ")->getRowArray();
+
+        if($agent){
+            $db->query("
+                UPDATE agent SET is_forget_password = 1 WHERE email = '$email'
+                AND (deleted_at IS NULL OR deleted_at = '0000-00-00 00:00:00')
+            ");
+
+            $email_message = $db->query("
+                SELECT
+                    *
+                FROM system_parameter
+                WHERE setting_name = 'email_reset_password_agent'
+            ")->getRowArray();
+    
+            $email_subject = $db->query("
+                SELECT
+                    *
+                FROM system_parameter
+                WHERE setting_name = 'subject_email_reset_password'
+            ")->getRowArray();
+    
+            $messageData = $email_message['setting_value'];
+            $messageSubject = $email_subject['setting_value'];
+        
+            $replace = [
+                '$nama_agent$' => $agent['nama_agent'],
+                '$link_reset_password$' => base_url()."/gantipassword/".md5($agent['pk_id_agent'])
+            ];
+    
+            // Replace placeholders with actual values
+            $message = str_replace(array_keys($replace), array_values($replace), $messageData);
+    
+            $emailSender = new EmailSender();
+            $emailSender->send($email, $messageSubject, $message);
+
+            
+            $session = session();
+            $session->setFlashdata('success', 'Email berhasil terkirim');
+            return redirect()->to(base_url('/lupapassword'));
+        } else {
+            $session = session();
+            $session->setFlashdata('error', 'Mohon Maaf, Email Anda tidak terdaftar');
+            return redirect()->to(base_url('/lupapassword'));
+        }
     }
 
     public function auth()
@@ -137,7 +280,11 @@ class Login extends BaseController
                         setcookie('cookie_agent', $token, time() + (30 * 24 * 60 * 60), '/');
                     }
 
-                    return redirect()->to(base_url('/agentarea/home'));
+                    if($model->update($data['pk_id_agent'], [
+                        'is_forget_password' => 0
+                    ]) === true){
+                        return redirect()->to(base_url('/agentarea/home'));
+                    }
                 } else {
                     $session->setFlashdata('msg', 'Password salah');
                     return redirect()->to(base_url('/login'));
@@ -166,4 +313,6 @@ class Login extends BaseController
         $session->destroy();
         return redirect()->to(base_url('/login'));
     }
+
+    
 }

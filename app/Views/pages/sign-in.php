@@ -39,9 +39,12 @@
                       <div class="mb-3">
                         <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
                       </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" name="remember" value="remember" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Ingat saya</label>
+                      <div class="d-flex justify-content-between">
+                        <div class="form-check form-switch">
+                          <input class="form-check-input" type="checkbox" name="remember" value="remember" id="rememberMe">
+                          <label class="form-check-label" for="rememberMe">Ingat saya</label>
+                        </div>
+                        <a href="<?= base_url()?>/lupapassword" class="text-sm text-secondary">Lupa Password?</a>
                       </div>
                       <div class="text-center">
                         <button type="submit" class="btn w-100 mt-4 mb-0 text-light" style="background-color: #cc9933"><b>Login</b></button>

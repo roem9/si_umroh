@@ -41,6 +41,10 @@ $routes->get('/login', 'Login::index');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/login/makeCookie/(.*)/(.*)', 'Login::makeCookie/$1/$2');
 $routes->post('/login/auth', 'Login::auth');
+$routes->get('/lupapassword', 'Login::lupaPassword');
+$routes->post('/sendemailresetpassword', 'Login::sendEmailResetPassword');
+$routes->get('/gantipassword/(.*)', 'Login::gantiPassword/$1');
+$routes->post('/savelupapassword', 'Login::saveLupaPassword');
 
 $routes->get('/leaderagent', 'Agent::leaderAgent');
 $routes->get('/pengumuman', 'Informasi::index');
