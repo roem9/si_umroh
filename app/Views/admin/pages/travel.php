@@ -80,6 +80,12 @@
         </div>
 
         <div class="col-12 mb-3">
+          <label>Nama Perusahaan</label>
+          <input name="nama_perusahaan" id="nama_perusahaan" class="multisteps-form__input form-control" type="text" placeholder="nama perusahaan">
+          <div class="invalid-feedback" data-id="nama_perusahaan"></div>
+        </div>
+
+        <div class="col-12 mb-3">
           <label for="unit">Level</label>
           <select name="unit" id="unit" class="multisteps-form__input form-control">
             <option value="">Pilih Level</option>
@@ -338,6 +344,7 @@
 
     let pk_id_travel = $(`${form} #pk_id_travel`).val();
     let nama_travel = $(`${form} #nama_travel`).val();
+    let nama_perusahaan = $(`${form} #nama_perusahaan`).val();
     let unit = $(`${form} #unit`).val();
     let nama_pemilik = $(`${form} #nama_pemilik`).val();
     let alamat = $(`${form} #alamat`).val();
@@ -359,6 +366,7 @@
     // let data = {
       data.append('pk_id_travel', pk_id_travel);
       data.append('nama_travel', nama_travel);
+      data.append('nama_perusahaan', nama_perusahaan);
       data.append('unit', unit);
       data.append('nama_pemilik', nama_pemilik);
       data.append('alamat', alamat);
@@ -438,6 +446,7 @@
 
           $(`${form} #pk_id_travel`).val(response.pk_id_travel);
           $(`${form} #nama_travel`).val(response.nama_travel);
+          $(`${form} #nama_perusahaan`).val(response.nama_perusahaan);
           $(`${form} #unit`).val(response.unit);
           $(`${form} #nama_pemilik`).val(response.nama_pemilik);
           $(`${form} #no_wa`).val(response.no_wa);

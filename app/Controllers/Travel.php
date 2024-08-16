@@ -31,6 +31,7 @@ class Travel extends BaseController
         
         $data = [
             'nama_travel' => $this->request->getPost('nama_travel'),
+            'nama_perusahaan' => $this->request->getPost('nama_perusahaan'),
             'nama_pemilik' => $this->request->getPost('nama_pemilik'),
             'unit' => $this->request->getPost('unit'),
             'no_wa' => $this->request->getPost('no_wa'),
@@ -118,62 +119,73 @@ class Travel extends BaseController
                 }
             }
         } else {
-            $rules = [
-                // 'company_profile' => [
-                //     'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
-                //     'errors' => [
-                //         'uploaded' => 'Company profile harus diupload',
-                //         'max_size' => 'File terlalu besar (max 5 mb)',
-                //         'ext_in' => 'file harus berupa pdf'
-                //     ]
-                // ]
-                'company_profile' => [
-                    'rules' => 'max_size[company_profile,5120]|ext_in[company_profile,pdf]',
-                    'errors' => [
-                        'max_size' => 'File terlalu besar (max 5 mb)',
-                        'ext_in' => 'file harus berupa pdf'
+            if($company_profile){
+                $rules = [
+                    // 'company_profile' => [
+                    //     'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                    //     'errors' => [
+                    //         'uploaded' => 'Company profile harus diupload',
+                    //         'max_size' => 'File terlalu besar (max 5 mb)',
+                    //         'ext_in' => 'file harus berupa pdf'
+                    //     ]
+                    // ]
+                    'company_profile' => [
+                        'rules' => 'max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                        'errors' => [
+                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'ext_in' => 'file harus berupa pdf'
+                        ]
                     ]
-                ]
-            ];
+                ];
 
-            if($this->validate($rules)){
-                if ($company_profile->isValid() && !$company_profile->hasMoved()) {
-                    $newName = $company_profile->getRandomName();
+                if($this->validate($rules)){
+                    if ($company_profile->isValid() && !$company_profile->hasMoved()) {
+                        $newName = $company_profile->getRandomName();
 
-                    // Store file in public/uploads/ folder
-                    if($company_profile->move('public/assets/company-profile', $newName)){
-                        $data['company_profile'] = $newName;
+                        // Store file in public/uploads/ folder
+                        if($company_profile->move('public/assets/company-profile', $newName)){
+                            $data['company_profile'] = $newName;
 
-                        if($this->travelModel->save($data) === true){
-                            $response = [
-                                'status' => 'success',
-                                'message' => 'Berhasil menambah data travel'
-                            ];
+                            if($this->travelModel->save($data) === true){
+                                $response = [
+                                    'status' => 'success',
+                                    'message' => 'Berhasil menambah data travel'
+                                ];
+                            } else {
+                                $response = [
+                                    "error" => $this->travelModel->errors()
+                                ];
+                            }
                         } else {
                             $response = [
-                                "error" => $this->travelModel->errors()
+                                "error" => $company_profile->getErrorString()
                             ];
                         }
                     } else {
+                        // Response
                         $response = [
-                            "error" => $company_profile->getErrorString()
+                            'status' => 'error',
+                            'message' => 'Gagal mengupload file'
                         ];
                     }
                 } else {
                     // Response
                     $response = [
-                        'status' => 'error',
-                        'message' => 'Gagal mengupload file'
+                        "error" => $this->validator->getErrors()
                     ];
                 }
             } else {
-                // Response
-                $response = [
-                    "error" => $this->validator->getErrors()
-                ];
+                if($this->travelModel->save($data) === true){
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Berhasil menambahkan data travel'
+                    ];
+                } else {
+                    $response = [
+                        "error" => $this->travelModel->errors()
+                    ];
+                }
             }
-
-            
         }
 
         return json_encode($response);

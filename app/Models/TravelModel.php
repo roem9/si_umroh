@@ -16,6 +16,7 @@ class TravelModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'nama_travel',
+        'nama_perusahaan',
         'unit',
         'nama_pemilik',
         'no_wa',
@@ -43,6 +44,7 @@ class TravelModel extends Model
     // Validation
     protected $validationRules      = [
         'nama_travel' => 'required',
+        'nama_perusahaan' => 'required',
         'unit' => 'required',
         'nama_pemilik' => 'required',
         'no_wa' => 'required|numeric|min_length[10]|max_length[13]',
@@ -61,6 +63,9 @@ class TravelModel extends Model
     protected $validationMessages   = [
         'nama_travel' => [
             'required' => 'Nama travel harus diisi',
+        ],
+        'nama_perusahaan' => [
+            'required' => 'Nama Perusahaan harus diisi',
         ],
         'unit' => [
             'required' => 'Level travel harus diisi'

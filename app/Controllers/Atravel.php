@@ -31,6 +31,7 @@ class Atravel extends BaseController
             SELECT
                 pk_id_travel,
                 nama_travel,
+                nama_perusahaan,
                 nama_pemilik,
                 unit,
                 alamat,

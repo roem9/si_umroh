@@ -69,6 +69,12 @@
         </div>
 
         <div class="col-12 mb-3">
+          <label>Nama Perusahaan</label>
+          <input name="nama_perusahaan" id="nama_perusahaan" class="multisteps-form__input form-control" type="text" placeholder="nama perusahaan" disabled>
+          <div class="invalid-feedback" data-id="nama_perusahaan"></div>
+        </div>
+
+        <div class="col-12 mb-3">
           <label for="unit">Level</label>
           <select name="unit" id="unit" class="multisteps-form__input form-control" disabled>
             <option value="">Pilih Level</option>
@@ -282,6 +288,7 @@
 
           $(`${form} #pk_id_travel`).val(response.pk_id_travel);
           $(`${form} #nama_travel`).val(response.nama_travel);
+          $(`${form} #nama_perusahaan`).val(response.nama_perusahaan);
           $(`${form} #unit`).val(response.unit);
           $(`${form} #nama_pemilik`).val(response.nama_pemilik);
           $(`${form} #alamat`).val(response.alamat);
