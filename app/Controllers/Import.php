@@ -1841,6 +1841,15 @@ class Import extends BaseController
                     WHERE nama_produk = '$value[5]'
                 ")->getRowArray();
 
+                if(!$produk){
+                    $response['error'] = '<p>Perhatikan kembali file yang Anda upload.</p>
+                    <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data produk pada baris nomor ' . $value[0] . ' tersedia di menu produk. Jika tidak tersedia Silakan download ulang template.</p>';
+
+                
+                    $failed = true;
+                    return json_encode($response);
+                }
+
                 $data = [
                     'nama_customer' => $value[1],
                     'no_wa' => $value[2],
