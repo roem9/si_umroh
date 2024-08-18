@@ -25,8 +25,6 @@
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Nama Agent</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Domisili</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">No. WA</th>
-                  <th class="text-uppercase text-dark text-xxs font-weight-bolder desktop">AS</th>
-                  <th class="text-uppercase text-dark text-xxs font-weight-bolder desktop">AG</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">TA</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Action</th>
                 </tr>
@@ -298,16 +296,6 @@
             </svg> ${row.no_wa}
             </span></a>`;
           },
-          searchable: true,
-          className: 'text-sm w-1 text-center'
-        },
-        {
-          data: 'agent_gold',
-          searchable: true,
-          className: 'text-sm w-1 text-center'
-        },
-        {
-          data: 'agent_silver',
           searchable: true,
           className: 'text-sm w-1 text-center'
         },

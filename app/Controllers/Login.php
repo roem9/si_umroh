@@ -290,6 +290,7 @@ class Login extends BaseController
                     return redirect()->to(base_url('/login'));
                 }
             } else {
+                $session->setFlashdata('msg', 'Username tidak ditemukan');
                 return redirect()->to(base_url('/login'));
             }
         }
