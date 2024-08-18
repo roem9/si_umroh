@@ -640,6 +640,7 @@
           if(response.error){
             bersihkanValidasi(`${form}`);
 
+            console.log(response.error)
             // showFormError();
             Swal.fire({
               icon: "error",

@@ -1866,6 +1866,7 @@ class Import extends BaseController
                     $data['fk_id_agent'] = $agent['pk_id_agent'];
                     $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
                 }
+                
 
                 $is_send_wa = 0;
                 $wa_message = '';
@@ -1881,7 +1882,7 @@ class Import extends BaseController
                         'fk_id_produk' => $produk['pk_id_produk'],
                         'tgl_closing' => date('Y-m-d'),
                         'fk_id_travel' => $produk['fk_id_travel'],
-                        'fk_id_agent_closing' => $data['fk_id_agent'],
+                        'fk_id_agent_closing' => $agent['pk_id_agent'],
                         'status' => ($produk['jenis_produk'] == 'free offer') ? 'lunas' : 'pending'
                     ];
 
