@@ -33,7 +33,8 @@ class Penjualan extends BaseController
     public $komisiPenjualanProdukTravelModel;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->penjualanProdukModel = new PenjualanProdukModel();
         $this->penjualanProdukTravelModel = new PenjualanProdukTravelModel();
         $this->pembayaranPenjualanProdukModel = new PembayaranPenjualanProdukModel();
@@ -98,7 +99,8 @@ class Penjualan extends BaseController
         return view('admin/pages/penjualan-internal-produk-travel', $data);
     }
 
-    public function kuitansiProduk($pk_id_pembayaran_penjualan_produk){
+    public function kuitansiProduk($pk_id_pembayaran_penjualan_produk)
+    {
         $penjualan = $this->db->query("
             SELECT
                 a.*,
@@ -126,7 +128,8 @@ class Penjualan extends BaseController
         exit();
     }
 
-    public function kuitansiProdukTravel($pk_id_pembayaran_penjualan_produk_travel){
+    public function kuitansiProdukTravel($pk_id_pembayaran_penjualan_produk_travel)
+    {
         $penjualan = $this->db->query("
             SELECT
                 a.*,
@@ -163,6 +166,7 @@ class Penjualan extends BaseController
             'tgl_closing' => $this->request->getPost('tgl_closing'),
             'fk_id_travel' => $this->request->getPost('fk_id_travel'),
             'fk_id_agent_closing' => $this->request->getPost('fk_id_agent_closing'),
+            'harga_produk' => $this->request->getPost('harga_produk'),
         ];
 
         $customer = $this->customerModel->find($data['fk_id_customer']);
@@ -182,13 +186,16 @@ class Penjualan extends BaseController
         $wa_message = $produk['wa_message'];
 
         $nominal = $this->request->getPost('nominal');
+        $harga_produk = $this->request->getPost('harga_produk');
 
-        if($nominal > $produk['harga_produk']){
+        // if($nominal > $produk['harga_produk']){
+        if ($nominal > $harga_produk) {
             $response['error'] = [
                 'nominal' => 'Nominal tidak boleh lebih besar dari harga produk'
             ];
         } else {
-            if($nominal == $produk['harga_produk']){
+            // if($nominal == $produk['harga_produk']){
+            if ($nominal == $harga_produk) {
                 // $data['paid_komisi_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['komisi_agent'] : $produk['harga_produk'] * $produk['komisi_agent'] / 100;
                 // $data['paid_komisi_leader_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['komisi_leader_agent'] : $produk['harga_produk'] * $produk['komisi_leader_agent'] / 100;
                 // $data['paid_passive_income_leader_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['passive_income_leader_agent'] : $produk['harga_produk'] * $produk['passive_income_leader_agent'] / 100;
@@ -200,7 +207,7 @@ class Penjualan extends BaseController
             // Start transaction
             $this->db->transBegin();
             $failed = false;
-    
+
             // Check if the sale record exists
             $searchPenjualan = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
             if ($searchPenjualan) {
@@ -221,16 +228,16 @@ class Penjualan extends BaseController
                 // Save new sale record
                 if ($this->penjualanProdukModel->save($data) === true) {
                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
-    
+
                     $dataPembayaran = [
                         'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
                         'tgl_pembayaran' => $this->request->getPost('tgl_closing'),
                         'nominal' => $this->request->getPost('nominal'),
                         'keterangan' => $this->request->getPost('keterangan')
                     ];
-    
+
                     $bukti_pembayaran = $this->request->getFile('bukti_pembayaran');
-    
+
                     if ($bukti_pembayaran) {
                         $rules = [
                             'bukti_pembayaran' => [
@@ -241,13 +248,13 @@ class Penjualan extends BaseController
                                 ]
                             ]
                         ];
-    
+
                         if ($this->validate($rules)) {
                             if ($bukti_pembayaran->isValid() && !$bukti_pembayaran->hasMoved()) {
                                 $newName = $bukti_pembayaran->getRandomName();
                                 if ($bukti_pembayaran->move('public/assets/bukti-pembayaran', $newName)) {
                                     $dataPembayaran['bukti_pembayaran'] = $newName;
-    
+
                                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) === true) {
                                         $response = [
                                             'status' => 'success',
@@ -297,11 +304,11 @@ class Penjualan extends BaseController
                     $failed = true;
                 }
             }
-    
+
             if ($this->db->transStatus() === false || $failed) {
                 $this->db->transRollback();
-    
-                if(!isset($response['error'])){
+
+                if (!isset($response['error'])) {
                     $response = [
                         'status' => 'error',
                         'message' => 'Gagal menambahkan penjualan'
@@ -309,20 +316,20 @@ class Penjualan extends BaseController
                 }
             } else {
                 $this->db->transCommit();
-    
-                if($is_send_wa){
+
+                if ($is_send_wa) {
                     $messageData = $wa_message;
-        
+
                     $replace = [
                         '$nama_customer$' => $customer['nama_customer']
                     ];
-        
+
                     // Replace placeholders with actual values
                     $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-        
+
                     send_wa($customer['no_wa'], $message);
                 }
-    
+
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambahkan penjualan'
@@ -333,18 +340,46 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function saveDataEditPenjualanProduk(){
+    public function saveDataEditPenjualanProduk()
+    {
         $pk_id_penjualan_produk = $this->request->getPost('pk_id_penjualan_produk');
-        
+        $harga_produk = $this->request->getPost('harga_produk');
+
         $data = [
-            'fk_id_customer'=> $this->request->getPost('fk_id_customer'),
-            'fk_id_produk'=> $this->request->getPost('fk_id_produk'),
-            'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
-            'fk_id_agent_closing'=> $this->request->getPost('fk_id_agent_closing'),
-            'tgl_closing'=> $this->request->getPost('tgl_closing')
+            'fk_id_customer' => $this->request->getPost('fk_id_customer'),
+            'fk_id_produk' => $this->request->getPost('fk_id_produk'),
+            'fk_id_travel' => $this->request->getPost('fk_id_travel'),
+            'fk_id_agent_closing' => $this->request->getPost('fk_id_agent_closing'),
+            'tgl_closing' => $this->request->getPost('tgl_closing'),
+            'harga_produk' => $this->request->getPost('harga_produk'),
         ];
 
-        if($this->penjualanProdukModel->update($pk_id_penjualan_produk, $data) === true){
+        $total_pembayaran = 0;
+        $data_total_pembayaran = $this->db->query("
+            SELECT
+                SUM(nominal) as total_pembayaran
+            FROM pembayaran_penjualan_produk
+            WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
+            AND fk_id_penjualan_produk = $pk_id_penjualan_produk
+        ")->getRowArray();
+
+        if ($data_total_pembayaran) {
+            $total_pembayaran = $data_total_pembayaran['total_pembayaran'];
+        }
+
+        if ($total_pembayaran == $harga_produk) {
+            $data['status'] = 'lunas';
+        } else if ($total_pembayaran < $harga_produk) {
+            $data['status'] = 'cicil';
+        } else if ($total_pembayaran > $harga_produk) {
+            $response['error']['harga_produk'] = "Total pembayaran adalah $total_pembayaran, harga produk tidak boleh lebih rendah dari total pembayaran";
+
+            return json_encode($response);
+        } else {
+            $data['status'] = 'pending';
+        }
+
+        if ($this->penjualanProdukModel->update($pk_id_penjualan_produk, $data) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil mengubah data penjualan produk'
@@ -355,8 +390,9 @@ class Penjualan extends BaseController
 
         return json_encode($response);
     }
-    
-    public function getDataPenjualanProduk($pk_id_penjualan_produk){
+
+    public function getDataPenjualanProduk($pk_id_penjualan_produk)
+    {
         $data = $this->db->query("
             SELECT
                 a.pk_id_penjualan_produk,
@@ -423,7 +459,7 @@ class Penjualan extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -435,7 +471,7 @@ class Penjualan extends BaseController
 
     public function deletePenjualanProduk($pk_id_penjualan_produk)
     {
-        if($this->penjualanProdukModel->delete($pk_id_penjualan_produk) === true){
+        if ($this->penjualanProdukModel->delete($pk_id_penjualan_produk) === true) {
 
             $this->komisiPenjualanProdukModel->where("fk_id_penjualan_produk", $pk_id_penjualan_produk)->delete();
             $this->pembayaranPenjualanProdukModel->where("fk_id_penjualan_produk", $pk_id_penjualan_produk)->delete();
@@ -454,7 +490,8 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function getAllCustomer(){
+    public function getAllCustomer()
+    {
         $nama_customer = $this->request->getPost('nama_customer');
         $fk_id_agent = $this->request->getPost('fk_id_agent');
 
@@ -471,7 +508,8 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
-    public function generateDataCustomer($fk_id_customer){
+    public function generateDataCustomer($fk_id_customer)
+    {
         $data = $this->db->query("
             SELECT 
                 b.nama_agent,
@@ -485,25 +523,29 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
-    public function getAllProduk($nama_produk){
-        $data = $this->produkModel->like('nama_produk', $nama_produk)->orderby('nama_produk','asc')->findAll();
+    public function getAllProduk($nama_produk)
+    {
+        $data = $this->produkModel->like('nama_produk', $nama_produk)->orderby('nama_produk', 'asc')->findAll();
 
         return json_encode($data);
     }
 
-    public function getAllAgent($nama_agent){
-        $data = $this->agentModel->like('nama_agent', $nama_agent)->orderby('nama_agent','asc')->findAll();
+    public function getAllAgent($nama_agent)
+    {
+        $data = $this->agentModel->like('nama_agent', $nama_agent)->orderby('nama_agent', 'asc')->findAll();
 
         return json_encode($data);
     }
 
-    public function generateDataProduk($fk_id_produk){
+    public function generateDataProduk($fk_id_produk)
+    {
         $data = $this->produkModel->find($fk_id_produk);
 
         return json_encode($data);
     }
 
-    public function historyPembayaran($pk_id_penjualan_produk){
+    public function historyPembayaran($pk_id_penjualan_produk)
+    {
         $data['pembayaran'] = $this->pembayaranPenjualanProdukModel->where('fk_id_penjualan_produk', $pk_id_penjualan_produk)->orderby('tgl_pembayaran', 'DESC')->findAll();
 
         $data['total_pembayaran'] = 0;
@@ -511,7 +553,7 @@ class Penjualan extends BaseController
         foreach ($data['pembayaran'] as $pembayaran) {
             $data['total_pembayaran'] += $pembayaran['nominal'];
         }
-        
+
         // $data['penjualan'] = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
         $data['penjualan'] = $this->db->query("
             SELECT
@@ -541,7 +583,8 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
-    public function historyKomisi($pk_id_penjualan_produk){
+    public function historyKomisi($pk_id_penjualan_produk)
+    {
         $data['komisi'] = $this->db->query("
             SELECT
                 a.*,
@@ -551,7 +594,7 @@ class Penjualan extends BaseController
             WHERE fk_id_penjualan_produk = $pk_id_penjualan_produk
             AND (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
         ")->getResultArray();
-        
+
         // $data['penjualan'] = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
         $data['penjualan'] = $this->db->query("
             SELECT
@@ -578,15 +621,17 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
-    public function getDataPembayaranPenjualanProduk($pk_id_pembayaran_penjualan_produk){
+    public function getDataPembayaranPenjualanProduk($pk_id_pembayaran_penjualan_produk)
+    {
         $data = $this->pembayaranPenjualanProdukModel->find($pk_id_pembayaran_penjualan_produk);
 
         return json_encode($data);
     }
 
-    public function saveDataPembayaranPenjualanProduk(){
+    public function saveDataPembayaranPenjualanProduk()
+    {
         $pk_id_pembayaran_penjualan_produk = $this->request->getPost('pk_id_pembayaran_penjualan_produk');
-        
+
         $data = [
             'fk_id_penjualan_produk' => $this->request->getPost('fk_id_penjualan_produk'),
             'tgl_pembayaran' => $this->request->getPost('tgl_pembayaran'),
@@ -598,7 +643,7 @@ class Penjualan extends BaseController
 
         $nominal = 0;
 
-        if($pk_id_pembayaran_penjualan_produk){
+        if ($pk_id_pembayaran_penjualan_produk) {
             $total_pembayaran = $this->db->query("
                 SELECT
                     SUM(nominal) as total_pembayaran
@@ -619,17 +664,17 @@ class Penjualan extends BaseController
             ")->getRowArray();
         }
 
-        if(!empty($total_pembayaran)){
+        if (!empty($total_pembayaran)) {
             $nominal = $total_pembayaran['total_pembayaran'];
         }
 
-        if((intval($nominal) + intval($data['nominal'])) > $penjualan['harga_produk']){
+        if ((intval($nominal) + intval($data['nominal'])) > $penjualan['harga_produk']) {
             $response['error'] = [
                 "nominal" => "Nominal melebihi sisa pembayaran"
             ];
         } else {
             $bukti_pembayaran = $this->request->getFile('bukti_pembayaran');
-        
+
             if ($bukti_pembayaran) {
                 $rules = [
                     'bukti_pembayaran' => [
@@ -640,7 +685,7 @@ class Penjualan extends BaseController
                         ]
                     ]
                 ];
-    
+
                 if ($this->validate($rules)) {
                     if ($bukti_pembayaran->isValid() && !$bukti_pembayaran->hasMoved()) {
                         $newName = $bukti_pembayaran->getRandomName();
@@ -658,12 +703,12 @@ class Penjualan extends BaseController
                     ];
                 }
             }
-            
-            $searchData = $this->pembayaranPenjualanProdukModel->find($pk_id_pembayaran_penjualan_produk);
-            if($searchData){
-                if($this->pembayaranPenjualanProdukModel->update($pk_id_pembayaran_penjualan_produk, $data)){
 
-                    if((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']){
+            $searchData = $this->pembayaranPenjualanProdukModel->find($pk_id_pembayaran_penjualan_produk);
+            if ($searchData) {
+                if ($this->pembayaranPenjualanProdukModel->update($pk_id_pembayaran_penjualan_produk, $data)) {
+
+                    if ((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']) {
                         $this->penjualanProdukModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk'], ["status" => "lunas"]);
                     } else {
                         $this->penjualanProdukModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk'], ["status" => "cicil"]);
@@ -679,8 +724,8 @@ class Penjualan extends BaseController
                     ];
                 }
             } else {
-                if($this->pembayaranPenjualanProdukModel->save($data)){
-                    if((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']){
+                if ($this->pembayaranPenjualanProdukModel->save($data)) {
+                    if ((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']) {
                         $this->penjualanProdukModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk'], ["status" => "lunas"]);
                     } else {
                         $this->penjualanProdukModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk'], ["status" => "cicil"]);
@@ -702,10 +747,11 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function hapusDataPembayaran($pk_id_pembayaran_penjualan_produk){
+    public function hapusDataPembayaran($pk_id_pembayaran_penjualan_produk)
+    {
         $pembayaran = $this->pembayaranPenjualanProdukModel->find($pk_id_pembayaran_penjualan_produk);
 
-        if($this->pembayaranPenjualanProdukModel->delete($pk_id_pembayaran_penjualan_produk) === true){
+        if ($this->pembayaranPenjualanProdukModel->delete($pk_id_pembayaran_penjualan_produk) === true) {
             $nominal = 0;
             $total_pembayaran = $this->db->query("
                 SELECT
@@ -717,10 +763,10 @@ class Penjualan extends BaseController
                 GROUP BY fk_id_penjualan_produk
             ")->getRowArray();
 
-            if($total_pembayaran){
+            if ($total_pembayaran) {
                 $penjualan = $this->penjualanProdukModel->find($total_pembayaran['fk_id_penjualan_produk']);
 
-                if($total_pembayaran['total'] < $penjualan['harga_produk']){
+                if ($total_pembayaran['total'] < $penjualan['harga_produk']) {
                     $data = [
                         'status' => 'cicil'
                     ];
@@ -778,12 +824,12 @@ class Penjualan extends BaseController
 
         $nominal = $this->request->getPost('nominal');
 
-        if($nominal > $produk['harga_produk']){
+        if ($nominal > $produk['harga_produk']) {
             $response['error'] = [
                 'nominal' => 'Nominal tidak boleh lebih besar dari harga produk'
             ];
         } else {
-            if($nominal == $produk['harga_produk']){
+            if ($nominal == $produk['harga_produk']) {
                 // $data['paid_komisi_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['komisi_agent'] : $produk['harga_produk'] * $produk['komisi_agent'] / 100;
                 // $data['paid_komisi_leader_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['komisi_leader_agent'] : $produk['harga_produk'] * $produk['komisi_leader_agent'] / 100;
                 // $data['paid_passive_income_leader_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['passive_income_leader_agent'] : $produk['harga_produk'] * $produk['passive_income_leader_agent'] / 100;
@@ -795,7 +841,7 @@ class Penjualan extends BaseController
             // Start transaction
             $this->db->transBegin();
             $failed = false;
-    
+
             // Check if the sale record exists
             $searchPenjualan = $this->penjualanProdukTravelModel->find($pk_id_penjualan_produk_travel);
             if ($searchPenjualan) {
@@ -816,16 +862,16 @@ class Penjualan extends BaseController
                 // Save new sale record
                 if ($this->penjualanProdukTravelModel->save($data) === true) {
                     $fk_id_penjualan_produk_travel = $this->penjualanProdukTravelModel->getInsertID();
-    
+
                     $dataPembayaran = [
                         'fk_id_penjualan_produk_travel' => $fk_id_penjualan_produk_travel,
                         'tgl_pembayaran' => $this->request->getPost('tgl_closing'),
                         'nominal' => $this->request->getPost('nominal'),
                         'keterangan' => $this->request->getPost('keterangan')
                     ];
-    
+
                     $bukti_pembayaran = $this->request->getFile('bukti_pembayaran');
-    
+
                     if ($bukti_pembayaran) {
                         $rules = [
                             'bukti_pembayaran' => [
@@ -836,13 +882,13 @@ class Penjualan extends BaseController
                                 ]
                             ]
                         ];
-    
+
                         if ($this->validate($rules)) {
                             if ($bukti_pembayaran->isValid() && !$bukti_pembayaran->hasMoved()) {
                                 $newName = $bukti_pembayaran->getRandomName();
                                 if ($bukti_pembayaran->move('public/assets/bukti-pembayaran', $newName)) {
                                     $dataPembayaran['bukti_pembayaran'] = $newName;
-    
+
                                     if ($this->pembayaranPenjualanProdukTravelModel->save($dataPembayaran) === true) {
                                         $response = [
                                             'status' => 'success',
@@ -892,11 +938,11 @@ class Penjualan extends BaseController
                     $failed = true;
                 }
             }
-    
+
             if ($this->db->transStatus() === false || $failed) {
                 $this->db->transRollback();
-    
-                if(!isset($response['error'])){
+
+                if (!isset($response['error'])) {
                     $response = [
                         'status' => 'error',
                         'message' => 'Gagal menambahkan penjualan'
@@ -904,20 +950,20 @@ class Penjualan extends BaseController
                 }
             } else {
                 $this->db->transCommit();
-    
-                if($is_send_wa){
+
+                if ($is_send_wa) {
                     $messageData = $wa_message;
-        
+
                     $replace = [
                         '$nama_customer$' => $customer['nama_customer']
                     ];
-        
+
                     // Replace placeholders with actual values
                     $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-        
+
                     send_wa($customer['no_wa'], $message);
                 }
-    
+
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambahkan penjualan'
@@ -928,18 +974,19 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function saveDataEditPenjualanProdukTravel(){
+    public function saveDataEditPenjualanProdukTravel()
+    {
         $pk_id_penjualan_produk_travel = $this->request->getPost('pk_id_penjualan_produk_travel');
-        
+
         $data = [
-            'fk_id_customer'=> $this->request->getPost('fk_id_customer'),
-            'fk_id_produk_travel'=> $this->request->getPost('fk_id_produk_travel'),
-            'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
-            'fk_id_agent_closing'=> $this->request->getPost('fk_id_agent_closing'),
-            'tgl_closing'=> $this->request->getPost('tgl_closing')
+            'fk_id_customer' => $this->request->getPost('fk_id_customer'),
+            'fk_id_produk_travel' => $this->request->getPost('fk_id_produk_travel'),
+            'fk_id_travel' => $this->request->getPost('fk_id_travel'),
+            'fk_id_agent_closing' => $this->request->getPost('fk_id_agent_closing'),
+            'tgl_closing' => $this->request->getPost('tgl_closing')
         ];
 
-        if($this->penjualanProdukTravelModel->update($pk_id_penjualan_produk_travel, $data) === true){
+        if ($this->penjualanProdukTravelModel->update($pk_id_penjualan_produk_travel, $data) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil mengubah data penjualan produk'
@@ -951,7 +998,8 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function getDataPenjualanProdukTravel($pk_id_penjualan_produk_travel){
+    public function getDataPenjualanProdukTravel($pk_id_penjualan_produk_travel)
+    {
         $data['penjualan'] = $this->db->query("
             SELECT
                 a.pk_id_penjualan_produk_travel,
@@ -1019,7 +1067,7 @@ class Penjualan extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -1031,8 +1079,8 @@ class Penjualan extends BaseController
 
     public function deletePenjualanProdukTravel($pk_id_penjualan_produk_travel)
     {
-        if($this->penjualanProdukTravelModel->delete($pk_id_penjualan_produk_travel) === true){
-            
+        if ($this->penjualanProdukTravelModel->delete($pk_id_penjualan_produk_travel) === true) {
+
             $this->komisiPenjualanProdukTravelModel->where("fk_id_penjualan_produk_travel", $pk_id_penjualan_produk_travel)->delete();
             $this->pembayaranPenjualanProdukTravelModel->where("fk_id_penjualan_produk_travel", $pk_id_penjualan_produk_travel)->delete();
 
@@ -1050,19 +1098,22 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function getAllProdukTravel($fk_id_travel){
-        $data = $this->produkTravelModel->like('fk_id_travel', $fk_id_travel)->orderby('nama_produk','asc')->findAll();
+    public function getAllProdukTravel($fk_id_travel)
+    {
+        $data = $this->produkTravelModel->like('fk_id_travel', $fk_id_travel)->orderby('nama_produk', 'asc')->findAll();
 
         return json_encode($data);
     }
 
-    public function generateDataProdukTravel($fk_id_produk_travel){
+    public function generateDataProdukTravel($fk_id_produk_travel)
+    {
         $data = $this->produkTravelModel->find($fk_id_produk_travel);
 
         return json_encode($data);
     }
 
-    public function historyPembayaranTravel($pk_id_penjualan_produk_travel){
+    public function historyPembayaranTravel($pk_id_penjualan_produk_travel)
+    {
         $data['pembayaran'] = $this->pembayaranPenjualanProdukTravelModel->where('fk_id_penjualan_produk_travel', $pk_id_penjualan_produk_travel)->orderby('tgl_pembayaran', 'DESC')->findAll();
 
         $data['total_pembayaran'] = 0;
@@ -1070,7 +1121,7 @@ class Penjualan extends BaseController
         foreach ($data['pembayaran'] as $pembayaran) {
             $data['total_pembayaran'] += $pembayaran['nominal'];
         }
-        
+
         // $data['penjualan'] = $this->penjualanProdukModel->find($pk_id_penjualan_produk_travel);
         $data['penjualan'] = $this->db->query("
             SELECT
@@ -1100,15 +1151,17 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
-    public function getDataPembayaranPenjualanProdukTravel($pk_id_pembayaran_penjualan_produk_travel){
+    public function getDataPembayaranPenjualanProdukTravel($pk_id_pembayaran_penjualan_produk_travel)
+    {
         $data = $this->pembayaranPenjualanProdukTravelModel->find($pk_id_pembayaran_penjualan_produk_travel);
 
         return json_encode($data);
     }
 
-    public function saveDataPembayaranPenjualanProdukTravel(){
+    public function saveDataPembayaranPenjualanProdukTravel()
+    {
         $pk_id_pembayaran_penjualan_produk_travel = $this->request->getPost('pk_id_pembayaran_penjualan_produk_travel');
-        
+
         $data = [
             'fk_id_penjualan_produk_travel' => $this->request->getPost('fk_id_penjualan_produk_travel'),
             'tgl_pembayaran' => $this->request->getPost('tgl_pembayaran'),
@@ -1120,7 +1173,7 @@ class Penjualan extends BaseController
 
         $nominal = 0;
 
-        if($pk_id_pembayaran_penjualan_produk_travel){
+        if ($pk_id_pembayaran_penjualan_produk_travel) {
             $total_pembayaran = $this->db->query("
                 SELECT
                     SUM(nominal) as total_pembayaran
@@ -1141,8 +1194,8 @@ class Penjualan extends BaseController
             ")->getRowArray();
         }
 
-        
-        if(!empty($total_pembayaran)){
+
+        if (!empty($total_pembayaran)) {
             $nominal = $total_pembayaran['total_pembayaran'];
         }
 
@@ -1150,13 +1203,13 @@ class Penjualan extends BaseController
         // var_dump(intval($data['nominal']));
         // exit();
 
-        if((intval($nominal) + intval($data['nominal'])) > $penjualan['harga_produk']){
+        if ((intval($nominal) + intval($data['nominal'])) > $penjualan['harga_produk']) {
             $response['error'] = [
                 "nominal" => "Nominal melebihi sisa pembayaran"
             ];
         } else {
             $bukti_pembayaran = $this->request->getFile('bukti_pembayaran');
-        
+
             if ($bukti_pembayaran) {
                 $rules = [
                     'bukti_pembayaran' => [
@@ -1167,7 +1220,7 @@ class Penjualan extends BaseController
                         ]
                     ]
                 ];
-    
+
                 if ($this->validate($rules)) {
                     if ($bukti_pembayaran->isValid() && !$bukti_pembayaran->hasMoved()) {
                         $newName = $bukti_pembayaran->getRandomName();
@@ -1185,11 +1238,11 @@ class Penjualan extends BaseController
                     ];
                 }
             }
-            
+
             $searchData = $this->pembayaranPenjualanProdukTravelModel->find($pk_id_pembayaran_penjualan_produk_travel);
-            if($searchData){
-                if($this->pembayaranPenjualanProdukTravelModel->update($pk_id_pembayaran_penjualan_produk_travel, $data)){
-                    if((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']){
+            if ($searchData) {
+                if ($this->pembayaranPenjualanProdukTravelModel->update($pk_id_pembayaran_penjualan_produk_travel, $data)) {
+                    if ((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']) {
                         $this->penjualanProdukTravelModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk_travel'], ["status" => "lunas"]);
                     } else {
                         $this->penjualanProdukTravelModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk_travel'], ["status" => "cicil"]);
@@ -1205,8 +1258,8 @@ class Penjualan extends BaseController
                     ];
                 }
             } else {
-                if($this->pembayaranPenjualanProdukTravelModel->save($data)){
-                    if((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']){
+                if ($this->pembayaranPenjualanProdukTravelModel->save($data)) {
+                    if ((intval($nominal) + intval($data['nominal'])) == $penjualan['harga_produk']) {
                         $this->penjualanProdukTravelModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk_travel'], ["status" => "lunas"]);
                     } else {
                         $this->penjualanProdukTravelModel->allowCallbacks(false)->update($data['fk_id_penjualan_produk_travel'], ["status" => "cicil"]);
@@ -1228,10 +1281,11 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function hapusDataPembayaranTravel($pk_id_pembayaran_penjualan_produk_travel){
+    public function hapusDataPembayaranTravel($pk_id_pembayaran_penjualan_produk_travel)
+    {
         $pembayaran = $this->pembayaranPenjualanProdukTravelModel->find($pk_id_pembayaran_penjualan_produk);
 
-        if($this->pembayaranPenjualanProdukTravelModel->delete($pk_id_pembayaran_penjualan_produk) === true){
+        if ($this->pembayaranPenjualanProdukTravelModel->delete($pk_id_pembayaran_penjualan_produk) === true) {
             $nominal = 0;
             $total_pembayaran = $this->db->query("
                 SELECT
@@ -1243,10 +1297,10 @@ class Penjualan extends BaseController
                 GROUP BY fk_id_penjualan_produk_travel
             ")->getRowArray();
 
-            if($total_pembayaran){
+            if ($total_pembayaran) {
                 $penjualan = $this->penjualanProdukTravelModel->find($total_pembayaran['fk_id_penjualan_produk']);
 
-                if($total_pembayaran['total'] < $penjualan['harga_produk']){
+                if ($total_pembayaran['total'] < $penjualan['harga_produk']) {
                     $data = [
                         'status' => 'cicil'
                     ];
@@ -1304,7 +1358,7 @@ class Penjualan extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -1332,7 +1386,7 @@ class Penjualan extends BaseController
         $is_send_wa = 0;
         $wa_message = '';
 
-        if($this->customerModel->save($dataCustomer) === true){
+        if ($this->customerModel->save($dataCustomer) === true) {
             // cek data pembayaran
             $produk = $this->produkModel->find($dataCustomer['fk_id_produk']);
             $is_send_wa = $produk['send_wa_after_input_admin'];
@@ -1341,7 +1395,7 @@ class Penjualan extends BaseController
             $nominal = $this->request->getPost('nominal');
             $harga_produk = $this->request->getPost('harga_produk');
 
-            if($nominal > $harga_produk){
+            if ($nominal > $harga_produk) {
                 $response['error'] = [
                     'nominal' => 'Nominal tidak boleh lebih besar dari harga produk'
                 ];
@@ -1350,7 +1404,7 @@ class Penjualan extends BaseController
             } else {
 
                 $fk_id_customer = $this->customerModel->getInsertID();
-                
+
                 $dataPenjualan = [
                     'fk_id_customer' => $fk_id_customer,
                     'fk_id_produk' => $dataCustomer['fk_id_produk'],
@@ -1359,7 +1413,7 @@ class Penjualan extends BaseController
                     'fk_id_travel' => $this->request->getPost('fk_id_travel')
                 ];
 
-                if($nominal == $harga_produk){
+                if ($nominal == $harga_produk) {
                     $dataPenjualan['status'] = 'lunas';
                 } else {
                     $dataPenjualan['status'] = 'cicil';
@@ -1367,14 +1421,14 @@ class Penjualan extends BaseController
 
                 if (empty($dataPenjualan['tgl_closing'])) {
                     $response['error']['tgl_closing'] = 'Tgl closing harus diisi';
-                    
+
                     $failed = true;
                     return json_encode($response);
                 }
 
                 $this->penjualanProdukModel->skipValidation(true);
                 // $this->penjualanProdukModel->allowCallbacks(false);
-                
+
                 if ($this->penjualanProdukModel->save($dataPenjualan) === true) {
                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
 
@@ -1384,9 +1438,9 @@ class Penjualan extends BaseController
                         'nominal' => $this->request->getPost('nominal'),
                         'keterangan' => $this->request->getPost('keterangan')
                     ];
-    
+
                     $bukti_pembayaran = $this->request->getFile('bukti_pembayaran');
-    
+
                     if ($bukti_pembayaran) {
                         $rules = [
                             'bukti_pembayaran' => [
@@ -1397,13 +1451,13 @@ class Penjualan extends BaseController
                                 ]
                             ]
                         ];
-    
+
                         if ($this->validate($rules)) {
                             if ($bukti_pembayaran->isValid() && !$bukti_pembayaran->hasMoved()) {
                                 $newName = $bukti_pembayaran->getRandomName();
                                 if ($bukti_pembayaran->move('public/assets/bukti-pembayaran', $newName)) {
                                     $dataPembayaran['bukti_pembayaran'] = $newName;
-    
+
                                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) === true) {
                                         $response = [
                                             'status' => 'success',
@@ -1466,7 +1520,7 @@ class Penjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal menambahkan penjualan'
@@ -1475,16 +1529,16 @@ class Penjualan extends BaseController
         } else {
             $this->db->transCommit();
 
-            if($is_send_wa){
+            if ($is_send_wa) {
                 $messageData = $wa_message;
-    
+
                 $replace = [
                     '$nama_customer$' => $dataCustomer['nama_customer']
                 ];
-    
+
                 // Replace placeholders with actual values
                 $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-    
+
                 send_wa($dataCustomer['no_wa'], $message);
             }
 
@@ -1497,31 +1551,32 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function saveDataEditPenjualanProdukInternal(){
+    public function saveDataEditPenjualanProdukInternal()
+    {
         $this->db->transBegin();
         $failed = false;
 
         $pk_id_penjualan_produk = $this->request->getPost('pk_id_penjualan_produk');
         $pk_id_customer = $this->request->getPost('pk_id_customer');
-        
+
         $data = [
-            'fk_id_produk'=> $this->request->getPost('fk_id_produk'),
-            'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
-            'tgl_closing'=> $this->request->getPost('tgl_closing'),
-            'harga_produk'=> $this->request->getPost('harga_produk'),
-            'fk_id_customer'=> $this->request->getPost('pk_id_customer')
+            'fk_id_produk' => $this->request->getPost('fk_id_produk'),
+            'fk_id_travel' => $this->request->getPost('fk_id_travel'),
+            'tgl_closing' => $this->request->getPost('tgl_closing'),
+            'harga_produk' => $this->request->getPost('harga_produk'),
+            'fk_id_customer' => $this->request->getPost('pk_id_customer')
         ];
 
         if (empty($data['tgl_closing'])) {
             $response['error']['tgl_closing'] = 'Tgl closing harus diisi';
-            
+
             $failed = true;
             return json_encode($response);
         }
 
         $this->penjualanProdukModel->skipValidation(false);
-        
-        if($this->penjualanProdukModel->update($pk_id_penjualan_produk, $data) === true){
+
+        if ($this->penjualanProdukModel->update($pk_id_penjualan_produk, $data) === true) {
             $dataCustomer = [
                 'nama_customer' => $this->request->getPost('nama_customer'),
                 'no_wa' => $this->request->getPost('no_wa'),
@@ -1529,12 +1584,11 @@ class Penjualan extends BaseController
                 'kota_kabupaten' => $this->request->getPost('kota_kabupaten'),
             ];
 
-            if(!$this->customerModel->update($pk_id_customer, $dataCustomer)){
+            if (!$this->customerModel->update($pk_id_customer, $dataCustomer)) {
                 $response['error'] = $this->customerModel->errors();
 
                 $failed = true;
             }
-
         } else {
             $response['error'] = $this->penjualanProdukModel->errors();
 
@@ -1544,7 +1598,7 @@ class Penjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal mengubah data penjualan'
@@ -1587,7 +1641,7 @@ class Penjualan extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -1612,12 +1666,12 @@ class Penjualan extends BaseController
             'jenis_produk' => 'travel',
         ];
 
-        if($this->customerModel->save($dataCustomer) === true){
+        if ($this->customerModel->save($dataCustomer) === true) {
             // cek data pembayaran
             $produk = $this->produkTravelModel->find($dataCustomer['fk_id_produk']);
             $nominal = $this->request->getPost('nominal');
 
-            if($nominal > $produk['harga_produk']){
+            if ($nominal > $produk['harga_produk']) {
                 $response['error'] = [
                     'nominal' => 'Nominal tidak boleh lebih besar dari harga produk'
                 ];
@@ -1626,7 +1680,7 @@ class Penjualan extends BaseController
             } else {
 
                 $fk_id_customer = $this->customerModel->getInsertID();
-                
+
                 $dataPenjualan = [
                     'fk_id_customer' => $fk_id_customer,
                     'fk_id_produk_travel' => $dataCustomer['fk_id_produk'],
@@ -1635,7 +1689,7 @@ class Penjualan extends BaseController
                     'harga_produk' => $this->request->getPost('harga_produk'),
                 ];
 
-                if($nominal == $dataPenjualan['harga_produk']){
+                if ($nominal == $dataPenjualan['harga_produk']) {
                     $dataPenjualan['status'] = 'lunas';
                 } else {
                     $dataPenjualan['status'] = 'cicil';
@@ -1643,14 +1697,14 @@ class Penjualan extends BaseController
 
                 if (empty($dataPenjualan['tgl_closing'])) {
                     $response['error']['tgl_closing'] = 'Tgl closing harus diisi';
-                    
+
                     $failed = true;
                     return json_encode($response);
                 }
 
                 $this->penjualanProdukTravelModel->skipValidation(true);
                 // $this->penjualanProdukTravelModel->allowCallbacks(false);
-                
+
                 if ($this->penjualanProdukTravelModel->save($dataPenjualan) === true) {
                     $fk_id_penjualan_produk_travel = $this->penjualanProdukTravelModel->getInsertID();
 
@@ -1660,9 +1714,9 @@ class Penjualan extends BaseController
                         'nominal' => $this->request->getPost('nominal'),
                         'keterangan' => $this->request->getPost('keterangan')
                     ];
-    
+
                     $bukti_pembayaran = $this->request->getFile('bukti_pembayaran');
-    
+
                     if ($bukti_pembayaran) {
                         $rules = [
                             'bukti_pembayaran' => [
@@ -1673,13 +1727,13 @@ class Penjualan extends BaseController
                                 ]
                             ]
                         ];
-    
+
                         if ($this->validate($rules)) {
                             if ($bukti_pembayaran->isValid() && !$bukti_pembayaran->hasMoved()) {
                                 $newName = $bukti_pembayaran->getRandomName();
                                 if ($bukti_pembayaran->move('public/assets/bukti-pembayaran', $newName)) {
                                     $dataPembayaran['bukti_pembayaran'] = $newName;
-    
+
                                     if ($this->pembayaranPenjualanProdukTravelModel->save($dataPembayaran) === true) {
                                         $response = [
                                             'status' => 'success',
@@ -1742,7 +1796,7 @@ class Penjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal menambahkan penjualan'
@@ -1760,19 +1814,20 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function saveDataEditPenjualanProdukTravelInternal(){
+    public function saveDataEditPenjualanProdukTravelInternal()
+    {
         $this->db->transBegin();
         $failed = false;
 
         $pk_id_penjualan_produk_travel = $this->request->getPost('pk_id_penjualan_produk_travel');
         $pk_id_customer = $this->request->getPost('pk_id_customer');
-        
+
         $data = [
-            'fk_id_produk_travel'=> $this->request->getPost('fk_id_produk'),
-            'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
-            'tgl_closing'=> $this->request->getPost('tgl_closing'),
-            'harga_produk'=> $this->request->getPost('harga_produk'),
-            'fk_id_customer'=> $this->request->getPost('pk_id_customer'),
+            'fk_id_produk_travel' => $this->request->getPost('fk_id_produk'),
+            'fk_id_travel' => $this->request->getPost('fk_id_travel'),
+            'tgl_closing' => $this->request->getPost('tgl_closing'),
+            'harga_produk' => $this->request->getPost('harga_produk'),
+            'fk_id_customer' => $this->request->getPost('pk_id_customer'),
         ];
 
         // var_dump($data);
@@ -1780,14 +1835,14 @@ class Penjualan extends BaseController
 
         if (empty($data['tgl_closing'])) {
             $response['error']['tgl_closing'] = 'Tgl closing harus diisi';
-            
+
             $failed = true;
             return json_encode($response);
         }
 
         $this->penjualanProdukTravelModel->skipValidation(false);
-        
-        if($this->penjualanProdukTravelModel->update($pk_id_penjualan_produk_travel, $data) === true){
+
+        if ($this->penjualanProdukTravelModel->update($pk_id_penjualan_produk_travel, $data) === true) {
             $dataCustomer = [
                 'nama_customer' => $this->request->getPost('nama_customer'),
                 'no_wa' => $this->request->getPost('no_wa'),
@@ -1795,12 +1850,11 @@ class Penjualan extends BaseController
                 'kota_kabupaten' => $this->request->getPost('kota_kabupaten'),
             ];
 
-            if(!$this->customerModel->update($pk_id_customer, $dataCustomer)){
+            if (!$this->customerModel->update($pk_id_customer, $dataCustomer)) {
                 $response['error'] = $this->customerModel->errors();
 
                 $failed = true;
             }
-
         } else {
             $response['error'] = $this->penjualanProdukTravelModel->errors();
 
@@ -1810,7 +1864,7 @@ class Penjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal mengubah data penjualan'
@@ -1855,12 +1909,12 @@ class Penjualan extends BaseController
 
         $nominal = $this->request->getPost('nominal');
 
-        if($nominal > $produk['harga_produk']){
+        if ($nominal > $produk['harga_produk']) {
             $response['error'] = [
                 'nominal' => 'Nominal tidak boleh lebih besar dari harga produk'
             ];
         } else {
-            if($nominal == $produk['harga_produk']){
+            if ($nominal == $produk['harga_produk']) {
                 // $data['paid_komisi_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['komisi_agent'] : $produk['harga_produk'] * $produk['komisi_agent'] / 100;
                 // $data['paid_komisi_leader_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['komisi_leader_agent'] : $produk['harga_produk'] * $produk['komisi_leader_agent'] / 100;
                 // $data['paid_passive_income_leader_agent'] = ($produk['jenis_komisi'] == 'fix') ? $produk['passive_income_leader_agent'] : $produk['harga_produk'] * $produk['passive_income_leader_agent'] / 100;
@@ -1872,7 +1926,7 @@ class Penjualan extends BaseController
             // Start transaction
             $this->db->transBegin();
             $failed = false;
-    
+
             // Check if the sale record exists
             $this->penjualanProdukModel->skipValidation(true);
 
@@ -1954,11 +2008,11 @@ class Penjualan extends BaseController
 
                 $failed = true;
             }
-    
+
             if ($this->db->transStatus() === false || $failed) {
                 $this->db->transRollback();
-    
-                if(!isset($response['error'])){
+
+                if (!isset($response['error'])) {
                     $response = [
                         'status' => 'error',
                         'message' => 'Gagal menambahkan penjualan'
@@ -1966,20 +2020,20 @@ class Penjualan extends BaseController
                 }
             } else {
                 $this->db->transCommit();
-    
-                if($is_send_wa){
+
+                if ($is_send_wa) {
                     $messageData = $wa_message;
-        
+
                     $replace = [
                         '$nama_customer$' => $customer['nama_customer']
                     ];
-        
+
                     // Replace placeholders with actual values
                     $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-        
+
                     send_wa($customer['no_wa'], $message);
                 }
-    
+
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambahkan penjualan'
@@ -1990,7 +2044,8 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function toAgent(){
+    public function toAgent()
+    {
         $pk_id_penjualan_produk = $this->request->getPost('pk_id_penjualan_produk');
         $area_status = $this->request->getPost('area_status');
         $batch = $this->request->getPost('batch');
@@ -2017,9 +2072,9 @@ class Penjualan extends BaseController
             'confirmed_at' => date('Y-m-d')
         ];
 
-        if($penjualan['fk_id_agent_closing'] != NULL && $penjualan['fk_id_agent_closing'] != ''){
+        if ($penjualan['fk_id_agent_closing'] != NULL && $penjualan['fk_id_agent_closing'] != '') {
             $dataAgent = $this->agentModel->find($penjualan['fk_id_agent_closing']);
-            if($dataAgent['tipe_agent'] == 'leader agent'){
+            if ($dataAgent['tipe_agent'] == 'leader agent') {
                 $agent['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
             }
         }
@@ -2030,21 +2085,20 @@ class Penjualan extends BaseController
         $failed = false;
 
         $this->agentModel->skipValidation(true);
-        if($this->agentModel->save($agent) === true){
+        if ($this->agentModel->save($agent) === true) {
             $pk_id_agent = $this->agentModel->getInsertID();
 
             $data = [
                 'fk_id_to_agent' => $pk_id_agent
             ];
 
-            if($this->customerModel->update($customer['pk_id_customer'], $data) !== true){
+            if ($this->customerModel->update($customer['pk_id_customer'], $data) !== true) {
                 $response = [
                     "error" => $this->customerModel->errors()
                 ];
-    
+
                 $failed = true;
             }
-
         } else {
             $response = [
                 "error" => $this->agentModel->errors()
@@ -2056,7 +2110,7 @@ class Penjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal mengubah customer menjadi agent'
@@ -2075,7 +2129,7 @@ class Penjualan extends BaseController
             $replace = [
                 '$nama_agent$' => $customer['nama_customer'],
                 // '$link_data$' => base_url()."/lengkapidataagent/".md5($pk_id_agent)
-                '$link_data$' => base_url()."/registrasiulangagent"
+                '$link_data$' => base_url() . "/registrasiulangagent"
             ];
 
             $message = str_replace(array_keys($replace), array_values($replace), $messageData['setting_value']);
@@ -2092,7 +2146,8 @@ class Penjualan extends BaseController
     }
 
     // komisi
-    public function getDataKomisiPenjualanProduk($pk_id_komisi_penjualan_produk){
+    public function getDataKomisiPenjualanProduk($pk_id_komisi_penjualan_produk)
+    {
         $data = $this->db->query("
             SELECT
                 a.*,
@@ -2107,9 +2162,10 @@ class Penjualan extends BaseController
         return json_encode($data);
     }
 
-    public function saveDataKomisiPenjualanProduk(){
+    public function saveDataKomisiPenjualanProduk()
+    {
         $pk_id_komisi_penjualan_produk = $this->request->getPost('pk_id_komisi_penjualan_produk');
-        
+
         $data = [
             'fk_id_penjualan_produk' => $this->request->getPost('fk_id_penjualan_produk'),
             'nominal' => $this->request->getPost('nominal'),
@@ -2119,8 +2175,8 @@ class Penjualan extends BaseController
         ];
 
         $searchData = $this->komisiPenjualanProdukModel->find($pk_id_komisi_penjualan_produk);
-        if($searchData){
-            if($this->komisiPenjualanProdukModel->update($pk_id_komisi_penjualan_produk, $data)){
+        if ($searchData) {
+            if ($this->komisiPenjualanProdukModel->update($pk_id_komisi_penjualan_produk, $data)) {
 
                 $response = [
                     'status' => 'success',
@@ -2132,7 +2188,7 @@ class Penjualan extends BaseController
                 ];
             }
         } else {
-            if($this->komisiPenjualanProdukModel->save($data)){
+            if ($this->komisiPenjualanProdukModel->save($data)) {
 
                 $response = [
                     'status' => 'success',
@@ -2149,7 +2205,8 @@ class Penjualan extends BaseController
         return json_encode($response);
     }
 
-    public function hapusDataKomisi($pk_id_komisi_penjualan_produk){
+    public function hapusDataKomisi($pk_id_komisi_penjualan_produk)
+    {
         $this->db->query("
             DELETE FROM komisi_penjualan_produk
             WHERE pk_id_komisi_penjualan_produk = $pk_id_komisi_penjualan_produk

@@ -8,11 +8,11 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
-      
+
       <div class="d-lg-flex">
         <div>
           <div class="ms-auto my-auto d-none d-md-none d-lg-block">
@@ -22,12 +22,12 @@
             <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
               <li>
                 <a href="javascript:void(0)" class="dropdown-item btnModalFormImportData" data-bs-toggle="modal" data-bs-target="#modalFormImportData">
-                    Import Peminat
+                  Import Peminat
                 </a>
               </li>
               <li>
-                <a href="<?= base_url()?>/import/download_template_admin" class="dropdown-item">
-                    Download Template
+                <a href="<?= base_url() ?>/import/download_template_admin" class="dropdown-item">
+                  Download Template
                 </a>
               </li>
             </ul>
@@ -39,12 +39,12 @@
             <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
               <li>
                 <a href="javascript:void(0)" class="dropdown-item btnModalFormImportData" data-bs-toggle="modal" data-bs-target="#modalFormImportData">
-                    Import Peminat
+                  Import Peminat
                 </a>
               </li>
               <li>
-                <a href="<?= base_url()?>/import/download_template_admin" class="dropdown-item">
-                    Download Template
+                <a href="<?= base_url() ?>/import/download_template_admin" class="dropdown-item">
+                  Download Template
                 </a>
               </li>
             </ul>
@@ -93,7 +93,7 @@
   </div>
 </div>
 <?= $this->endSection() ?>
-  
+
 <?= $this->section('modal') ?>
 <div class="modal fade" id="modalFormData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -142,15 +142,15 @@
           <input name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" type="text" placeholder="nama client" disabled>
           <div class="invalid-feedback" data-id="nama_leader_agent"></div>
         </div>
-        
+
         <h6 class="">Data Produk</h6>
         <div class="col-12 mb-3">
           <label for="fk_id_produk">Produk</label>
           <select name="fk_id_produk" id="fk_id_produk" class="multisteps-form__input form-control">
             <option value="">Pilih Produk</option>
             <?php
-              foreach ($produks as $produk) :?>
-                <option value="<?= $produk['pk_id_produk']?>"><?= $produk['nama_produk']?></option>
+            foreach ($produks as $produk) : ?>
+              <option value="<?= $produk['pk_id_produk'] ?>"><?= $produk['nama_produk'] ?></option>
             <?php endforeach
             ?>
           </select>
@@ -158,17 +158,17 @@
         </div>
         <div class="col-12 mb-3">
           <label>Harga Produk</label>
-          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="" disabled>
+          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="">
           <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
         <div class="col-12 mb-3">
           <label>Nama Travel</label>
           <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control">
-              <option value="">Pilih Travel</option>
-              <?php
-                foreach ($travels as $travel) :?>
-                  <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-              <?php endforeach;?>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travels as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
           </select>
           <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
@@ -216,11 +216,11 @@
       <div class="modal-body" id="uploadForm">
         <p>Sebelum meng-upload data peminat, harap perhatikan beberapa hal berikut terkait cara pengisian data:</p>
         <ul>
-            <li><b>Nama:</b> (harus diisi) Masukkan nama tanpa menggunakan format teks khusus seperti bold, italic, atau underline. Tulis nama lengkap dengan jelas.</li>
-            <li><b>No WA:</b> (harus diisi) Data nomor WhatsApp harus diisi tanpa spasi dan hanya menggunakan angka. Sertakan kode negara. Contoh yang salah: +6281222333444, 6281-222-333-444, 6281 222 333 444. Contoh yang benar: 6281222333444.</li>
-            <li><b>Email:</b> (harus diisi) Pastikan email yang diisi adalah alamat email yang valid dan dapat dihubungi.</li>
-            <li><b>Domisili:</b> Isi data domisili hanya dengan nama kota atau kabupaten tanpa tambahan informasi lain.</li>
-            <li><b>Produk:</b> (harus diisi) Data produk harus sesuai dengan data produk yang terdapat dalam daftar yang tersedia.</li>
+          <li><b>Nama:</b> (harus diisi) Masukkan nama tanpa menggunakan format teks khusus seperti bold, italic, atau underline. Tulis nama lengkap dengan jelas.</li>
+          <li><b>No WA:</b> (harus diisi) Data nomor WhatsApp harus diisi tanpa spasi dan hanya menggunakan angka. Sertakan kode negara. Contoh yang salah: +6281222333444, 6281-222-333-444, 6281 222 333 444. Contoh yang benar: 6281222333444.</li>
+          <li><b>Email:</b> (harus diisi) Pastikan email yang diisi adalah alamat email yang valid dan dapat dihubungi.</li>
+          <li><b>Domisili:</b> Isi data domisili hanya dengan nama kota atau kabupaten tanpa tambahan informasi lain.</li>
+          <li><b>Produk:</b> (harus diisi) Data produk harus sesuai dengan data produk yang terdapat dalam daftar yang tersedia.</li>
         </ul>
         <p>Periksa kembali data yang Anda masukkan untuk memastikan semuanya sesuai dengan petunjuk di atas sebelum melakukan upload.</p>
 
@@ -236,9 +236,9 @@
         <button type="button" class="btn btn-info" id="btnUpload">Upload</button>
         <!-- Indikator Loading -->
         <div id="loadingIndicator" style="display: none;">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
       </div>
     </div>
@@ -298,15 +298,15 @@
           <input name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" type="text" placeholder="nama client" disabled>
           <div class="invalid-feedback" data-id="nama_leader_agent"></div>
         </div>
-        
+
         <h6 class="">Data Produk</h6>
         <div class="col-12 mb-3">
           <label for="fk_id_produk">Produk</label>
           <select name="fk_id_produk" id="fk_id_produk" class="multisteps-form__input form-control">
             <option value="">Pilih Produk</option>
             <?php
-              foreach ($produks as $produk) :?>
-                <option value="<?= $produk['pk_id_produk']?>"><?= $produk['nama_produk']?></option>
+            foreach ($produks as $produk) : ?>
+              <option value="<?= $produk['pk_id_produk'] ?>"><?= $produk['nama_produk'] ?></option>
             <?php endforeach
             ?>
           </select>
@@ -314,17 +314,17 @@
         </div>
         <div class="col-12 mb-3">
           <label>Harga Produk</label>
-          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="" disabled>
+          <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="">
           <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
         <div class="col-12 mb-3">
           <label>Nama Travel</label>
           <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control">
-              <option value="">Pilih Travel</option>
-              <?php
-                foreach ($travels as $travel) :?>
-                  <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-              <?php endforeach;?>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travels as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
           </select>
           <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
@@ -542,49 +542,49 @@
       this.value = this.value.replace(/[^0-9]/g, '');
     });
 
-    $('#formData #customer').on('change', function(){
+    $('#formData #customer').on('change', function() {
       getCustomer('#formData');
     });
-    $('#formData #produk').on('change', function(){
+    $('#formData #produk').on('change', function() {
       getProduk('#formData');
     });
-    $('#formData #agent').on('change', function(){
+    $('#formData #agent').on('change', function() {
       getAgent('#formData');
     });
-    $('#formEditKomisi #agent').on('change', function(){
+    $('#formEditKomisi #agent').on('change', function() {
       getAgent('#formEditKomisi');
     });
 
-    $('#formEditData #customer').on('change', function(){
+    $('#formEditData #customer').on('change', function() {
       getCustomer('#formEditData')
     });
-    $('#formEditData #produk').on('change', function(){
+    $('#formEditData #produk').on('change', function() {
       getProduk('#formEditData')
     });
-    $('#formEditData #agent').on('change', function(){
+    $('#formEditData #agent').on('change', function() {
       getAgent('#formEditData');
     });
 
-    $('#formData #fk_id_customer').on('change', function(){
+    $('#formData #fk_id_customer').on('change', function() {
       generateDataCustomer('#formData')
     });
-    $('#formData #fk_id_produk').on('change', function(){
+    $('#formData #fk_id_produk').on('change', function() {
       generateDataProduk('#formData')
     });
 
-    $('#formEditData #fk_id_customer').on('change', function(){
+    $('#formEditData #fk_id_customer').on('change', function() {
       generateDataCustomer('#formEditData')
     });
-    $('#formEditData #fk_id_produk').on('change', function(){
+    $('#formEditData #fk_id_produk').on('change', function() {
       generateDataProduk('#formEditData')
     });
 
-    $('#modalFormEditPembayaran').on('hidden.bs.modal', function (e) {
-        $('#modalListPembayaranData').modal('show');
+    $('#modalFormEditPembayaran').on('hidden.bs.modal', function(e) {
+      $('#modalListPembayaranData').modal('show');
     });
 
-    $('#modalFormEditKomisi').on('hidden.bs.modal', function (e) {
-        $('#modalListKomisiData').modal('show');
+    $('#modalFormEditKomisi').on('hidden.bs.modal', function(e) {
+      $('#modalListKomisiData').modal('show');
     });
 
     $(".btnModalFormPembayaran").on('click', showModalPembayaran)
@@ -619,7 +619,7 @@
     bersihkanValidasi(`${form}`);
 
     $(`${form} #nominal`).val(nominal)
-    
+
     $(`${form} #image-cover`).hide();
   }
 
@@ -632,7 +632,7 @@
 
     bersihkanForm(`${form}`);
     bersihkanValidasi(`${form}`);
-    
+
     $(`${form} #image-cover`).hide();
   }
 
@@ -641,15 +641,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/penjualan/getListPenjualanProduk`,
+      ajax: `<?= base_url() ?>/penjualan/getListPenjualanProduk`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'desc']],
-      columns: [
-        {
+      order: [
+        [1, 'desc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -661,19 +662,19 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_customer',
           searchable: true,
           className: 'text-sm',
           orderable: true
-        }, 
+        },
         {
           data: 'kota_kabupaten',
           searchable: true,
           className: 'text-sm',
           orderable: true
-        }, 
+        },
         {
           data: 'no_wa',
           render: function(data, type, row) {
@@ -700,7 +701,7 @@
           data: 'harga_produk',
           searchable: true,
           className: 'text-sm',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.harga_produk)
           }
         },
@@ -724,7 +725,7 @@
           render: function(data, type, row) {
             let btnAgent = '';
 
-            if(row.to_agent == 1){
+            if (row.to_agent == 1) {
               btnAgent = `
                 <li>
                   <a href="javascript:void(0)" class="dropdown-item" onclick='toAgent(${row.pk_id_penjualan_produk}, "${row.nama_customer}")'>
@@ -805,60 +806,60 @@
     formData.append('fileUpload', fileUpload[0]);
 
     $.ajax({
-        url: '<?= base_url()?>/import/peminat_by_admin', 
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function(response) {
-          // Sembunyikan indikator loading
-          $('#loadingIndicator').hide();
-          $("#btnUpload").show();
+      url: '<?= base_url() ?>/import/peminat_by_admin',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function(response) {
+        // Sembunyikan indikator loading
+        $('#loadingIndicator').hide();
+        $("#btnUpload").show();
 
-          if(response.error){
-            bersihkanValidasi(`${form}`);
+        if (response.error) {
+          bersihkanValidasi(`${form}`);
 
-            // showFormError();
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              html: response.error,
-            });
+          // showFormError();
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            html: response.error,
+          });
 
-            $('html, .modal-body').animate({
-              scrollTop: 0
-            }, 'slow');
+          $('html, .modal-body').animate({
+            scrollTop: 0
+          }, 'slow');
 
-            let errorMessage = '';
-            for (var key in response.error) {
-                var error = response.error[key];
-                $(`[name='${key}']`).addClass("is-invalid")
-                $(`[data-id='${key}']`).show()
-                $(`[data-id='${key}']`).text(error)
-            }
-    
-          } else {
-            Toast.fire({
-                icon: response.status,
-                title: response.message
-            })
-
-            $('#modalFormImportData').modal("hide");
-            $('#table-data').DataTable().ajax.reload();
+          let errorMessage = '';
+          for (var key in response.error) {
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-          
-        },
-        error: function(xhr, status, error) {
+
+        } else {
           Toast.fire({
-              icon: 'error',
-              title: `file tidak dapat diupload, silakan pilih file lain`
+            icon: response.status,
+            title: response.message
           })
 
-          // Sembunyikan indikator loading
-          $('#loadingIndicator').hide();
-          $("#btnUpload").show();
+          $('#modalFormImportData').modal("hide");
+          $('#table-data').DataTable().ajax.reload();
         }
+
+      },
+      error: function(xhr, status, error) {
+        Toast.fire({
+          icon: 'error',
+          title: `file tidak dapat diupload, silakan pilih file lain`
+        })
+
+        // Sembunyikan indikator loading
+        $('#loadingIndicator').hide();
+        $("#btnUpload").show();
+      }
     });
   }
 
@@ -873,6 +874,7 @@
     let fk_id_agent_closing = $(`${form} #fk_id_agent_closing`).val();
     let tgl_closing = $(`${form} #tgl_closing`).val();
     let nominal = $(`${form} #nominal`).val();
+    let harga_produk = $(`${form} #harga_produk`).val();
     let keterangan = $(`${form} #keterangan`).val();
     let bukti_pembayaran = $(`${form} #bukti_pembayaran`)[0].files;
 
@@ -885,11 +887,12 @@
     data.append('fk_id_agent_closing', fk_id_agent_closing);
     data.append('tgl_closing', tgl_closing);
     data.append('nominal', nominal);
+    data.append('harga_produk', harga_produk);
     data.append('keterangan', keterangan);
     data.append('bukti_pembayaran', bukti_pembayaran[0]);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataPenjualanProduk",
+      url: "<?= base_url() ?>/penjualan/saveDataPenjualanProduk",
       type: "POST",
       data: data,
       dataType: "json",
@@ -897,7 +900,7 @@
       processData: false,
       cache: false,
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -908,27 +911,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -944,6 +947,7 @@
     let fk_id_travel = $(`${form} #fk_id_travel`).val();
     let fk_id_agent_closing = $(`${form} #fk_id_agent_closing`).val();
     let tgl_closing = $(`${form} #tgl_closing`).val();
+    let harga_produk = $(`${form} #harga_produk`).val();
 
     let data = {
       'pk_id_penjualan_produk': pk_id_penjualan_produk,
@@ -952,15 +956,16 @@
       'fk_id_travel': fk_id_travel,
       'fk_id_agent_closing': fk_id_agent_closing,
       'tgl_closing': tgl_closing,
+      'harga_produk': harga_produk,
     }
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataEditPenjualanProduk",
+      url: "<?= base_url() ?>/penjualan/saveDataEditPenjualanProduk",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -971,27 +976,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -999,12 +1004,12 @@
 
   function editData($pk_id_penjualan_produk) {
     let form = '#formEditData'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/getDataPenjualanProduk/" + $pk_id_penjualan_produk,
+      url: "<?= base_url() ?>/penjualan/getDataPenjualanProduk/" + $pk_id_penjualan_produk,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -1034,7 +1039,7 @@
           $(`${form} #fk_id_produk`).html(html);
 
           // $(`${form} #fk_id_produk`).val(response.fk_id_produk);
-          $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
+          $(`${form} #harga_produk`).val(response.harga_produk);
           $(`${form} #fk_id_travel`).val((response.fk_id_travel === 0) ? NULL : response.fk_id_travel);
           $(`${form} #tgl_closing`).val(response.tgl_closing);
 
@@ -1056,12 +1061,12 @@
 
   function duplicateData($pk_id_penjualan_produk) {
     let form = '#formData'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/getDataPenjualanProduk/" + $pk_id_penjualan_produk,
+      url: "<?= base_url() ?>/penjualan/getDataPenjualanProduk/" + $pk_id_penjualan_produk,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -1093,14 +1098,14 @@
     });
   }
 
-  function getCustomer(form){
+  function getCustomer(form) {
     // let form = form;
     let customer = $(`${form} #customer`).val();
     let fk_id_agent_closing = $(`${form} #fk_id_agent_closing`).val();
 
-    if(customer != ''){
+    if (customer != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/getAllCustomer`,
+        url: `<?= base_url() ?>/penjualan/getAllCustomer`,
         type: "post",
         data: {
           nama_customer: customer,
@@ -1109,106 +1114,106 @@
         dataType: "json",
         success: function(response) {
           html = `<option value=''>Pilih Customer</option>`;
-  
+
           response.forEach(response => {
             html += `<option value='${response.pk_id_customer}'>${response.nama_customer}</option>`
           });
-  
+
           $(`${form} #fk_id_customer`).html(html)
         }
-  
+
       });
     }
 
   }
 
-  function generateDataCustomer(form){
+  function generateDataCustomer(form) {
     // let form = form;
     let fk_id_customer = $(`${form} #fk_id_customer`).val();
 
-    if(fk_id_customer != ''){
+    if (fk_id_customer != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/generateDataCustomer/${fk_id_customer}`,
+        url: `<?= base_url() ?>/penjualan/generateDataCustomer/${fk_id_customer}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           $(`${form} #nama_agent`).val(response.nama_agent);
           $(`${form} #nama_leader_agent`).val(response.nama_leader_agent);
         }
-  
+
       });
     }
 
   }
 
-  function getProduk(form){
+  function getProduk(form) {
     // let form = '#formData';
     let produk = $(`${form} #produk`).val();
 
-    if(produk != ''){
+    if (produk != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/getAllProduk/${produk}`,
+        url: `<?= base_url() ?>/penjualan/getAllProduk/${produk}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           html = `<option value=''>Pilih Produk</option>`;
-  
+
           response.forEach(response => {
             html += `<option value='${response.pk_id_produk}'>${response.nama_produk}</option>`
           });
-  
+
           $(`${form} #fk_id_produk`).html(html)
         }
-  
+
       });
     }
   }
 
-  function generateDataProduk(form){
+  function generateDataProduk(form) {
     // let form = '#formData';
     let fk_id_produk = $(`${form} #fk_id_produk`).val();
 
-    if(fk_id_produk != ''){
+    if (fk_id_produk != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/generateDataProduk/${fk_id_produk}`,
+        url: `<?= base_url() ?>/penjualan/generateDataProduk/${fk_id_produk}`,
         type: "get",
         dataType: "json",
         success: function(response) {
-          $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
+          $(`${form} #harga_produk`).val(response.harga_produk);
           $(`${form} #nominal`).val(response.harga_produk);
         }
-  
+
       });
     }
   }
 
-  function getAgent(form){
+  function getAgent(form) {
     // let form = '#formData';
     let agent = $(`${form} #agent`).val();
 
-    if(agent != ''){
+    if (agent != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/getAllAgent/${agent}`,
+        url: `<?= base_url() ?>/penjualan/getAllAgent/${agent}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           html = `<option value=''>Pilih Agent</option>`;
-  
+
           response.forEach(response => {
             html += `<option value='${response.pk_id_agent}'>${response.nama_agent}</option>`
           });
-  
+
           $(`${form} #fk_id_agent_closing`).html(html)
           $(`${form} #fk_id_agent`).html(html)
         }
-  
+
       });
     }
   }
 
-  function historyPembayaran(pk_id_penjualan_produk){
+  function historyPembayaran(pk_id_penjualan_produk) {
     $.ajax({
-      url: `<?= base_url()?>/penjualan/historyPembayaran/${pk_id_penjualan_produk}`,
+      url: `<?= base_url() ?>/penjualan/historyPembayaran/${pk_id_penjualan_produk}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -1233,7 +1238,7 @@
 
         $(`#formEditPembayaran #nominal`).val(response.penjualan.harga_produk - response.total_pembayaran);
 
-        if(response.penjualan.status == 'lunas'){
+        if (response.penjualan.status == 'lunas') {
           $(".btnModalFormPembayaran").hide();
         } else {
           $(".btnModalFormPembayaran").show();
@@ -1242,7 +1247,7 @@
         $("#DataPenjualan").html(html);
 
         html = ``;
-        if(response.pembayaran.length == 0){
+        if (response.pembayaran.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -1259,7 +1264,7 @@
                   <p class="text-sm text-dark"><b>Nominal</b> : ${formatRupiah(pembayaran.nominal)}</p>
                   <p class="text-sm text-dark"><b>Keterangan</b> : ${pembayaran.keterangan}</p>
                   <div class="d-flex justify-content-end">
-                    <a href="<?= base_url()?>/penjualan/kuitansiproduk/${pembayaran.pk_id_pembayaran_penjualan_produk}" target="_blank" class="me-1">
+                    <a href="<?= base_url() ?>/penjualan/kuitansiproduk/${pembayaran.pk_id_pembayaran_penjualan_produk}" target="_blank" class="me-1">
                       <span class="badge bg-gradient-success">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
                           <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
@@ -1292,17 +1297,17 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function historyKomisi(pk_id_penjualan_produk){
+  function historyKomisi(pk_id_penjualan_produk) {
     $.ajax({
-      url: `<?= base_url()?>/penjualan/historyKomisi/${pk_id_penjualan_produk}`,
+      url: `<?= base_url() ?>/penjualan/historyKomisi/${pk_id_penjualan_produk}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -1323,7 +1328,7 @@
         $("#DataPenjualanKomisi").html(html);
 
         html = ``;
-        if(response.komisi.length == 0){
+        if (response.komisi.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -1365,15 +1370,15 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function getDataPembayaran(pk_id_pembayaran_penjualan_produk){
+  function getDataPembayaran(pk_id_pembayaran_penjualan_produk) {
     let form = '#formEditPembayaran';
 
     bersihkanForm(form);
@@ -1383,30 +1388,31 @@
     $("#modalFormEditPembayaranLabel").html('Edit Pembayaran');
 
     $.ajax({
-      url: `<?= base_url()?>/penjualan/getDataPembayaranPenjualanProduk/${pk_id_pembayaran_penjualan_produk}`,
+      url: `<?= base_url() ?>/penjualan/getDataPembayaranPenjualanProduk/${pk_id_pembayaran_penjualan_produk}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListPembayaranData").modal('hide');
 
         $(`${form} #pk_id_pembayaran_penjualan_produk`).val(response.pk_id_pembayaran_penjualan_produk);
         $(`${form} #tgl_pembayaran`).val(response.tgl_pembayaran);
         $(`${form} #nominal`).val(response.nominal);
         $(`${form} #keterangan`).val(response.keterangan);
-        
+
         $(`#image-cover`).show();
         $(`#image-cover`).html(
           `<img src="../public/assets/bukti-pembayaran/${response.bukti_pembayaran}" alt="" class="img-fluid" width="100%">`
         )
 
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
+
   }
 
   function saveDataPembayaran(e) {
@@ -1430,7 +1436,7 @@
     data.append('bukti_pembayaran', bukti_pembayaran[0]);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataPembayaranPenjualanProduk",
+      url: "<?= base_url() ?>/penjualan/saveDataPembayaranPenjualanProduk",
       type: "POST",
       data: data,
       dataType: "json",
@@ -1438,7 +1444,7 @@
       processData: false,
       cache: false,
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -1449,16 +1455,16 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditPembayaran').modal("hide");
@@ -1466,12 +1472,12 @@
 
           historyPembayaran(fk_id_penjualan_produk)
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -1489,23 +1495,23 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/penjualan/hapusDataPembayaran/" + pk_id_pembayaran_penjualan_produk,
+          url: "<?= base_url() ?>/penjualan/hapusDataPembayaran/" + pk_id_pembayaran_penjualan_produk,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             historyPembayaran(pk_id_penjualan_produk)
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -1513,7 +1519,7 @@
     })
   }
 
-  function getDataKomisi(pk_id_komisi_penjualan_produk){
+  function getDataKomisi(pk_id_komisi_penjualan_produk) {
     let form = '#formEditKomisi';
 
     bersihkanForm(form);
@@ -1523,32 +1529,33 @@
     $("#modalFormEditKomisiLabel").html('Edit Komisi');
 
     $.ajax({
-      url: `<?= base_url()?>/penjualan/getDataKomisiPenjualanProduk/${pk_id_komisi_penjualan_produk}`,
+      url: `<?= base_url() ?>/penjualan/getDataKomisiPenjualanProduk/${pk_id_komisi_penjualan_produk}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListKomisiData").modal('hide');
 
         $(`${form} #pk_id_komisi_penjualan_produk`).val(response.pk_id_komisi_penjualan_produk);
         $(`${form} #nominal`).val(response.nominal);
         $(`${form} #keterangan`).val(response.keterangan);
         $(`${form} #catatan`).val(response.catatan);
-        
+
         // Data Agent
         html = `
             <option value=''>Pilih Agent</option>
             <option value='${response.fk_id_agent}' selected>${response.nama_agent}</option>
           `
-          $(`${form} #fk_id_agent`).html(html);
+        $(`${form} #fk_id_agent`).html(html);
 
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
+
   }
 
   function saveDataKomisi(e) {
@@ -1573,12 +1580,12 @@
 
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataKomisiPenjualanProduk",
+      url: "<?= base_url() ?>/penjualan/saveDataKomisiPenjualanProduk",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -1589,16 +1596,16 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditKomisi').modal("hide");
@@ -1606,12 +1613,12 @@
 
           historyKomisi(fk_id_penjualan_produk)
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -1629,23 +1636,23 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/penjualan/hapusDataKomisi/" + pk_id_komisi_penjualan_produk,
+          url: "<?= base_url() ?>/penjualan/hapusDataKomisi/" + pk_id_komisi_penjualan_produk,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             historyKomisi(pk_id_penjualan_produk)
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -1665,22 +1672,22 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/penjualan/deletePenjualanProduk/" + pk_id_penjualan_produk,
+          url: "<?= base_url() ?>/penjualan/deletePenjualanProduk/" + pk_id_penjualan_produk,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -1700,7 +1707,7 @@
   //   }).then((result) => {
   //     if (result.isConfirmed) {
   //       $.ajax({
-  //         url: "<?= base_url()?>/penjualan/toAgent/" + pk_id_penjualan_produk,
+  //         url: "<?= base_url() ?>/penjualan/toAgent/" + pk_id_penjualan_produk,
   //         type: "get",
   //         dataType: "json",
   //         success: function(response) {
@@ -1710,7 +1717,7 @@
   //           })
 
   //           $('#table-data').DataTable().ajax.reload();
-            
+
   //         },
   //         error: function(xhr, status, error) {
   //           Toast.fire({
@@ -1723,7 +1730,7 @@
   //   })
   // }
 
-  function toAgent(pk_id_penjualan_produk, nama_customer){
+  function toAgent(pk_id_penjualan_produk, nama_customer) {
     Swal.fire({
       title: `Apa Anda yakin akan menjadikan ${nama_customer} sebagai agent?`,
       text: "Anda tidak akan dapat mengembalikan ini!",
@@ -1750,17 +1757,23 @@
       preConfirm: () => {
         const status = Swal.getPopup().querySelector('#area_status').value;
         const batch = Swal.getPopup().querySelector('#batch').value;
-        
+
         if (!status || !batch) {
           Swal.showValidationMessage(`Semua field harus diisi!`);
         }
-        
-        return { status, batch };
+
+        return {
+          status,
+          batch
+        };
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        const { status, batch } = result.value;
-        
+        const {
+          status,
+          batch
+        } = result.value;
+
         let data = {
           pk_id_penjualan_produk: pk_id_penjualan_produk,
           area_status: status,
@@ -1768,23 +1781,23 @@
         }
 
         $.ajax({
-          url: "<?= base_url()?>/penjualan/toAgent",
+          url: "<?= base_url() ?>/penjualan/toAgent",
           type: "post",
           dataType: "json",
           data: data,
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });

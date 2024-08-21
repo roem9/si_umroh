@@ -12,7 +12,8 @@ class Aprofile extends BaseController
     public $db;
     public $ses_pk_id_agent;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->agentModel = new AgentModel();
         $this->db = db_connect();
 
@@ -26,8 +27,8 @@ class Aprofile extends BaseController
 
         $data['profile'] = $this->agentModel->find($this->ses_pk_id_agent);
 
-        if($data['profile']['tipe_agent'] != 'leader agent'){
-            if($data['profile']['fk_id_leader_agent']){
+        if ($data['profile']['tipe_agent'] != 'leader agent') {
+            if ($data['profile']['fk_id_leader_agent']) {
                 $data['leader'] = $this->agentModel->find($data['profile']['fk_id_leader_agent']);
             }
 
@@ -103,13 +104,23 @@ class Aprofile extends BaseController
                 AND a.status != 'pending'
             ")->getRowArray();
 
+            // $data['penjualan_produk_leader_agent'] = $this->db->query("
+            //     SELECT
+            //         COUNT(*) as closing,
+            //         SUM(harga_produk) as omset
+            //     FROM penjualan_produk a
+            //     WHERE (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+            //     AND (a.fk_id_agent_closing = $this->ses_pk_id_agent AND a.fk_id_agent IS NULL)
+            //     AND a.status != 'pending'
+            // ")->getRowArray();
+
             $data['penjualan_produk_leader_agent'] = $this->db->query("
                 SELECT
                     COUNT(*) as closing,
                     SUM(harga_produk) as omset
                 FROM penjualan_produk a
                 WHERE (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
-                AND (a.fk_id_agent_closing = $this->ses_pk_id_agent AND a.fk_id_agent IS NULL)
+                AND (a.fk_id_agent_closing = $this->ses_pk_id_agent OR a.fk_id_agent = $this->ses_pk_id_agent)
                 AND a.status != 'pending'
             ")->getRowArray();
 
@@ -194,7 +205,8 @@ class Aprofile extends BaseController
         return view('agent_area/pages/profile', $data);
     }
 
-    public function ubahPassword(){
+    public function ubahPassword()
+    {
         $db = db_connect();
 
         $password = $this->request->getPost('password');
@@ -217,13 +229,13 @@ class Aprofile extends BaseController
             'username' => $this->request->getPost('username'),
         ];
 
-        if($password != '' || $confirm_password != ''){
-            if($password != $confirm_password){
+        if ($password != '' || $confirm_password != '') {
+            if ($password != $confirm_password) {
                 $response['error'] = [
                     "password" => 'password tidak sama dengan konfirmasi password',
                     "confirm_password" => 'Konfirmasi password tidak sama dengan konfirmasi password',
                 ];
-    
+
                 return json_encode($response);
             }
 
@@ -243,7 +255,7 @@ class Aprofile extends BaseController
                 'is_unique' => 'username telah digunakan, gunakan username yang lain',
             ]);
 
-            if($this->agentModel->update($pk_id_agent, $data) === true){
+            if ($this->agentModel->update($pk_id_agent, $data) === true) {
                 session()->set('username', $data['username']);
 
                 $response = [

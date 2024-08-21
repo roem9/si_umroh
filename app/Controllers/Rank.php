@@ -9,7 +9,8 @@ class Rank extends BaseController
 {
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = db_connect();
     }
 
@@ -95,7 +96,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE ClosingProduk AS
                 SELECT
@@ -192,7 +193,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -207,7 +208,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE PIProduk
                 SELECT
@@ -236,22 +237,36 @@ class Rank extends BaseController
                 AND a.fk_id_agent IS NULL
                 GROUP BY fk_id_leader_agent;
 
+                CREATE TEMPORARY TABLE CAProduk
+                SELECT
+                    fk_id_agent,
+                    COUNT(*) as closing_agent,
+                    SUM(komisi_agent) as komisi_leader,
+                    SUM(harga_produk) as total_omset
+                FROM penjualan_produk a
+                WHERE (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+                AND a.status != 'pending'
+                AND (a.tgl_closing BETWEEN '$tgl_awal' AND '$tgl_akhir')
+                AND a.fk_id_agent IS NOT NULL AND fk_id_leader_agent IS NULL
+                GROUP BY fk_id_agent;
+
                 CREATE TEMPORARY TABLE ClosingAgent AS
                 SELECT
                     a.pk_id_agent,
                     a.nama_agent,
                     COALESCE(b.closing_agent, 0) as closing_agent,
-                    COALESCE(d.closing_agent, 0) as closing_leader_agent,
-                    COALESCE(b.closing_agent, 0) + COALESCE(d.closing_agent, 0) as total_closing,
+                    COALESCE(d.closing_agent,0) + COALESCE(e.closing_agent, 0) as closing_leader_agent,
+                    COALESCE(b.closing_agent, 0) + COALESCE(d.closing_agent, 0) + COALESCE(e.closing_agent, 0) as total_closing,
                     COALESCE(b.passive_income, 0) as passive_income,
-                    COALESCE(d.komisi_leader, 0) as komisi,
-                    COALESCE(b.passive_income, 0) + COALESCE(d.komisi_leader, 0) as total_komisi,
-                    COALESCE(b.total_omset, 0) + COALESCE(d.total_omset, 0) as total_omset,
+                    COALESCE(d.komisi_leader, 0) + COALESCE(e.komisi_leader, 0) as komisi,
+                    COALESCE(b.passive_income, 0) + COALESCE(d.komisi_leader, 0) + COALESCE(e.komisi_leader, 0) as total_komisi,
+                    COALESCE(b.total_omset, 0) + COALESCE(d.total_omset, 0) + COALESCE(e.total_omset, 0) as total_omset,
                     a.no_wa,
                     a.kota_kabupaten
                 FROM agent a
                 LEFT JOIN PIProduk b ON a.pk_id_agent = b.fk_id_leader_agent
                 LEFT JOIN CProduk d ON a.pk_id_agent = d.fk_id_leader_agent
+                LEFT JOIN CAProduk e ON a.pk_id_agent = e.fk_id_agent
                 HAVING closing_agent + closing_leader_agent > 0;
             ";
         } else {
@@ -281,22 +296,35 @@ class Rank extends BaseController
                 AND a.fk_id_agent IS NULL
                 GROUP BY fk_id_leader_agent;
 
+                CREATE TEMPORARY TABLE CAProduk
+                SELECT
+                    fk_id_agent,
+                    COUNT(*) as closing_agent,
+                    SUM(komisi_agent) as komisi_leader,
+                    SUM(harga_produk) as total_omset
+                FROM penjualan_produk a
+                WHERE (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
+                AND a.status != 'pending'
+                AND a.fk_id_agent IS NOT NULL AND fk_id_leader_agent IS NULL
+                GROUP BY fk_id_agent;
+
                 CREATE TEMPORARY TABLE ClosingAgent AS
                 SELECT
                     a.pk_id_agent,
                     a.nama_agent,
                     COALESCE(b.closing_agent, 0) as closing_agent,
-                    COALESCE(d.closing_agent, 0) as closing_leader_agent,
-                    COALESCE(b.closing_agent, 0) + COALESCE(d.closing_agent, 0) as total_closing,
+                    COALESCE(d.closing_agent,0) + COALESCE(e.closing_agent, 0) as closing_leader_agent,
+                    COALESCE(b.closing_agent, 0) + COALESCE(d.closing_agent, 0) + COALESCE(e.closing_agent, 0) as total_closing,
                     COALESCE(b.passive_income, 0) as passive_income,
-                    COALESCE(d.komisi_leader, 0) as komisi,
-                    COALESCE(b.passive_income, 0) + COALESCE(d.komisi_leader, 0) as total_komisi,
-                    COALESCE(b.total_omset, 0) + COALESCE(d.total_omset, 0) as total_omset,
+                    COALESCE(d.komisi_leader, 0) + COALESCE(e.komisi_leader, 0) as komisi,
+                    COALESCE(b.passive_income, 0) + COALESCE(d.komisi_leader, 0) + COALESCE(e.komisi_leader, 0) as total_komisi,
+                    COALESCE(b.total_omset, 0) + COALESCE(d.total_omset, 0) + COALESCE(e.total_omset, 0) as total_omset,
                     a.no_wa,
                     a.kota_kabupaten
                 FROM agent a
                 LEFT JOIN PIProduk b ON a.pk_id_agent = b.fk_id_leader_agent
                 LEFT JOIN CProduk d ON a.pk_id_agent = d.fk_id_leader_agent
+                LEFT JOIN CAProduk e ON a.pk_id_agent = e.fk_id_agent
                 HAVING closing_agent + closing_leader_agent > 0;
             ";
         }
@@ -304,7 +332,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -319,7 +347,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE ClosingProduk AS
                 SELECT
@@ -400,7 +428,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -415,7 +443,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE ClosingProduk AS
                 SELECT
@@ -506,7 +534,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -521,7 +549,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE ClosingProduk AS
                 SELECT
@@ -632,7 +660,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -647,7 +675,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE ClosingProduk AS
                 SELECT
@@ -758,7 +786,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -773,7 +801,7 @@ class Rank extends BaseController
         $tgl_awal = $this->request->getGet('tgl_awal');
         $tgl_akhir = $this->request->getGet('tgl_akhir');
 
-        if($tgl_awal && $tgl_akhir){
+        if ($tgl_awal && $tgl_akhir) {
             $query = "
                 CREATE TEMPORARY TABLE ClosingProduk AS
                 SELECT
@@ -884,7 +912,7 @@ class Rank extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
