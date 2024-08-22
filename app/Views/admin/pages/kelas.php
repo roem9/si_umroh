@@ -9,7 +9,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -55,6 +55,11 @@
         </div>
         <form id="formTambahKelas">
           <input type="hidden" name="pk_id_kelas" id="pk_id_kelas">
+          <div class="col-12 mb-3">
+            <label>Urutan</label>
+            <input name="urutan" id="urutan" class="multisteps-form__input form-control" type="text" placeholder="urutan">
+            <div class="invalid-feedback" data-id="urutan"></div>
+          </div>
           <div class="col-12 mb-3">
             <label>Nama Kelas</label>
             <input name="nama_kelas" id="nama_kelas" class="multisteps-form__input form-control" type="text" placeholder="nama kelas">
@@ -129,7 +134,7 @@
 
   function showModalFormKelas() {
     let form = '#formTambahKelas';
-    
+
     $('#modalFormKelasLabel').html('Tambah Kelas');
 
     bersihkanForm(form);
@@ -142,7 +147,7 @@
   // show data from database
   function showData(nama_kelas) {
     let web = "";
-    (nama_kelas == "") ? web = '<?= base_url()?>/kelas/getAllKelas': web = '<?= base_url()?>/kelas/getListKelas/' + nama_kelas
+    (nama_kelas == "") ? web = '<?= base_url() ?>/kelas/getAllKelas': web = '<?= base_url() ?>/kelas/getListKelas/' + nama_kelas
     $.ajax({
       url: web,
       type: "GET",
@@ -165,6 +170,7 @@
 
         for (var i = 0; i < data.length; i++) {
           obj = data[i];
+
           html += `
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card bg-custom-blue">
@@ -224,6 +230,14 @@
                     </svg>
                     ${obj.akses_kelas} 
                   </p>
+                  
+                  <p class="text-sm mt-3 text-light"> 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list-ol" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5"/>
+                      <path d="M1.713 11.865v-.474H2c.217 0 .363-.137.363-.317 0-.185-.158-.31-.361-.31-.223 0-.367.152-.373.31h-.59c.016-.467.373-.787.986-.787.588-.002.954.291.957.703a.595.595 0 0 1-.492.594v.033a.615.615 0 0 1 .569.631c.003.533-.502.8-1.051.8-.656 0-1-.37-1.008-.794h.582c.008.178.186.306.422.309.254 0 .424-.145.422-.35-.002-.195-.155-.348-.414-.348h-.3zm-.004-4.699h-.604v-.035c0-.408.295-.844.958-.844.583 0 .96.326.96.756 0 .389-.257.617-.476.848l-.537.572v.03h1.054V9H1.143v-.395l.957-.99c.138-.142.293-.304.293-.508 0-.18-.147-.32-.342-.32a.33.33 0 0 0-.342.338zM2.564 5h-.635V2.924h-.031l-.598.42v-.567l.629-.443h.635z"/>
+                    </svg>
+                    ${obj.urutan} 
+                  </p>
                 </div>
               </div>
             </div>`
@@ -243,10 +257,11 @@
 
   function tambahKelas(e) {
     let form = '#formTambahKelas';
-    
+
     e.preventDefault();
 
     let pk_id_kelas = $(`#formTambahKelas #pk_id_kelas`).val();
+    let urutan = $(`#formTambahKelas #urutan`).val();
     let nama_kelas = $(`#formTambahKelas #nama_kelas`).val();
     let nama_mentor = $(`#formTambahKelas #nama_mentor`).val();
     let no_wa = $(`#formTambahKelas #no_wa`).val();
@@ -260,6 +275,7 @@
     // Append data 
     data.append('pk_id_kelas', pk_id_kelas);
     data.append('nama_kelas', nama_kelas);
+    data.append('urutan', urutan);
     data.append('nama_mentor', nama_mentor);
     data.append('no_wa', no_wa);
     data.append('deskripsi', deskripsi);
@@ -268,7 +284,7 @@
     data.append('gambar_sampul', gambar_sampul[0]);
 
     $.ajax({
-      url: "<?= base_url()?>/kelas/simpan",
+      url: "<?= base_url() ?>/kelas/simpan",
       type: "POST",
       contentType: false,
       processData: false,
@@ -276,7 +292,7 @@
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           $('html, .modal-body').animate({
@@ -285,28 +301,28 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
           showFormError();
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormKelas').modal("hide");
           showData("");
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -314,12 +330,12 @@
 
   function editKelas($id) {
     let form = '#formTambahKelas'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/kelas/getKelas/" + $id,
+      url: "<?= base_url() ?>/kelas/getKelas/" + $id,
       type: "get",
       success: function(hasil) {
         var obj = $.parseJSON(hasil);
@@ -332,6 +348,7 @@
 
           $(`#formTambahKelas #pk_id_kelas`).val(obj.pk_id_kelas);
           $(`#formTambahKelas #nama_kelas`).val(obj.nama_kelas);
+          $(`#formTambahKelas #urutan`).val(obj.urutan);
           $(`#formTambahKelas #nama_mentor`).val(obj.nama_mentor);
           $(`#formTambahKelas #no_wa`).val(obj.no_wa);
           $(`#formTambahKelas #deskripsi`).val(obj.deskripsi);
@@ -349,22 +366,22 @@
 
   function duplicateKelas($id) {
     $.ajax({
-      url: "<?= base_url()?>/kelas/duplicateKelas/" + $id,
+      url: "<?= base_url() ?>/kelas/duplicateKelas/" + $id,
       type: "get",
       dataType: "json",
       success: function(response) {
-          Toast.fire({
-              icon: response.status,
-              title: response.message
-          })
+        Toast.fire({
+          icon: response.status,
+          title: response.message
+        })
 
-          showData("");
+        showData("");
       },
       error: function(xhr, status, error) {
-          Toast.fire({
-              icon: 'error',
-              title: `Gagal duplikat kelas: ${error}`
-          })
+        Toast.fire({
+          icon: 'error',
+          title: `Gagal duplikat kelas: ${error}`
+        })
       }
 
     });
@@ -382,7 +399,7 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/kelas/hapusKelas/" + id,
+          url: "<?= base_url() ?>/kelas/hapusKelas/" + id,
           type: "get",
           success: function(hasil) {
             if (result.isConfirmed) {

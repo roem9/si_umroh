@@ -20,7 +20,8 @@ class Akelas extends BaseController
     public $ses_pk_id_agent;
     public $ses_tipe_agent;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->kelasModel = new KelasModel();
         $this->agentModel = new AgentModel();
         $this->pertemuanKelasModel = new PertemuanKelasModel();
@@ -54,11 +55,11 @@ class Akelas extends BaseController
         $data['pertemuanProgram'] = [];
         foreach ($pertemuanProgram as $i => $pertemuanProgram) {
             $data['pertemuanProgram'][$i] = $pertemuanProgram;
-            $data['pertemuanProgram'][$i]['linkMateri'] = base_url()."/agentarea/materi/" . md5($pertemuanProgram['pk_id_pertemuan_kelas']);
+            $data['pertemuanProgram'][$i]['linkMateri'] = base_url() . "/agentarea/materi/" . md5($pertemuanProgram['pk_id_pertemuan_kelas']);
         }
 
         $data['sidebar'] = "kelas";
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/agentarea/kelas'>Kelas</a>", $kelas['nama_kelas']];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/agentarea/kelas'>Kelas</a>", $kelas['nama_kelas']];
         $data['title'] = $kelas['nama_kelas'];
         $data['kelas'] = $kelas;
 
@@ -92,7 +93,7 @@ class Akelas extends BaseController
                 $data['materi'][$i]['icon'] = 'ni-single-copy-04 text-gold-custom';
                 $data['materi'][$i]['data'] = '
                     <h6 class="text-dark text-sm font-weight-bold mb-2">File</h6>
-                    <a href=\'javascript:void(0)\' class=\'btnPdf\' data-title=\'' . $materi['data'] . '\' data-url=\''.base_url().'/public/assets/materi-pertemuan/file/' . $materi['data'] . '\' data-bs-toggle="modal" data-bs-target="#pdfModal">
+                    <a href=\'javascript:void(0)\' class=\'btnPdf\' data-title=\'' . $materi['data'] . '\' data-url=\'' . base_url() . '/public/assets/materi-pertemuan/file/' . $materi['data'] . '\' data-bs-toggle="modal" data-bs-target="#pdfModal">
                         <span class="badge badge-sm bg-gradient-secondary">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
                             <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293V6.5z" />
@@ -102,7 +103,7 @@ class Akelas extends BaseController
                         </span>
                     </a>
                     <br>
-                    <a class="btn btn-sm bg-gold-custom mt-2" href="'. base_url() .'/public/assets/materi-pertemuan/file/' . $materi['data'] . '" download="' . $materi['data'] . '">Download</a>
+                    <a class="btn btn-sm bg-gold-custom mt-2" href="' . base_url() . '/public/assets/materi-pertemuan/file/' . $materi['data'] . '" download="' . $materi['data'] . '">Download</a>
                     ';
             } else if ($materi['item'] == 'text') {
                 $data['materi'][$i]['icon'] = 'ni-caps-small text-gold-custom';
@@ -114,12 +115,12 @@ class Akelas extends BaseController
                   <source src="' . base_url() . '/public/assets/materi-pertemuan/audio/' . $materi['data'] . '" type="audio/mpeg">
                 </audio>
                 <br>
-                <a class="btn btn-sm bg-gold-custom mt-2" href="'. base_url() .'/public/assets/materi-pertemuan/audio/' . $materi['data'] . '" download="' . $materi['data'] . '">Download</a>
+                <a class="btn btn-sm bg-gold-custom mt-2" href="' . base_url() . '/public/assets/materi-pertemuan/audio/' . $materi['data'] . '" download="' . $materi['data'] . '">Download</a>
                 ';
             } else if ($materi['item'] == 'image') {
                 $data['materi'][$i]['icon'] = 'ni-image text-gold-custom';
                 $data['materi'][$i]['data'] = '<h6 class="text-dark text-sm font-weight-bold mb-2">Gambar</h6>
-                <a href=\'javascript:void(0)\' class=\'btnImage\' data-title=\''.$materi['data'].'\' data-url=\''.base_url().'/public/assets/materi-pertemuan/img/'.$materi['data'].'\' data-bs-toggle="modal" data-bs-target="#imageModal">
+                <a href=\'javascript:void(0)\' class=\'btnImage\' data-title=\'' . $materi['data'] . '\' data-url=\'' . base_url() . '/public/assets/materi-pertemuan/img/' . $materi['data'] . '\' data-bs-toggle="modal" data-bs-target="#imageModal">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="ratio ratio-1x1">
@@ -129,7 +130,7 @@ class Akelas extends BaseController
                     </div>
                 </a>
                 <br>
-                <a class="btn btn-sm bg-gold-custom mt-2" href="'. base_url() .'/public/assets/materi-pertemuan/img/' . $materi['data'] . '" download="' . $materi['data'] . '">Download</a>
+                <a class="btn btn-sm bg-gold-custom mt-2" href="' . base_url() . '/public/assets/materi-pertemuan/img/' . $materi['data'] . '" download="' . $materi['data'] . '">Download</a>
                 ';
             }
         }
@@ -143,13 +144,13 @@ class Akelas extends BaseController
 
         $materi_pertemuan_member['pertemuan_terakhir'] = 'tidak';
 
-        if($pertemuanTerakhir['pk_id_pertemuan_kelas'] == $pertemuan['pk_id_pertemuan_kelas']){
+        if ($pertemuanTerakhir['pk_id_pertemuan_kelas'] == $pertemuan['pk_id_pertemuan_kelas']) {
             $materi_pertemuan_member['pertemuan_terakhir'] = 'ya';
         }
 
 
         $i++;
-        if($materi_pertemuan_member['pertemuan_terakhir'] == 'ya'){
+        if ($materi_pertemuan_member['pertemuan_terakhir'] == 'ya') {
             $data['materi'][$i]['icon'] = 'ni-check-bold text-success';
             $data['materi'][$i]['data'] = '<h6 class="text-dark text-sm font-weight-bold mb-2">Selesai</h6><div class="text-dark">
                     <p>Selamat, Anda telah berhasil menyelesaikan kelas ini!.</p>
@@ -163,7 +164,7 @@ class Akelas extends BaseController
             AND (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
             ORDER BY urutan
         ")->getResultArray();
-        
+
         $arrNavigasi = [];
         foreach ($navigasiPertemuan as $i =>  $navigasiPertemuan) {
             $arrNavigasi[$i] = $navigasiPertemuan['pk_id_pertemuan_kelas'];
@@ -172,15 +173,15 @@ class Akelas extends BaseController
         // var_dump($arrNavigasi);
         $result = array_search($pertemuan['pk_id_pertemuan_kelas'], $arrNavigasi);
         $data['navigasi'] = [];
-        if(isset($arrNavigasi[$result - 1]) && isset($arrNavigasi[$result + 1])){
+        if (isset($arrNavigasi[$result - 1]) && isset($arrNavigasi[$result + 1])) {
             $data['navigasi']['status'] = "lengkap";
             $data['navigasi']['before'] = "agentarea/materi/" . md5($arrNavigasi[$result - 1]);
             $data['navigasi']['next'] = "agentarea/materi/" . md5($arrNavigasi[$result + 1]);
-        } else if(isset($arrNavigasi[$result - 1])){
+        } else if (isset($arrNavigasi[$result - 1])) {
             $data['navigasi']['status'] = "before";
             $data['navigasi']['before'] = "agentarea/materi/" . md5($arrNavigasi[$result - 1]);
             $data['navigasi']['next'] = "";
-        } else if(isset($arrNavigasi[$result + 1])){
+        } else if (isset($arrNavigasi[$result + 1])) {
             $data['navigasi']['status'] = "next";
             $data['navigasi']['before'] = "";
             $data['navigasi']['next'] = "agentarea/materi/" . md5($arrNavigasi[$result + 1]);
@@ -189,7 +190,7 @@ class Akelas extends BaseController
 
 
         $data['sidebar'] = "kelas";
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/agentarea/kelas/" . md5($kelas['pk_id_kelas']) . "'>{$kelas['nama_kelas']}</a>", "{$pertemuan['nama_pertemuan']}"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/agentarea/kelas/" . md5($kelas['pk_id_kelas']) . "'>{$kelas['nama_kelas']}</a>", "{$pertemuan['nama_pertemuan']}"];
         $data['title'] = $pertemuan['nama_pertemuan'];
         // $data['materi'] = $materi;
         $data['deskripsi'] = "Menu ini berisikan list materi yang ada dalam {$pertemuan['nama_pertemuan']} kelas {$kelas['nama_kelas']}";
@@ -234,7 +235,7 @@ class Akelas extends BaseController
             FROM kelas a
             where (a.deleted_at = '0000-00-00 00:00:00' OR a.deleted_at IS NULL)
             AND (a.show_kelas LIKE '%$this->ses_tipe_agent%' OR a.show_kelas = 'semua agent')
-            ORDER BY akses DESC
+            ORDER BY a.urutan asc
         ")->getResultArray();
 
         $data = [];
@@ -248,7 +249,8 @@ class Akelas extends BaseController
         return json_encode($data);
     }
 
-    function getMessage(){
+    function getMessage()
+    {
         $no_wa = $this->db->query("
             SELECT
                 *

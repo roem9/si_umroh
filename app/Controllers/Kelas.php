@@ -16,7 +16,8 @@ class Kelas extends BaseController
     public $materiPertemuanModel;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->kelasModel = new KelasModel();
         $this->pertemuanKelasModel = new PertemuanKelasModel();
         $this->materiPertemuanModel = new MateriPertemuanModel();
@@ -42,7 +43,7 @@ class Kelas extends BaseController
 
         $data['sidebar'] = "kelas";
         $data['title'] = "Design Kelas $kelas[nama_kelas]";
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/kelas'>Kelas</a>"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/kelas'>Kelas</a>"];
         $data['searchButton'] = false;
         $data['deskripsi'] = "Menu untuk mengelola materi kelas $kelas[nama_kelas]";
         $data['pk_id_kelas'] = $pk_id_kelas;
@@ -69,7 +70,7 @@ class Kelas extends BaseController
 
         $data['sidebar'] = "kelas";
         $data['title'] = "Design Materi Kelas $pertemuan[nama_pertemuan]";
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/kelas'>Kelas</a>", "<a class='opacity-5 text-light' href='".base_url()."/kelas/designKelas/$kelas[pk_id_kelas]'>$kelas[nama_kelas]</a>"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/kelas'>Kelas</a>", "<a class='opacity-5 text-light' href='" . base_url() . "/kelas/designKelas/$kelas[pk_id_kelas]'>$kelas[nama_kelas]</a>"];
         $data['searchButton'] = false;
         $data['deskripsi'] = "Menu untuk mengelola materi $pertemuan[nama_pertemuan]";
         $data['pk_id_pertemuan_kelas'] = $pk_id_pertemuan_kelas;
@@ -97,10 +98,11 @@ class Kelas extends BaseController
                 nama_kelas,
                 deskripsi,
                 gambar_sampul,
-                akses_kelas
+                akses_kelas,
+                urutan
             FROM kelas 
             WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
-            ORDER BY nama_kelas
+            ORDER BY urutan
         ")->getResult();
 
         return json_encode($data);
@@ -115,7 +117,8 @@ class Kelas extends BaseController
                 , nama_kelas
                 , deskripsi
                 , gambar_sampul
-                FROM kelas WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL) AND nama_kelas LIKE '%$nama_kelas%' ORDER BY nama_kelas")->getResult();
+                , urutan
+                FROM kelas WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL) AND nama_kelas LIKE '%$nama_kelas%' ORDER BY urutan")->getResult();
             return json_encode($data);
         } else {
             $data = $this->db->query("
@@ -124,8 +127,9 @@ class Kelas extends BaseController
                     nama_kelas, 
                     deskripsi, 
                     gambar_sampul,
-                    akses_kelas
-                FROM kelas WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL) ORDER BY nama_kelas
+                    akses_kelas,
+                    urutan
+                FROM kelas WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL) ORDER BY urutan
             ")->getResult();
             return json_encode($data);
         }
@@ -148,12 +152,14 @@ class Kelas extends BaseController
         $gambar_sampul = $this->request->getFile('gambar_sampul');
         $akses_kelas = $this->request->getPost('akses_kelas');
         $show_kelas = $this->request->getPost('show_kelas');
+        $urutan = $this->request->getPost('urutan');
 
         $data = [
             'nama_kelas' => $nama_kelas,
             'deskripsi' => $deskripsi,
             'akses_kelas' => $akses_kelas,
             'show_kelas' => $show_kelas,
+            'urutan' => $urutan,
             'nama_mentor' => $nama_mentor,
             'no_wa' => $no_wa,
         ];
@@ -172,18 +178,18 @@ class Kelas extends BaseController
                     ]
                 ];
 
-                if($this->validate($rules)){
+                if ($this->validate($rules)) {
                     if ($gambar_sampul->isValid() && !$gambar_sampul->hasMoved()) {
                         // Get file name and extension
                         // $name = $file->getName();
                         // $ext = $file->getClientExtension();
-        
+
                         // Get random file name
                         $newName = $gambar_sampul->getRandomName();
-                        if($gambar_sampul->move('public/assets/img-kelas', $newName) ===  true){
+                        if ($gambar_sampul->move('public/assets/img-kelas', $newName) ===  true) {
                             $data['gambar_sampul'] = $newName;
-            
-                            if($this->kelasModel->update($pk_id_kelas, $data) === true){
+
+                            if ($this->kelasModel->update($pk_id_kelas, $data) === true) {
                                 $response = [
                                     'status' => 'success',
                                     'message' => 'Berhasil mengubah data kelas'
@@ -212,7 +218,7 @@ class Kelas extends BaseController
                     ];
                 }
             } else {
-                if($this->kelasModel->update($pk_id_kelas, $data) === true){
+                if ($this->kelasModel->update($pk_id_kelas, $data) === true) {
                     $response = [
                         'status' => 'success',
                         'message' => 'Berhasil mengubah data kelas'
@@ -238,7 +244,7 @@ class Kelas extends BaseController
             // var_dump('cek');
             // exit();
 
-            if($this->validate($rules)){
+            if ($this->validate($rules)) {
                 if ($gambar_sampul->isValid() && !$gambar_sampul->hasMoved()) {
                     // Get file name and extension
                     // $name = $gambar_sampul->getName();
@@ -248,10 +254,10 @@ class Kelas extends BaseController
                     $newName = $gambar_sampul->getRandomName();
 
                     // Store file in public/uploads/ folder
-                    if($gambar_sampul->move('public/assets/img-kelas', $newName)){
+                    if ($gambar_sampul->move('public/assets/img-kelas', $newName)) {
                         $data['gambar_sampul'] = $newName;
 
-                        if($this->kelasModel->save($data) === true){
+                        if ($this->kelasModel->save($data) === true) {
                             $response = [
                                 'status' => 'success',
                                 'message' => 'Berhasil menambahkan data kelas'
@@ -288,7 +294,7 @@ class Kelas extends BaseController
     {
         // $model = new KelasModel();
         // $model->update($id, ["hapus" => 1]);
-        if($this->kelasModel->delete($pk_id_kelas) === true){
+        if ($this->kelasModel->delete($pk_id_kelas) === true) {
             $response = [
                 "status" => 'success',
                 "message" => 'Berhasil menghapus kelas'
@@ -307,7 +313,7 @@ class Kelas extends BaseController
     {
         $db = db_connect();
         $model = new KelasModel();
-        
+
         $dataCopyKelas = $db->query("
             SELECT
                 *
@@ -360,11 +366,10 @@ class Kelas extends BaseController
 
             foreach ($dataMateri as $data_materi) {
                 $data_materi['fk_id_pertemuan_kelas'] = $lastIdPertemuan;
-    
+
                 $materiModel = new MateriPertemuanModel();
                 $materiModel->save($data_materi);
             }
-
         }
 
         $response = [
@@ -397,7 +402,7 @@ class Kelas extends BaseController
 
         $searchPertemuan = $this->pertemuanKelasModel->find($pk_id_pertemuan_kelas);
         if ($searchPertemuan) {
-            if($this->pertemuanKelasModel->update($pk_id_pertemuan_kelas, $data) === true){
+            if ($this->pertemuanKelasModel->update($pk_id_pertemuan_kelas, $data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil mengubah data pertemuan'
@@ -408,7 +413,7 @@ class Kelas extends BaseController
                 ];
             }
         } else {
-            if($this->pertemuanKelasModel->save($data) === true){
+            if ($this->pertemuanKelasModel->save($data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambahkan data pertemuan'
@@ -431,7 +436,7 @@ class Kelas extends BaseController
 
     public function hapusPertemuanKelas($pk_id_pertemuan_kelas)
     {
-        if($this->pertemuanKelasModel->delete($pk_id_pertemuan_kelas) === true){
+        if ($this->pertemuanKelasModel->delete($pk_id_pertemuan_kelas) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil menghapus data'
@@ -554,7 +559,7 @@ class Kelas extends BaseController
             ];
         }
 
-        if($this->validate($rules)){
+        if ($this->validate($rules)) {
             $data = [
                 'fk_id_pertemuan_kelas' => $fk_id_pertemuan_kelas,
                 'item' => $item
@@ -564,7 +569,7 @@ class Kelas extends BaseController
                 $searchMateri = $this->materiPertemuanModel->find($pk_id_materi_pertemuan);
                 if ($searchMateri) {
                     $data['data'] = $this->request->getPost($item);
-                    if($this->materiPertemuanModel->update($pk_id_materi_pertemuan, $data) === true){
+                    if ($this->materiPertemuanModel->update($pk_id_materi_pertemuan, $data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil mengubah data item materi'
@@ -577,7 +582,7 @@ class Kelas extends BaseController
                 } else {
                     $data['data'] = $this->request->getPost($item);
 
-                    if($this->materiPertemuanModel->save($data) === true){
+                    if ($this->materiPertemuanModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan item materi'
@@ -591,11 +596,11 @@ class Kelas extends BaseController
             } else {
                 $move = 0;
 
-                if($file_audio){
+                if ($file_audio) {
                     $move = ($file_audio->isValid() && !$file_audio->hasMoved()) ? 1 : 0;
-                } else if ($file_file){
+                } else if ($file_file) {
                     $move = ($file_file->isValid() && !$file_file->hasMoved()) ? 1 : 0;
-                } else if ($file_image){
+                } else if ($file_image) {
                     $move = ($file_image->isValid() && !$file_image->hasMoved()) ? 1 : 0;
                 }
 
@@ -603,11 +608,11 @@ class Kelas extends BaseController
                     $nama_file = $this->request->getPost('nama_file');
                     // Get audio name and extension
                     // $name = $file->getName();
-                    if($file_audio){
+                    if ($file_audio) {
                         $ext = $file_audio->getClientExtension();
-                    } else if($file_file){
+                    } else if ($file_file) {
                         $ext = $file_file->getClientExtension();
-                    } else if($file_image){
+                    } else if ($file_image) {
                         $ext = $file_image->getClientExtension();
                     }
 
@@ -628,7 +633,7 @@ class Kelas extends BaseController
                         $file_image->move('public/assets/materi-pertemuan/img/', $newName, true);
                     }
                     $data['data'] = $newName;
-                    if($this->materiPertemuanModel->save($data) === true){
+                    if ($this->materiPertemuanModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan item materi'

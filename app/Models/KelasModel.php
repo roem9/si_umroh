@@ -15,13 +15,14 @@ class KelasModel extends Model
     protected $useSoftDeletes   = true;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'nama_kelas', 
-        'deskripsi', 
-        'gambar_sampul', 
+        'nama_kelas',
+        'deskripsi',
+        'gambar_sampul',
         'akses_kelas',
         'nama_mentor',
         'no_wa',
         'show_kelas',
+        'urutan',
     ];
 
     // Dates
@@ -35,6 +36,7 @@ class KelasModel extends Model
     protected $validationRules      = [
         'nama_kelas' => 'required',
         'deskripsi' => 'required',
+        'urutan' => 'required',
         // 'gambar_sampul' => 'required|uploaded[file]|max_size[file,1024]|ext_in[file,png,jpg,jpeg]',
         'akses_kelas' => 'required',
         'show_kelas' => 'required',
@@ -48,6 +50,9 @@ class KelasModel extends Model
         ],
         'deskripsi' => [
             'required' => 'Deskripsi program harus diisi'
+        ],
+        'urutan' => [
+            'required' => 'urutan harus diisi'
         ],
         // 'gambar_sampul' => [
         //     'required' => 'File gambar harus diupload',
