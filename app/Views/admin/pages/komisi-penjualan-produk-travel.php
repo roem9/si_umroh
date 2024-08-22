@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -67,45 +67,45 @@
       <div class="modal-body" id="formData">
         <input type="hidden" name="pk_id_komisi_penjualan_produk_travel" id="pk_id_komisi_penjualan_produk_travel">
         <div class="col-12 mb-3">
-            <label>Nama Customer</label>
-            <input type="text" name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Produk" disabled>
-            <div class="invalid-feedback" data-id="nama_customer"></div>
+          <label>Nama Customer</label>
+          <input type="text" name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Produk" disabled>
+          <div class="invalid-feedback" data-id="nama_customer"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Produk</label>
-            <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="nama_produk"></div>
+          <label>Nama Produk</label>
+          <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="nama_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Harga Produk</label>
-            <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="harga_produk"></div>
+          <label>Harga Produk</label>
+          <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Agent</label>
-            <input type="text" name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="nama_agent"></div>
+          <label>Nama Agent</label>
+          <input type="text" name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="nama_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Leader Agent</label>
-            <input type="text" name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="nama_leader_agent"></div>
-        </div>
-        
-        <div class="col-12 mb-3">
-            <label>Komisi</label>
-            <input type="text" name="komisi" id="komisi" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="komisi"></div>
+          <label>Nama Leader Agent</label>
+          <input type="text" name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="nama_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Keterangan</label>
-            <textarea name="keterangan" id="keterangan" class="multisteps-form__input form-control" placeholder="keterangan" disabled></textarea>
-            <div class="invalid-feedback" data-id="keterangan"></div>
+          <label>Komisi</label>
+          <input type="text" name="komisi" id="komisi" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="komisi"></div>
+        </div>
+
+        <div class="col-12 mb-3">
+          <label>Keterangan</label>
+          <textarea name="keterangan" id="keterangan" class="multisteps-form__input form-control" placeholder="keterangan" disabled></textarea>
+          <div class="invalid-feedback" data-id="keterangan"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -130,15 +130,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/komisi/getListKomisiPenjualanProdukTravel`,
+      ajax: `<?= base_url() ?>/komisi/getListKomisiPenjualanProdukTravel`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -149,8 +150,8 @@
           data: 'is_paid',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
-            if(data == 1){
+          render: function(data, type, row) {
+            if (data == 1) {
               return `
               <span class="text-success">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -236,20 +237,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function getData($pk_id_komisi_penjualan_produk_travel) {
     let form = '#formData'
 
     $.ajax({
-      url: "<?= base_url()?>/komisi/getDataKomisiPenjualanProdukTravel/" + $pk_id_komisi_penjualan_produk_travel,
+      url: "<?= base_url() ?>/komisi/getDataKomisiPenjualanProdukTravel/" + $pk_id_komisi_penjualan_produk_travel,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -271,6 +272,5 @@
 
     });
   }
-
 </script>
 <?= $this->endSection() ?>

@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -263,15 +263,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/agent/getList`,
+      ajax: `<?= base_url() ?>/agent/getList`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[2, 'asc']],
-      columns: [
-        {
+      order: [
+        [2, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -283,8 +284,8 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true,
-          render: function(data, type, row){
-            if(data == 1){
+          render: function(data, type, row) {
+            if (data == 1) {
               return `
               <a href="javascript:void(0)" class="text-success" onclick="toggleStatus(${row.pk_id_agent}, ${row.area_status})">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -302,13 +303,13 @@
               `
             }
           }
-        }, 
+        },
         {
           data: 'kode_agent',
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_agent',
           searchable: true,
@@ -356,7 +357,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="<?= base_url()?>/agent/area/${row.pk_id_agent}" target="_blank" class="dropdown-item">
+                  <a href="<?= base_url() ?>/agent/area/${row.pk_id_agent}" target="_blank" class="dropdown-item">
                       ke agent area
                   </a>
                 </li>
@@ -388,13 +389,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function saveAgent(e) {
@@ -421,33 +422,33 @@
     let batch = $(`${form} #batch`).val();
 
     let data = {
-      'pk_id_agent' : pk_id_agent,
-      'kode_agent' : kode_agent,
-      'tipe_agent' : tipe_agent,
-      'nama_agent' : nama_agent,
-      'gender' : gender,
-      't4_lahir' : t4_lahir,
-      'tgl_lahir' : tgl_lahir,
-      'no_wa' : no_wa,
-      'email' : email,
-      'alamat' : alamat,
-      'provinsi' : provinsi,
-      'kota_kabupaten' : kota_kabupaten,
-      'kecamatan' : kecamatan,
-      'kelurahan' : kelurahan,
-      'username' : username,
-      'bank_rekening' : bank_rekening,
-      'no_rekening' : no_rekening,
-      'batch' : batch,
+      'pk_id_agent': pk_id_agent,
+      'kode_agent': kode_agent,
+      'tipe_agent': tipe_agent,
+      'nama_agent': nama_agent,
+      'gender': gender,
+      't4_lahir': t4_lahir,
+      'tgl_lahir': tgl_lahir,
+      'no_wa': no_wa,
+      'email': email,
+      'alamat': alamat,
+      'provinsi': provinsi,
+      'kota_kabupaten': kota_kabupaten,
+      'kecamatan': kecamatan,
+      'kelurahan': kelurahan,
+      'username': username,
+      'bank_rekening': bank_rekening,
+      'no_rekening': no_rekening,
+      'batch': batch,
     }
 
     $.ajax({
-      url: "<?= base_url()?>/agent/save",
+      url: "<?= base_url() ?>/agent/save",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -458,27 +459,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormAgent').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -486,12 +487,12 @@
 
   function editAgent($pk_id_agent) {
     let form = '#formTambahAgent'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/agent/getData/" + $pk_id_agent,
+      url: "<?= base_url() ?>/agent/getData/" + $pk_id_agent,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -526,7 +527,7 @@
     });
   }
 
-  function editLeaderAgent(pk_id_agent, nama_agent){
+  function editLeaderAgent(pk_id_agent, nama_agent) {
     let form = '#formChangeLeaderAgent';
     $("#modalFormChangeLeaderAgent").modal('show');
     $("#modalFormChangeLeaderAgentLabel").html('Ubah Leader Agent');
@@ -535,12 +536,12 @@
     $(`${form} #nama_agent`).val(nama_agent);
   }
 
-  function getLeaderAgent(){
+  function getLeaderAgent() {
     let form = '#formChangeLeaderAgent';
     let leader_agent = $(`${form} #leader_agent`).val();
 
     $.ajax({
-      url: `<?= base_url()?>/agent/getAllLeaderAgent/${leader_agent}`,
+      url: `<?= base_url() ?>/agent/getAllLeaderAgent/${leader_agent}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -564,17 +565,17 @@
     let fk_id_leader_agent = $(`${form} #fk_id_leader_agent`).val();
 
     let data = {
-      'pk_id_agent' : pk_id_agent,
-      'fk_id_leader_agent' : fk_id_leader_agent,
+      'pk_id_agent': pk_id_agent,
+      'fk_id_leader_agent': fk_id_leader_agent,
     }
 
     $.ajax({
-      url: "<?= base_url()?>/agent/saveChangeLeader",
+      url: "<?= base_url() ?>/agent/saveChangeLeader",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -585,27 +586,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormChangeLeaderAgent').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -623,22 +624,22 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/agent/delete/" + pk_id_agent,
+          url: "<?= base_url() ?>/agent/delete/" + pk_id_agent,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -646,24 +647,24 @@
     })
   }
 
-  function toggleStatus(pk_id_agent, area_status){
+  function toggleStatus(pk_id_agent, area_status) {
     $.ajax({
-      url: `<?= base_url()?>/agent/toggleStatus/${pk_id_agent}/${area_status}`,
+      url: `<?= base_url() ?>/agent/toggleStatus/${pk_id_agent}/${area_status}`,
       type: "get",
       dataType: "json",
       success: function(response) {
         Toast.fire({
-            icon: response.status,
-            title: response.message
+          icon: response.status,
+          title: response.message
         })
 
         $('#table-data').DataTable().ajax.reload();
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });

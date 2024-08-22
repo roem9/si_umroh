@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -77,124 +77,124 @@
         <input type="hidden" name="pk_id_produk_travel" id="pk_id_produk_travel">
 
         <div class="col-12 mb-3">
-            <label>Nama Travel</label>
-            <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control">
-                <option value="">Pilih Travel</option>
-                <?php
-                  foreach ($travel as $travel) :?>
-                    <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-                <?php endforeach;?>
-            </select>
-            <div class="invalid-feedback" data-id="fk_id_travel"></div>
+          <label>Nama Travel</label>
+          <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control">
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travel as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
+          </select>
+          <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Produk</label>
-            <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" type="text" placeholder="Nama Produk">
-            <div class="invalid-feedback" data-id="nama_produk"></div>
+          <label>Nama Produk</label>
+          <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" type="text" placeholder="Nama Produk">
+          <div class="invalid-feedback" data-id="nama_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" class="multisteps-form__input form-control" placeholder="Deskripsi"></textarea>
-            <div class="invalid-feedback" data-id="deskripsi"></div>
+          <label>Deskripsi</label>
+          <textarea name="deskripsi" id="deskripsi" class="multisteps-form__input form-control" placeholder="Deskripsi"></textarea>
+          <div class="invalid-feedback" data-id="deskripsi"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Jenis Produk</label>
-            <select name="jenis_produk" id="jenis_produk" class="multisteps-form__input form-control">
-                <option value="">Pilih Jenis Produk</option>
-                <option value="free offer">Free Offer</option>
-                <option value="tripwired">Tripwired</option>
-                <option value="core offer">Core Offer</option>
-            </select>
-            <div class="invalid-feedback" data-id="jenis_produk"></div>
+          <label>Jenis Produk</label>
+          <select name="jenis_produk" id="jenis_produk" class="multisteps-form__input form-control">
+            <option value="">Pilih Jenis Produk</option>
+            <option value="free offer">Free Offer</option>
+            <option value="tripwired">Tripwired</option>
+            <option value="core offer">Core Offer</option>
+          </select>
+          <div class="invalid-feedback" data-id="jenis_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Link LP</label>
-            <input type="text" name="link_lp" id="link_lp" class="multisteps-form__input form-control" type="text" placeholder="Link LP">
-            <div class="invalid-feedback" data-id="link_lp"></div>
+          <label>Link LP</label>
+          <input type="text" name="link_lp" id="link_lp" class="multisteps-form__input form-control" type="text" placeholder="Link LP">
+          <div class="invalid-feedback" data-id="link_lp"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Page</label>
-            <input type="text" name="page" id="page" class="multisteps-form__input form-control" type="text" placeholder="Link LP">
-            <div class="invalid-feedback" data-id="page"></div>
+          <label>Page</label>
+          <input type="text" name="page" id="page" class="multisteps-form__input form-control" type="text" placeholder="Link LP">
+          <div class="invalid-feedback" data-id="page"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Jenis Komisi</label>
-            <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control">
-                <option value="">Pilih Jenis Komisi</option>
-                <option value="fix">Fix</option>
-                <option value="prosentase">Prosentase</option>
-                <option value="tidak ada">Tidak Ada</option>
-            </select>
-            <div class="invalid-feedback" data-id="jenis_komisi"></div>
+          <label>Jenis Komisi</label>
+          <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control">
+            <option value="">Pilih Jenis Komisi</option>
+            <option value="fix">Fix</option>
+            <option value="prosentase">Prosentase</option>
+            <option value="tidak ada">Tidak Ada</option>
+          </select>
+          <div class="invalid-feedback" data-id="jenis_komisi"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Harga Produk</label>
-            <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="Harga Produk">
-            <div class="invalid-feedback" data-id="harga_produk"></div>
+          <label>Harga Produk</label>
+          <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="Harga Produk">
+          <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Komisi Agent</label>
-            <input type="text" name="komisi_agent" id="komisi_agent" class="multisteps-form__input form-control" placeholder="Komisi Agent">
-            <div class="invalid-feedback" data-id="komisi_agent"></div>
+          <label>Komisi Agent</label>
+          <input type="text" name="komisi_agent" id="komisi_agent" class="multisteps-form__input form-control" placeholder="Komisi Agent">
+          <div class="invalid-feedback" data-id="komisi_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Komisi Leader Agent</label>
-            <input type="text" name="komisi_leader_agent" id="komisi_leader_agent" class="multisteps-form__input form-control" placeholder="Komisi Leader Agent">
-            <div class="invalid-feedback" data-id="komisi_leader_agent"></div>
+          <label>Komisi Leader Agent</label>
+          <input type="text" name="komisi_leader_agent" id="komisi_leader_agent" class="multisteps-form__input form-control" placeholder="Komisi Leader Agent">
+          <div class="invalid-feedback" data-id="komisi_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Passive Income Leader Agent</label>
-            <input type="text" name="passive_income_leader_agent" id="passive_income_leader_agent" class="multisteps-form__input form-control" placeholder="Passive Income Leader Agent">
-            <div class="invalid-feedback" data-id="passive_income_leader_agent"></div>
+          <label>Passive Income Leader Agent</label>
+          <input type="text" name="passive_income_leader_agent" id="passive_income_leader_agent" class="multisteps-form__input form-control" placeholder="Passive Income Leader Agent">
+          <div class="invalid-feedback" data-id="passive_income_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Kirim Pesan WA Setelah Agent Input Data?</label>
-            <select name="send_wa_after_input_agent" id="send_wa_after_input_agent" class="multisteps-form__input form-control">
-                <option value="">Pilih Jawaban</option>
-                <option value="1">Ya</option>
-                <option value="0">Tidak</option>
-            </select>
-            <div class="invalid-feedback" data-id="send_wa_after_input_agent"></div>
+          <label>Kirim Pesan WA Setelah Agent Input Data?</label>
+          <select name="send_wa_after_input_agent" id="send_wa_after_input_agent" class="multisteps-form__input form-control">
+            <option value="">Pilih Jawaban</option>
+            <option value="1">Ya</option>
+            <option value="0">Tidak</option>
+          </select>
+          <div class="invalid-feedback" data-id="send_wa_after_input_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Kirim Pesan WA Setelah Admin Input Data?</label>
-            <select name="send_wa_after_input_admin" id="send_wa_after_input_admin" class="multisteps-form__input form-control">
-                <option value="">Pilih Jawaban</option>
-                <option value="1">Ya</option>
-                <option value="0">Tidak</option>
-            </select>
-            <div class="invalid-feedback" data-id="send_wa_after_input_admin"></div>
+          <label>Kirim Pesan WA Setelah Admin Input Data?</label>
+          <select name="send_wa_after_input_admin" id="send_wa_after_input_admin" class="multisteps-form__input form-control">
+            <option value="">Pilih Jawaban</option>
+            <option value="1">Ya</option>
+            <option value="0">Tidak</option>
+          </select>
+          <div class="invalid-feedback" data-id="send_wa_after_input_admin"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Pesan WA</label>
-            <textarea name="wa_message" id="wa_message" class="multisteps-form__input form-control" placeholder="pesan wa yang akan dikirim kepada peminat, dapat berupa link dll" style="height: 400px"></textarea>
-            <small class="text-xxs text-dark">* Harap mengisi form ini jika mengaktifkan kirim pesan wa setelah input data</small>
-            <div class="invalid-feedback" data-id="wa_message"></div>
+          <label>Pesan WA</label>
+          <textarea name="wa_message" id="wa_message" class="multisteps-form__input form-control" placeholder="pesan wa yang akan dikirim kepada peminat, dapat berupa link dll" style="height: 400px"></textarea>
+          <small class="text-xxs text-dark">* Harap mengisi form ini jika mengaktifkan kirim pesan wa setelah input data</small>
+          <div class="invalid-feedback" data-id="wa_message"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Pesan Yang Tampil Setelah Agent Menambahkan Data</label>
-            <textarea name="message_after_input_agent" id="message_after_input_agent" class="multisteps-form__input form-control" placeholder="pesan yang tampil setelah agent menginput data peminat" style="height: 400px"></textarea>
-            <div class="invalid-feedback" data-id="message_after_input_agent"></div>
+          <label>Pesan Yang Tampil Setelah Agent Menambahkan Data</label>
+          <textarea name="message_after_input_agent" id="message_after_input_agent" class="multisteps-form__input form-control" placeholder="pesan yang tampil setelah agent menginput data peminat" style="height: 400px"></textarea>
+          <div class="invalid-feedback" data-id="message_after_input_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>JSON LP</label>
-            <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP"></textarea>
-            <div class="invalid-feedback" data-id="json_lp"></div>
+          <label>JSON LP</label>
+          <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP"></textarea>
+          <div class="invalid-feedback" data-id="json_lp"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -235,15 +235,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/produk/getListProdukTravel`,
+      ajax: `<?= base_url() ?>/produk/getListProdukTravel`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -254,8 +255,8 @@
           data: 'is_active',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
-            if(data == 1){
+          render: function(data, type, row) {
+            if (data == 1) {
               return `
               <a href="javascript:void(0)" class="text-success" onclick="toggleStatus(${row.pk_id_produk_travel}, ${row.is_active})">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
@@ -307,9 +308,9 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.komisi_agent)
-            } else if(row.jenis_komisi == 'prosentase'){
+            } else if (row.jenis_komisi == 'prosentase') {
               return `${formatRupiah(row.harga_produk * row.komisi_agent / 100)}/${row.komisi_agent}%`
             } else {
               return `-`
@@ -321,9 +322,9 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.komisi_leader_agent)
-            } else if(row.jenis_komisi == 'prosentase'){
+            } else if (row.jenis_komisi == 'prosentase') {
               return `${formatRupiah(row.harga_produk * row.komisi_leader_agent / 100)}/${row.komisi_leader_agent}%`
             } else {
               return `-`
@@ -335,9 +336,9 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.passive_income_leader_agent)
-            } else if(row.jenis_komisi == 'prosentase'){
+            } else if (row.jenis_komisi == 'prosentase') {
               return `${formatRupiah(row.harga_produk * row.passive_income_leader_agent / 100)}/${row.passive_income_leader_agent}%`
             } else {
               return `-`
@@ -355,7 +356,7 @@
                   </svg>
                 </span>
               </a>
-              <a href="<?= base_url()?>/produk/knowledgeproduktravel/${row.pk_id_produk_travel}" class="me-1">
+              <a href="<?= base_url() ?>/produk/knowledgeproduktravel/${row.pk_id_produk_travel}" class="me-1">
                 <span class="badge bg-gradient-success">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16">
                     <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5"/>
@@ -386,13 +387,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function tambahData(e) {
@@ -419,31 +420,31 @@
 
     let data = {
       'pk_id_produk_travel': pk_id_produk_travel,
-      'fk_id_travel' : fk_id_travel,
-      'nama_produk' : nama_produk,
-      'deskripsi' : deskripsi,
-      'jenis_produk' : jenis_produk,
-      'link_lp' : link_lp,
-      'page' : page,
-      'jenis_komisi' : jenis_komisi,
-      'harga_produk' : harga_produk,
-      'komisi_agent' : komisi_agent,
-      'komisi_leader_agent' : komisi_leader_agent,
-      'passive_income_leader_agent' : passive_income_leader_agent,
-      'json_lp' : json_lp,
-      'send_wa_after_input_agent' : send_wa_after_input_agent,
-      'send_wa_after_input_admin' : send_wa_after_input_admin,
-      'wa_message' : wa_message,
-      'message_after_input_agent' : message_after_input_agent,
+      'fk_id_travel': fk_id_travel,
+      'nama_produk': nama_produk,
+      'deskripsi': deskripsi,
+      'jenis_produk': jenis_produk,
+      'link_lp': link_lp,
+      'page': page,
+      'jenis_komisi': jenis_komisi,
+      'harga_produk': harga_produk,
+      'komisi_agent': komisi_agent,
+      'komisi_leader_agent': komisi_leader_agent,
+      'passive_income_leader_agent': passive_income_leader_agent,
+      'json_lp': json_lp,
+      'send_wa_after_input_agent': send_wa_after_input_agent,
+      'send_wa_after_input_admin': send_wa_after_input_admin,
+      'wa_message': wa_message,
+      'message_after_input_agent': message_after_input_agent,
     };
 
     $.ajax({
-      url: "<?= base_url()?>/produk/saveProdukTravel",
+      url: "<?= base_url() ?>/produk/saveProdukTravel",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           $('html, .modal-body').animate({
@@ -452,29 +453,29 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
 
           showFormError()
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -485,7 +486,7 @@
     bersihkanValidasi(`${form}`);
 
     $.ajax({
-      url: "<?= base_url()?>/produk/getDataProdukTravel/" + $pk_id_produk_travel,
+      url: "<?= base_url() ?>/produk/getDataProdukTravel/" + $pk_id_produk_travel,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -530,22 +531,22 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/produk/deleteProdukTravel/" + pk_id_produk_travel,
+          url: "<?= base_url() ?>/produk/deleteProdukTravel/" + pk_id_produk_travel,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -553,24 +554,24 @@
     })
   }
 
-  function toggleStatus(pk_id_produk_travel, is_active){
+  function toggleStatus(pk_id_produk_travel, is_active) {
     $.ajax({
-      url: `<?= base_url()?>/produk/toggleStatusProdukTravel/${pk_id_produk_travel}/${is_active}`,
+      url: `<?= base_url() ?>/produk/toggleStatusProdukTravel/${pk_id_produk_travel}/${is_active}`,
       type: "get",
       dataType: "json",
       success: function(response) {
         Toast.fire({
-            icon: response.status,
-            title: response.message
+          icon: response.status,
+          title: response.message
         })
 
         $('#table-data').DataTable().ajax.reload();
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });

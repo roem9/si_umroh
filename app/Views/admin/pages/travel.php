@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -178,13 +178,13 @@
           <input name="pihk" id="pihk" class="multisteps-form__input form-control" type="text" placeholder="pihk">
           <div class="invalid-feedback" data-id="pihk"></div>
         </div>
-        
+
         <div class="mb-3">
-            <label for="company_profile" class="form-label">Company Profile</label>
-            <div id="company-profile" style="display:none" class="text-center"></div>
-            <input name="company_profile" class="form-control" type="file" id="company_profile">
-            <div class="invalid-feedback" data-id="company_profile"></div>
-          </div>
+          <label for="company_profile" class="form-label">Company Profile</label>
+          <div id="company-profile" style="display:none" class="text-center"></div>
+          <input name="company_profile" class="form-control" type="file" id="company_profile">
+          <div class="invalid-feedback" data-id="company_profile"></div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -229,15 +229,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/travel/getList`,
+      ajax: `<?= base_url() ?>/travel/getList`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[2, 'asc']],
-      columns: [
-        {
+      order: [
+        [2, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -285,7 +286,7 @@
           data: 'link_landing_page',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render : function(data, type, row){
+          render: function(data, type, row) {
             return `
               <a href="https://${row.link_landing_page}" target='_blank'>${row.link_landing_page}</a>
             `;
@@ -327,13 +328,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function tambahData(e) {
@@ -364,28 +365,28 @@
     var data = new FormData();
 
     // let data = {
-      data.append('pk_id_travel', pk_id_travel);
-      data.append('nama_travel', nama_travel);
-      data.append('nama_perusahaan', nama_perusahaan);
-      data.append('unit', unit);
-      data.append('nama_pemilik', nama_pemilik);
-      data.append('alamat', alamat);
-      data.append('kelurahan', kelurahan);
-      data.append('kecamatan', kecamatan);
-      data.append('kota_kabupaten', kota_kabupaten);
-      data.append('provinsi', provinsi);
-      data.append('no_wa', no_wa);
-      data.append('bank_rekening', bank_rekening);
-      data.append('no_rekening', no_rekening);
-      data.append('tgl_bergabung', tgl_bergabung);
-      data.append('link_landing_page', link_landing_page);
-      data.append('ppiu', ppiu);
-      data.append('pihk', pihk);
-      data.append('company_profile', company_profile[0]);
+    data.append('pk_id_travel', pk_id_travel);
+    data.append('nama_travel', nama_travel);
+    data.append('nama_perusahaan', nama_perusahaan);
+    data.append('unit', unit);
+    data.append('nama_pemilik', nama_pemilik);
+    data.append('alamat', alamat);
+    data.append('kelurahan', kelurahan);
+    data.append('kecamatan', kecamatan);
+    data.append('kota_kabupaten', kota_kabupaten);
+    data.append('provinsi', provinsi);
+    data.append('no_wa', no_wa);
+    data.append('bank_rekening', bank_rekening);
+    data.append('no_rekening', no_rekening);
+    data.append('tgl_bergabung', tgl_bergabung);
+    data.append('link_landing_page', link_landing_page);
+    data.append('ppiu', ppiu);
+    data.append('pihk', pihk);
+    data.append('company_profile', company_profile[0]);
     // };
 
     $.ajax({
-      url: "<?= base_url()?>/travel/save",
+      url: "<?= base_url() ?>/travel/save",
       type: "POST",
       data: data,
       dataType: "json",
@@ -393,7 +394,7 @@
       processData: false,
       cache: false,
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           $('html, .modal-body').animate({
@@ -402,29 +403,29 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
 
           showFormError()
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormTravel').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -434,7 +435,7 @@
     let form = '#formData'
     bersihkanValidasi('#formData');
     $.ajax({
-      url: "<?= base_url()?>/travel/getData/" + $pk_id_travel,
+      url: "<?= base_url() ?>/travel/getData/" + $pk_id_travel,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -462,10 +463,10 @@
           $(`${form} #ppiu`).val(response.ppiu);
           $(`${form} #pihk`).val(response.pihk);
 
-          if(response.company_profile != ''){
+          if (response.company_profile != '') {
             $(`#company-profile`).show();
             $(`#company-profile`).html(
-              `<a class="btn btn-sm bg-gradient-success mt-2" href="<?= base_url()?>/public/assets/company-profile/${response.company_profile}" download="${response.nama_travel} (Company Profile).pdf">Download</a>`
+              `<a class="btn btn-sm bg-gradient-success mt-2" href="<?= base_url() ?>/public/assets/company-profile/${response.company_profile}" download="${response.nama_travel} (Company Profile).pdf">Download</a>`
             )
           }
         }
@@ -486,22 +487,22 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/travel/delete/" + pk_id_travel,
+          url: "<?= base_url() ?>/travel/delete/" + pk_id_travel,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });

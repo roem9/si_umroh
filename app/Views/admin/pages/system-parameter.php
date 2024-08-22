@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -96,15 +96,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/systemparameter/getList`,
+      ajax: `<?= base_url() ?>/systemparameter/getList`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[2, 'asc']],
-      columns: [
-        {
+      order: [
+        [2, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -155,13 +156,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function tambahData(e) {
@@ -181,12 +182,12 @@
     }
 
     $.ajax({
-      url: "<?= base_url()?>/systemparameter/save",
+      url: "<?= base_url() ?>/systemparameter/save",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           $('html, .modal-body').animate({
@@ -195,29 +196,29 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
 
           showFormError()
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -227,7 +228,7 @@
     let form = '#formData'
     bersihkanValidasi('#formData');
     $.ajax({
-      url: "<?= base_url()?>/systemparameter/getData/" + $pk_id_system_parameter,
+      url: "<?= base_url() ?>/systemparameter/getData/" + $pk_id_system_parameter,
       type: "get",
       dataType: "json",
       success: function(response) {

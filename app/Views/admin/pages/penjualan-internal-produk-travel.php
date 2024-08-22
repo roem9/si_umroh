@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -51,7 +51,7 @@
   </div>
 </div>
 <?= $this->endSection() ?>
-  
+
 <?= $this->section('modal') ?>
 <div class="modal fade" id="modalFormData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -64,44 +64,44 @@
       </div>
       <div class="modal-body" id="formData">
         <input type="hidden" name="pk_id_penjualan_produk_travel" id="pk_id_penjualan_produk_travel">
-        
+
         <h6>Data Customer</h6>
         <div class="col-12 mb-3">
-            <label>Nama Customer <span class="text-danger">*</span></label>
-            <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Customer">
-            <div class="invalid-feedback" data-id="nama_customer"></div>
+          <label>Nama Customer <span class="text-danger">*</span></label>
+          <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Customer">
+          <div class="invalid-feedback" data-id="nama_customer"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>No WA <span class="text-danger">*</span></label>
-            <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="No WA">
-            <small class="text-xxs text-danger">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
-            <div class="invalid-feedback" data-id="no_wa"></div>
+          <label>No WA <span class="text-danger">*</span></label>
+          <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="No WA">
+          <small class="text-xxs text-danger">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
+          <div class="invalid-feedback" data-id="no_wa"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Domisili</label>
-            <input class="form-control" list="listkota_kabupaten_1" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off">
-            <datalist class="listkota_kabupaten" id="listkota_kabupaten_1">
-            </datalist>
-            <div class="invalid-feedback" data-id="kota_kabupaten"></div>
+          <label>Domisili</label>
+          <input class="form-control" list="listkota_kabupaten_1" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off">
+          <datalist class="listkota_kabupaten" id="listkota_kabupaten_1">
+          </datalist>
+          <div class="invalid-feedback" data-id="kota_kabupaten"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Email <span class="text-danger">*</span></label>
-            <input name="email" id="email" class="multisteps-form__input form-control" placeholder="Email">
-            <div class="invalid-feedback" data-id="email"></div>
+          <label>Email <span class="text-danger">*</span></label>
+          <input name="email" id="email" class="multisteps-form__input form-control" placeholder="Email">
+          <div class="invalid-feedback" data-id="email"></div>
         </div>
-        
+
         <h6 class="">Data Produk</h6>
         <div class="col-12 mb-3">
           <label>Nama Travel</label>
           <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control">
-              <option value="">Pilih Travel</option>
-              <?php
-                foreach ($travels as $travel) :?>
-                  <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-              <?php endforeach;?>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travels as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
           </select>
           <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
@@ -168,42 +168,42 @@
 
         <h6>Data Customer</h6>
         <div class="col-12 mb-3">
-            <label>Nama Customer <span class="text-danger">*</span></label>
-            <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Customer">
-            <div class="invalid-feedback" data-id="nama_customer"></div>
+          <label>Nama Customer <span class="text-danger">*</span></label>
+          <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Customer">
+          <div class="invalid-feedback" data-id="nama_customer"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>No WA <span class="text-danger">*</span></label>
-            <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="No WA">
-            <small class="text-xxs text-danger">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
-            <div class="invalid-feedback" data-id="no_wa"></div>
+          <label>No WA <span class="text-danger">*</span></label>
+          <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="No WA">
+          <small class="text-xxs text-danger">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
+          <div class="invalid-feedback" data-id="no_wa"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Domisili</label>
-            <input class="form-control" list="listkota_kabupaten_2" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off">
-            <datalist class="listkota_kabupaten" id="listkota_kabupaten_2">
-            </datalist>
-            <div class="invalid-feedback" data-id="kota_kabupaten"></div>
+          <label>Domisili</label>
+          <input class="form-control" list="listkota_kabupaten_2" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off">
+          <datalist class="listkota_kabupaten" id="listkota_kabupaten_2">
+          </datalist>
+          <div class="invalid-feedback" data-id="kota_kabupaten"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Email <span class="text-danger">*</span></label>
-            <input name="email" id="email" class="multisteps-form__input form-control" placeholder="Email">
-            <div class="invalid-feedback" data-id="email"></div>
+          <label>Email <span class="text-danger">*</span></label>
+          <input name="email" id="email" class="multisteps-form__input form-control" placeholder="Email">
+          <div class="invalid-feedback" data-id="email"></div>
         </div>
-        
+
         <h6 class="">Data Produk</h6>
-        
+
         <div class="col-12 mb-3">
           <label>Nama Travel</label>
           <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control">
-              <option value="">Pilih Travel</option>
-              <?php
-                foreach ($travels as $travel) :?>
-                  <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-              <?php endforeach;?>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travels as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
           </select>
           <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
@@ -219,7 +219,7 @@
           <input name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" type="text" placeholder="" disabled>
           <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -329,58 +329,58 @@
       this.value = this.value.replace(/[^0-9]/g, '');
     });
 
-    $('#formData #customer').on('change', function(){
+    $('#formData #customer').on('change', function() {
       getCustomer('#formData');
     });
-    $('#formData #produk').on('change', function(){
+    $('#formData #produk').on('change', function() {
       getProduk('#formData');
     });
-    $('#formData #agent').on('change', function(){
+    $('#formData #agent').on('change', function() {
       getAgent('#formData');
     });
 
-    $('#formEditData #customer').on('change', function(){
+    $('#formEditData #customer').on('change', function() {
       getCustomer('#formEditData')
     });
-    $('#formEditData #produk').on('change', function(){
+    $('#formEditData #produk').on('change', function() {
       getProduk('#formEditData')
     });
-    $('#formEditData #agent').on('change', function(){
+    $('#formEditData #agent').on('change', function() {
       getAgent('#formEditData');
     });
 
-    $('#formData #fk_id_customer').on('change', function(){
+    $('#formData #fk_id_customer').on('change', function() {
       generateDataCustomer('#formData')
     });
-    $('#formData #fk_id_produk').on('change', function(){
+    $('#formData #fk_id_produk').on('change', function() {
       generateDataProduk('#formData')
     });
 
-    $('#formEditData #fk_id_customer').on('change', function(){
+    $('#formEditData #fk_id_customer').on('change', function() {
       generateDataCustomer('#formEditData')
     });
-    $('#formEditData #fk_id_produk').on('change', function(){
+    $('#formEditData #fk_id_produk').on('change', function() {
       generateDataProduk('#formEditData')
     });
 
-    $('#modalFormEditPembayaran').on('hidden.bs.modal', function (e) {
-        $('#modalListPembayaranData').modal('show');
+    $('#modalFormEditPembayaran').on('hidden.bs.modal', function(e) {
+      $('#modalListPembayaranData').modal('show');
     });
 
     $(".btnModalFormPembayaran").on('click', showModalPembayaran)
 
-    $('#formData #fk_id_travel').on('change', function(){
+    $('#formData #fk_id_travel').on('change', function() {
       let data = $(this).val();
 
-      if(data != ''){
+      if (data != '') {
         getProduk('#formData')
       }
     });
 
-    $('#formEditData #fk_id_travel').on('change', function(){
+    $('#formEditData #fk_id_travel').on('change', function() {
       let data = $(this).val();
 
-      if(data != ''){
+      if (data != '') {
         getProduk('#formEditData')
       }
     });
@@ -402,7 +402,7 @@
 
     bersihkanForm(`${form}`);
     bersihkanValidasi(`${form}`);
-    
+
     $(`${form} #image-cover`).hide();
   }
 
@@ -411,15 +411,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/penjualan/getListPenjualanInternalProdukTravel`,
+      ajax: `<?= base_url() ?>/penjualan/getListPenjualanInternalProdukTravel`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'desc']],
-      columns: [
-        {
+      order: [
+        [1, 'desc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -431,13 +432,13 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_customer',
           searchable: true,
           className: 'text-sm',
           orderable: true
-        }, 
+        },
         {
           data: 'no_wa',
           render: function(data, type, row) {
@@ -464,7 +465,7 @@
           data: 'harga_produk',
           searchable: true,
           className: 'text-sm',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.harga_produk)
           }
         },
@@ -514,13 +515,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function saveData(e) {
@@ -559,7 +560,7 @@
     data.append('bukti_pembayaran', bukti_pembayaran[0]);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataPenjualanProdukTravelInternal",
+      url: "<?= base_url() ?>/penjualan/saveDataPenjualanProdukTravelInternal",
       type: "POST",
       data: data,
       dataType: "json",
@@ -567,7 +568,7 @@
       processData: false,
       cache: false,
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -578,27 +579,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -631,12 +632,12 @@
     }
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataEditPenjualanProdukTravelInternal",
+      url: "<?= base_url() ?>/penjualan/saveDataEditPenjualanProdukTravelInternal",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -647,27 +648,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -675,12 +676,12 @@
 
   function editData($pk_id_penjualan_produk_travel) {
     let form = '#formEditData'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/getDataPenjualanProdukTravel/" + $pk_id_penjualan_produk_travel,
+      url: "<?= base_url() ?>/penjualan/getDataPenjualanProdukTravel/" + $pk_id_penjualan_produk_travel,
       type: "get",
       dataType: "json",
       success: function(result) {
@@ -702,7 +703,7 @@
           `
 
           produk.forEach(produk => {
-            if(produk.pk_id_produk_travel == response.fk_id_produk_travel){
+            if (produk.pk_id_produk_travel == response.fk_id_produk_travel) {
               html += `<option value='${produk.pk_id_produk_travel}' selected>${response.nama_produk}</option>`;
             } else {
               html += `<option value='${produk.pk_id_produk_travel}'>${response.nama_produk}</option>`;
@@ -728,14 +729,14 @@
     });
   }
 
-  function getCustomer(form){
+  function getCustomer(form) {
     // let form = form;
     let customer = $(`${form} #customer`).val();
     let fk_id_agent_closing = $(`${form} #fk_id_agent_closing`).val();
 
-    if(customer != ''){
+    if (customer != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/getAllCustomer`,
+        url: `<?= base_url() ?>/penjualan/getAllCustomer`,
         type: "post",
         data: {
           nama_customer: customer,
@@ -744,81 +745,81 @@
         dataType: "json",
         success: function(response) {
           html = `<option value=''>Pilih Customer</option>`;
-  
+
           response.forEach(response => {
             html += `<option value='${response.pk_id_customer}'>${response.nama_customer}</option>`
           });
-  
+
           $(`${form} #fk_id_customer`).html(html)
         }
-  
+
       });
     }
 
   }
 
-  function generateDataCustomer(form){
+  function generateDataCustomer(form) {
     // let form = form;
     let fk_id_customer = $(`${form} #fk_id_customer`).val();
 
-    if(fk_id_customer != ''){
+    if (fk_id_customer != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/generateDataCustomer/${fk_id_customer}`,
+        url: `<?= base_url() ?>/penjualan/generateDataCustomer/${fk_id_customer}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           $(`${form} #nama_agent`).val(response.nama_agent);
           $(`${form} #nama_leader_agent`).val(response.nama_leader_agent);
         }
-  
+
       });
     }
 
   }
 
-  function generateDataProduk(form){
+  function generateDataProduk(form) {
     // let form = '#formData';
     let fk_id_produk = $(`${form} #fk_id_produk`).val();
 
-    if(fk_id_produk != ''){
+    if (fk_id_produk != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/generateDataProdukTravel/${fk_id_produk}`,
+        url: `<?= base_url() ?>/penjualan/generateDataProdukTravel/${fk_id_produk}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           $(`${form} #harga_produk`).val(formatRupiah(response.harga_produk));
         }
-  
+
       });
     }
   }
 
-  function getAgent(form){
+  function getAgent(form) {
     // let form = '#formData';
     let agent = $(`${form} #agent`).val();
 
-    if(agent != ''){
+    if (agent != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/getAllAgent/${agent}`,
+        url: `<?= base_url() ?>/penjualan/getAllAgent/${agent}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           html = `<option value=''>Pilih Agent</option>`;
-  
+
           response.forEach(response => {
             html += `<option value='${response.pk_id_agent}'>${response.nama_agent}</option>`
           });
-  
+
           $(`${form} #fk_id_agent_closing`).html(html)
         }
-  
+
       });
     }
   }
 
-  function historyPembayaran(pk_id_penjualan_produk_travel){
+  function historyPembayaran(pk_id_penjualan_produk_travel) {
     $.ajax({
-      url: `<?= base_url()?>/penjualan/historyPembayaran/${pk_id_penjualan_produk_travel}`,
+      url: `<?= base_url() ?>/penjualan/historyPembayaran/${pk_id_penjualan_produk_travel}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -844,7 +845,7 @@
         $("#DataPenjualan").html(html);
 
         html = ``;
-        if(response.pembayaran.length == 0){
+        if (response.pembayaran.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -861,7 +862,7 @@
                   <p class="text-sm text-dark"><b>Nominal</b> : ${formatRupiah(pembayaran.nominal)}</p>
                   <p class="text-sm text-dark"><b>Keterangan</b> : ${pembayaran.keterangan}</p>
                   <div class="d-flex justify-content-end">
-                    <a href="<?= base_url()?>/penjualan/kuitansiproduk/${pembayaran.pk_id_pembayaran_penjualan_produk}" target="_blank" class="me-1">
+                    <a href="<?= base_url() ?>/penjualan/kuitansiproduk/${pembayaran.pk_id_pembayaran_penjualan_produk}" target="_blank" class="me-1">
                       <span class="badge bg-gradient-success">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer-fill" viewBox="0 0 16 16">
                           <path d="M5 1a2 2 0 0 0-2 2v1h10V3a2 2 0 0 0-2-2zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1"/>
@@ -894,15 +895,15 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function getDataPembayaran(pk_id_pembayaran_penjualan_produk){
+  function getDataPembayaran(pk_id_pembayaran_penjualan_produk) {
     let form = '#formEditPembayaran';
 
     bersihkanForm(form);
@@ -912,30 +913,31 @@
     $("#modalFormEditPembayaranLabel").html('Edit Pembayaran');
 
     $.ajax({
-      url: `<?= base_url()?>/penjualan/getDataPembayaranPenjualanProduk/${pk_id_pembayaran_penjualan_produk}`,
+      url: `<?= base_url() ?>/penjualan/getDataPembayaranPenjualanProduk/${pk_id_pembayaran_penjualan_produk}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListPembayaranData").modal('hide');
 
         $(`${form} #pk_id_pembayaran_penjualan_produk`).val(response.pk_id_pembayaran_penjualan_produk);
         $(`${form} #tgl_pembayaran`).val(response.tgl_pembayaran);
         $(`${form} #nominal`).val(response.nominal);
         $(`${form} #keterangan`).val(response.keterangan);
-        
+
         $(`#image-cover`).show();
         $(`#image-cover`).html(
           `<img src="../public/assets/bukti-pembayaran/${response.bukti_pembayaran}" alt="" class="img-fluid" width="100%">`
         )
 
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
+
   }
 
   function saveDataPembayaran(e) {
@@ -959,7 +961,7 @@
     data.append('bukti_pembayaran', bukti_pembayaran[0]);
 
     $.ajax({
-      url: "<?= base_url()?>/penjualan/saveDataPembayaranPenjualanProduk",
+      url: "<?= base_url() ?>/penjualan/saveDataPembayaranPenjualanProduk",
       type: "POST",
       data: data,
       dataType: "json",
@@ -967,7 +969,7 @@
       processData: false,
       cache: false,
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -978,16 +980,16 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditPembayaran').modal("hide");
@@ -995,12 +997,12 @@
 
           historyPembayaran(fk_id_penjualan_produk)
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -1018,23 +1020,23 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/penjualan/hapusDataPembayaran/" + pk_id_pembayaran_penjualan_produk,
+          url: "<?= base_url() ?>/penjualan/hapusDataPembayaran/" + pk_id_pembayaran_penjualan_produk,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             historyPembayaran(pk_id_penjualan_produk_travel)
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -1054,22 +1056,22 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/penjualan/deletePenjualanProduk/" + pk_id_penjualan_produk_travel,
+          url: "<?= base_url() ?>/penjualan/deletePenjualanProduk/" + pk_id_penjualan_produk_travel,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -1077,25 +1079,25 @@
     })
   }
 
-  function getProduk(form){
+  function getProduk(form) {
     // let form = '#formData';
     let fk_id_travel = $(`${form} #fk_id_travel`).val();
 
-    if(fk_id_travel != ''){
+    if (fk_id_travel != '') {
       $.ajax({
-        url: `<?= base_url()?>/penjualan/getAllProdukTravel/${fk_id_travel}`,
+        url: `<?= base_url() ?>/penjualan/getAllProdukTravel/${fk_id_travel}`,
         type: "get",
         dataType: "json",
         success: function(response) {
           html = `<option value=''>Pilih Produk</option>`;
-  
+
           response.forEach(response => {
             html += `<option value='${response.pk_id_produk_travel}'>${response.nama_produk}</option>`
           });
-  
+
           $(`${form} #fk_id_produk`).html(html)
         }
-  
+
       });
     }
   }

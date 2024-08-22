@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -20,10 +20,10 @@
           <div class="ms-auto my-auto d-block d-md-block d-lg-none">
             <button type="button" class="btn bg-gradient-success btn-sm mb-0 btnDownloadLaporan">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
-                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z"/>
-                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                <path d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
               </svg>
-            </a>
+              </a>
           </div>
         </div>
       </div>
@@ -94,7 +94,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     showData();
 
-    $(".btnDownloadLaporan").on('click', function(){
+    $(".btnDownloadLaporan").on('click', function() {
       Swal.fire({
         title: `Yakin akan mencetak laporan?`,
         text: "Dengan mencetak laporan, sistem akan merangkum semua komisi agen yang belum dibayarkan dari penjualan yang telah berstatus lunas.",
@@ -107,13 +107,13 @@
         if (result.isConfirmed) {
 
           $.ajax({
-            url: "<?= base_url()?>/komisi/exportKomisi",
+            url: "<?= base_url() ?>/komisi/exportKomisi",
             type: "get",
             dataType: "json",
             success: function(response) {
               $('#table-data').DataTable().ajax.reload();
 
-              let url = '<?= base_url()?>/komisi/laporan';
+              let url = '<?= base_url() ?>/komisi/laporan';
               window.open(url, '_blank');
             }
           });
@@ -121,7 +121,7 @@
       })
     })
 
-    $(document).on("click", ".btnPaidKomisiProduk", function(){
+    $(document).on("click", ".btnPaidKomisiProduk", function() {
       Swal.fire({
         title: `Apa Anda yakin telah membayar komisi ini?`,
         icon: 'warning',
@@ -137,7 +137,7 @@
       })
     })
 
-    $(document).on("click", ".btnPaidKomisiProdukTravel", function(){
+    $(document).on("click", ".btnPaidKomisiProdukTravel", function() {
       Swal.fire({
         title: `Apa Anda yakin telah membayar komisi ini?`,
         icon: 'warning',
@@ -153,7 +153,7 @@
       })
     })
 
-    $(document).on("click", ".btnPaidAllKomisi", function(){
+    $(document).on("click", ".btnPaidAllKomisi", function() {
       Swal.fire({
         title: `Apa Anda yakin telah membayar semua komisi?`,
         icon: 'warning',
@@ -174,15 +174,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/komisi/getListInputKomisiPenjualan`,
+      ajax: `<?= base_url() ?>/komisi/getListInputKomisiPenjualan`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -208,7 +209,7 @@
           data: 'total_komisi',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.total_komisi)
           }
         },
@@ -241,20 +242,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
-  function historyKomisi(pk_id_agent){
+  function historyKomisi(pk_id_agent) {
     $("[name='pk_id_agent']").val(pk_id_agent);
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/historyKomisi/${pk_id_agent}`,
+      url: `<?= base_url() ?>/komisi/historyKomisi/${pk_id_agent}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -275,7 +276,7 @@
         $("#DataAgent").html(html);
 
         html = ``;
-        if(response.komisi_produk.length == 0 && response.komisi_produk_travel.length == 0){
+        if (response.komisi_produk.length == 0 && response.komisi_produk_travel.length == 0) {
           $(".btnPaidAllKomisi").hide();
 
           html += `
@@ -288,7 +289,7 @@
         } else {
           $(".btnPaidAllKomisi").show();
 
-          if(response.komisi_produk.length != 0){
+          if (response.komisi_produk.length != 0) {
             response.komisi_produk.forEach(komisi_produk => {
               html += `
                 <div class="card mb-3 shadow-none border">
@@ -316,7 +317,7 @@
             });
           }
 
-          if(response.komisi_produk_travel.length != 0){
+          if (response.komisi_produk_travel.length != 0) {
             response.komisi_produk_travel.forEach(komisi_produk_travel => {
               html += `
                 <div class="card mb-3 shadow-none border">
@@ -348,22 +349,22 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function paidKomisiProduk(id){
+  function paidKomisiProduk(id) {
     let pk_id_agent = $("[name='pk_id_agent']").val();
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/paidKomisiProduk/${id}`,
+      url: `<?= base_url() ?>/komisi/paidKomisiProduk/${id}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         Toast.fire({
           icon: response.status,
           title: response.message
@@ -372,7 +373,7 @@
         $('#table-data').DataTable().ajax.reload();
         historyKomisi(pk_id_agent);
       },
-      error: function (xhr, status, error){
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan: ${error}`
@@ -381,14 +382,14 @@
     })
   }
 
-  function paidKomisiProdukTravel(id){
+  function paidKomisiProdukTravel(id) {
     let pk_id_agent = $("[name='pk_id_agent']").val();
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/paidKomisiProdukTravel/${id}`,
+      url: `<?= base_url() ?>/komisi/paidKomisiProdukTravel/${id}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         Toast.fire({
           icon: response.status,
           title: response.message
@@ -397,7 +398,7 @@
         $('#table-data').DataTable().ajax.reload();
         historyKomisi(pk_id_agent);
       },
-      error: function (xhr, status, error){
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan: ${error}`
@@ -406,14 +407,14 @@
     })
   }
 
-  function paidAllKomisi(){
+  function paidAllKomisi() {
     let pk_id_agent = $("[name='pk_id_agent']").val();
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/paidAllKomisi/${pk_id_agent}`,
+      url: `<?= base_url() ?>/komisi/paidAllKomisi/${pk_id_agent}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         Toast.fire({
           icon: response.status,
           title: response.message
@@ -422,7 +423,7 @@
         $('#table-data').DataTable().ajax.reload();
         historyKomisi(pk_id_agent);
       },
-      error: function (xhr, status, error){
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan: ${error}`
@@ -430,6 +431,5 @@
       }
     })
   }
-
 </script>
 <?= $this->endSection() ?>

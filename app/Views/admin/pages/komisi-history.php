@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -76,7 +76,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     showData();
 
-    $(document).on("click", ".btnPaidKomisiProduk", function(){
+    $(document).on("click", ".btnPaidKomisiProduk", function() {
       Swal.fire({
         title: `Apa Anda yakin akan mengubah status komisi ini?`,
         icon: 'warning',
@@ -92,7 +92,7 @@
       })
     })
 
-    $(document).on("click", ".btnPaidKomisiProdukTravel", function(){
+    $(document).on("click", ".btnPaidKomisiProdukTravel", function() {
       Swal.fire({
         title: `Apa Anda yakin akan mengubah status komisi ini?`,
         icon: 'warning',
@@ -114,15 +114,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/komisi/getListHistoryKomisi`,
+      ajax: `<?= base_url() ?>/komisi/getListHistoryKomisi`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -148,7 +149,7 @@
           data: 'total_komisi',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.total_komisi)
           }
         },
@@ -181,20 +182,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
-  function historyKomisi(pk_id_agent){
+  function historyKomisi(pk_id_agent) {
     $("[name='pk_id_agent']").val(pk_id_agent);
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/historyAllKomisi/${pk_id_agent}`,
+      url: `<?= base_url() ?>/komisi/historyAllKomisi/${pk_id_agent}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -215,7 +216,7 @@
         $("#DataAgent").html(html);
 
         html = ``;
-        if(response.komisi_produk.length == 0 && response.komisi_produk_travel.length == 0){
+        if (response.komisi_produk.length == 0 && response.komisi_produk_travel.length == 0) {
           $(".btnPaidAllKomisi").hide();
 
           html += `
@@ -228,7 +229,7 @@
         } else {
           $(".btnPaidAllKomisi").show();
 
-          if(response.komisi_produk.length != 0){
+          if (response.komisi_produk.length != 0) {
             response.komisi_produk.forEach(komisi_produk => {
               html += `
                 <div class="card mb-3 shadow-none border">
@@ -258,7 +259,7 @@
             });
           }
 
-          if(response.komisi_produk_travel.length != 0){
+          if (response.komisi_produk_travel.length != 0) {
             response.komisi_produk_travel.forEach(komisi_produk_travel => {
               html += `
                 <div class="card mb-3 shadow-none border">
@@ -292,22 +293,22 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function paidKomisiProduk(id){
+  function paidKomisiProduk(id) {
     let pk_id_agent = $("[name='pk_id_agent']").val();
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/changeStatusKomisiProduk/${id}`,
+      url: `<?= base_url() ?>/komisi/changeStatusKomisiProduk/${id}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         Toast.fire({
           icon: response.status,
           title: response.message
@@ -316,7 +317,7 @@
         $('#table-data').DataTable().ajax.reload();
         historyKomisi(pk_id_agent);
       },
-      error: function (xhr, status, error){
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan: ${error}`
@@ -325,14 +326,14 @@
     })
   }
 
-  function paidKomisiProdukTravel(id){
+  function paidKomisiProdukTravel(id) {
     let pk_id_agent = $("[name='pk_id_agent']").val();
 
     $.ajax({
-      url: `<?= base_url()?>/komisi/changeStatusKomisiProdukTravel/${id}`,
+      url: `<?= base_url() ?>/komisi/changeStatusKomisiProdukTravel/${id}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         Toast.fire({
           icon: response.status,
           title: response.message
@@ -341,7 +342,7 @@
         $('#table-data').DataTable().ajax.reload();
         historyKomisi(pk_id_agent);
       },
-      error: function (xhr, status, error){
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan: ${error}`
@@ -349,6 +350,5 @@
       }
     })
   }
-
 </script>
 <?= $this->endSection() ?>

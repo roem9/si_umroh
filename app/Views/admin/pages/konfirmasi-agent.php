@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -206,15 +206,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/agent/getListKonfirmasi`,
+      ajax: `<?= base_url() ?>/agent/getListKonfirmasi`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[2, 'asc']],
-      columns: [
-        {
+      order: [
+        [2, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -226,13 +227,13 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'kode_agent',
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_agent',
           searchable: true,
@@ -287,13 +288,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function konfirmasiAgent(e) {
@@ -303,16 +304,16 @@
     let pk_id_agent = $(`${form} #pk_id_agent`).val();
 
     let data = {
-      'pk_id_agent' : pk_id_agent
+      'pk_id_agent': pk_id_agent
     }
 
     $.ajax({
-      url: "<?= base_url()?>/agent/konfirmasiAgent",
+      url: "<?= base_url() ?>/agent/konfirmasiAgent",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -323,27 +324,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormAgent').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -351,12 +352,12 @@
 
   function editAgent($pk_id_agent) {
     let form = '#formTambahAgent'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/agent/getData/" + $pk_id_agent,
+      url: "<?= base_url() ?>/agent/getData/" + $pk_id_agent,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -403,13 +404,13 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/agent/delete/" + pk_id_agent,
+          url: "<?= base_url() ?>/agent/delete/" + pk_id_agent,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $("#modalFormAgent").modal('hide');
@@ -417,8 +418,8 @@
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });
@@ -438,21 +439,21 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/agent/confirmAll",
+          url: "<?= base_url() ?>/agent/confirmAll",
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             $('#table-data').DataTable().ajax.reload();
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });

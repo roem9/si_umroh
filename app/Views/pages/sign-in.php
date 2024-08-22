@@ -36,7 +36,7 @@
                       </div>
                       <label>Password</label>
                       <div class="mb-3">
-                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Enter your password">
                         <div class="form-check mt-2">
                           <input type="checkbox" class="form-check-input" id="show-password">
                           <label class="form-check-label" for="show-password">Show password</label>

@@ -3,23 +3,23 @@
 <?= $this->section('content') ?>
 <div class="col-12">
   <form action="" method="GET" class="mb-3" id="form">
-      <div class="row g-2">
-          <div class="col-md-3 col-sm-12">
-              <input name="tgl_awal" id="tgl_awal" class="multisteps-form__input form-control form-control-sm" type="date" placeholder="Tanggal Awal" 
-                    value="<?= (isset($_GET['tgl_awal']) ? $_GET['tgl_awal'] : NULL) ?>" required>
-              <div class="invalid-feedback" data-id="tgl_awal"></div>
-          </div>
-          <div class="col-md-3 col-sm-12">
-              <input name="tgl_akhir" id="tgl_akhir" class="multisteps-form__input form-control form-control-sm" type="date" placeholder="Tanggal Akhir" 
-                    value="<?= (isset($_GET['tgl_akhir']) ? $_GET['tgl_akhir'] : NULL) ?>" required>
-              <div class="invalid-feedback" data-id="tgl_akhir"></div>
-          </div>
-          <div class="col-auto">
-              <button type="submit" class="btn btn-icon btn-success btn-sm" aria-label="Button">
-                  GO!
-              </button>
-          </div>
+    <div class="row g-2">
+      <div class="col-md-3 col-sm-12">
+        <input name="tgl_awal" id="tgl_awal" class="multisteps-form__input form-control form-control-sm" type="date" placeholder="Tanggal Awal"
+          value="<?= (isset($_GET['tgl_awal']) ? $_GET['tgl_awal'] : NULL) ?>" required>
+        <div class="invalid-feedback" data-id="tgl_awal"></div>
       </div>
+      <div class="col-md-3 col-sm-12">
+        <input name="tgl_akhir" id="tgl_akhir" class="multisteps-form__input form-control form-control-sm" type="date" placeholder="Tanggal Akhir"
+          value="<?= (isset($_GET['tgl_akhir']) ? $_GET['tgl_akhir'] : NULL) ?>" required>
+        <div class="invalid-feedback" data-id="tgl_akhir"></div>
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-icon btn-success btn-sm" aria-label="Button">
+          GO!
+        </button>
+      </div>
+    </div>
   </form>
 </div>
 
@@ -30,7 +30,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?> <?= (isset($_GET['tgl_awal']) && isset($_GET['tgl_akhir'])) ? "(" . date('d-m-y', strtotime($_GET['tgl_awal'])) . " s.d " . date('d-m-y', strtotime($_GET['tgl_akhir'])) . ")" : NULL ?>
+            <?= $deskripsi ?> <?= (isset($_GET['tgl_awal']) && isset($_GET['tgl_akhir'])) ? "(" . date('d-m-y', strtotime($_GET['tgl_awal'])) . " s.d " . date('d-m-y', strtotime($_GET['tgl_akhir'])) . ")" : NULL ?>
           </p>
         </div>
       </div>
@@ -77,21 +77,22 @@
       processing: true,
       serverSide: true,
       ajax: {
-            url: `<?= base_url()?>/rank/getListRankKota`,
-            type: 'GET',
-            data: function(d) {
-                d.tgl_awal = $('#tgl_awal').val();  // Fetching from the input
-                d.tgl_akhir = $('#tgl_akhir').val(); // Fetching from the input
-            }
+        url: `<?= base_url() ?>/rank/getListRankKota`,
+        type: 'GET',
+        data: function(d) {
+          d.tgl_awal = $('#tgl_awal').val(); // Fetching from the input
+          d.tgl_akhir = $('#tgl_akhir').val(); // Fetching from the input
+        }
       },
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[2, 'desc']],
-      columns: [
-        {
+      order: [
+        [2, 'desc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -112,7 +113,7 @@
           data: 'total_omset',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.total_omset)
           }
         },
@@ -125,13 +126,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 </script>
 <?= $this->endSection() ?>
