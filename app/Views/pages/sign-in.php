@@ -1,5 +1,4 @@
 <?= $this->extend('layout/page_layout') ?>
-
 <?= $this->section('content') ?>
 <main class="main-content  mt-0">
   <section>
@@ -30,21 +29,28 @@
                         <?= session()->getFlashdata('msg'); ?>
                       </div>
                     <?php endif; ?>
-                    <form action="<?= base_url()?>/login/auth" method="post" role="form">
+                    <form action="<?= base_url() ?>/login/auth" method="post" role="form">
                       <label>Username</label>
                       <div class="mb-3">
                         <input type="username" name="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="email-addon">
                       </div>
                       <label>Password</label>
                       <div class="mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                        <input type="password" class="form-control" id="password" placeholder="Enter your password">
+                        <div class="form-check mt-2">
+                          <input type="checkbox" class="form-check-input" id="show-password">
+                          <label class="form-check-label" for="show-password">Show password</label>
+                        </div>
                       </div>
+                      <!-- <div class="mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">
+                      </div> -->
                       <div class="d-flex justify-content-between">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" name="remember" value="remember" id="rememberMe">
                           <label class="form-check-label" for="rememberMe">Ingat saya</label>
                         </div>
-                        <a href="<?= base_url()?>/lupapassword" class="text-sm text-secondary">Lupa Password?</a>
+                        <a href="<?= base_url() ?>/lupapassword" class="text-sm text-secondary">Lupa Password?</a>
                       </div>
                       <div class="text-center">
                         <button type="submit" class="btn w-100 mt-4 mb-0 text-light" style="background-color: #cc9933"><b>Login</b></button>
@@ -60,4 +66,17 @@
     </div>
   </section>
 </main>
+<?= $this->endSection() ?>
+
+<?= $this->section('js-script') ?>
+<script>
+  $('#show-password').on('change', function() {
+    const passwordField = $('#password');
+    if ($(this).is(':checked')) {
+      passwordField.attr('type', 'text');
+    } else {
+      passwordField.attr('type', 'password');
+    }
+  });
+</script>
 <?= $this->endSection() ?>
