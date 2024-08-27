@@ -19,7 +19,8 @@ class Produk extends BaseController
     public $knowledgeProdukTravelModel;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->produkModel = new ProdukModel();
         $this->produkTravelModel = new ProdukTravelModel();
         $this->travelModel = new TravelModel();
@@ -54,10 +55,11 @@ class Produk extends BaseController
         return view('admin/pages/produk-travel', $data);
     }
 
-    public function knowledgeProduk($pk_id_produk){
+    public function knowledgeProduk($pk_id_produk)
+    {
         $produk = $this->produkModel->find($pk_id_produk);
 
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/produk'>Produk</a>", "<span class='text-dark'>".$produk['nama_produk']."</span>"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/produk'>Produk</a>", "<span class='text-dark'>" . $produk['nama_produk'] . "</span>"];
         $data['sidebar'] = "produk";
         $data['title'] = "Knowledge Produk $produk[nama_produk]";
         $data['collapse'] = "produk";
@@ -68,10 +70,11 @@ class Produk extends BaseController
         return view('admin/pages/design-knowledge-produk', $data);
     }
 
-    public function knowledgeProdukTravel($pk_id_produk_travel){
+    public function knowledgeProdukTravel($pk_id_produk_travel)
+    {
         $produk = $this->produkTravelModel->find($pk_id_produk_travel);
 
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/produk/travel'>Produk Travel</a>", "<span class='text-dark'>".$produk['nama_produk']."</span>"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/produk/travel'>Produk Travel</a>", "<span class='text-dark'>" . $produk['nama_produk'] . "</span>"];
         $data['sidebar'] = "produk";
         $data['title'] = "Knowledge Produk $produk[nama_produk]";
         $data['collapse'] = "produk";
@@ -112,14 +115,14 @@ class Produk extends BaseController
 
         $pk_id_produk = $this->request->getPost('pk_id_produk');
 
-        if($data['send_wa_after_input_agent'] || $data['send_wa_after_input_admin']){
+        if ($data['send_wa_after_input_agent'] || $data['send_wa_after_input_admin']) {
             $this->produkModel->setValidationRule('wa_message', "required");
             $this->produkModel->setValidationMessage('wa_message', [
                 'required' => 'pesan wa harus diisi',
             ]);
         }
 
-        if($data['send_email_after_input_agent'] || $data['send_email_after_input_admin']){
+        if ($data['send_email_after_input_agent'] || $data['send_email_after_input_admin']) {
             $this->produkModel->setValidationRule('email_message', "required");
             $this->produkModel->setValidationMessage('email_message', [
                 'required' => 'pesan email harus diisi',
@@ -131,19 +134,19 @@ class Produk extends BaseController
             ]);
         }
 
-        if($data['show_lp'] == 1){
+        if ($data['show_lp'] == 1) {
             $this->produkModel->setValidationRule('link_lp', "required");
             $this->produkModel->setValidationMessage('link_lp', [
                 'required' => 'Link LP harus diisi',
             ]);
-            
+
             $this->produkModel->setValidationRule('page', "required");
             $this->produkModel->setValidationMessage('page', [
                 'required' => 'page harus diisi',
             ]);
         }
 
-        if($data['to_agent'] == 1){
+        if ($data['to_agent'] == 1) {
             $this->produkModel->setValidationRule('tipe_agent', "required");
             $this->produkModel->setValidationMessage('tipe_agent', [
                 'required' => 'Tipe agent harus diisi',
@@ -152,7 +155,7 @@ class Produk extends BaseController
 
         $searchProduk = $this->produkModel->find($pk_id_produk);
         if ($searchProduk) {
-            if($this->produkModel->update($pk_id_produk, $data) === true){
+            if ($this->produkModel->update($pk_id_produk, $data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil mengubah data produk'
@@ -163,7 +166,7 @@ class Produk extends BaseController
                 ];
             }
         } else {
-            if($this->produkModel->save($data) === true){
+            if ($this->produkModel->save($data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambah data produk'
@@ -199,7 +202,7 @@ class Produk extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -211,7 +214,7 @@ class Produk extends BaseController
 
     public function delete($pk_id_produk)
     {
-        if($this->produkModel->delete($pk_id_produk) === true){
+        if ($this->produkModel->delete($pk_id_produk) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil menghapus data produk'
@@ -249,7 +252,7 @@ class Produk extends BaseController
 
         $pk_id_produk_travel = $this->request->getPost('pk_id_produk_travel');
 
-        if($data['send_wa_after_input_agent'] || $data['send_wa_after_input_admin']){
+        if ($data['send_wa_after_input_agent'] || $data['send_wa_after_input_admin']) {
             $this->produkTravelModel->setValidationRule('wa_message', "required");
             $this->produkTravelModel->setValidationMessage('wa_message', [
                 'required' => 'pesan wa harus diisi',
@@ -258,7 +261,7 @@ class Produk extends BaseController
 
         $searchProduk = $this->produkTravelModel->find($pk_id_produk_travel);
         if ($searchProduk) {
-            if($this->produkTravelModel->update($pk_id_produk_travel, $data) === true){
+            if ($this->produkTravelModel->update($pk_id_produk_travel, $data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil mengubah data produk'
@@ -269,7 +272,7 @@ class Produk extends BaseController
                 ];
             }
         } else {
-            if($this->produkTravelModel->save($data) === true){
+            if ($this->produkTravelModel->save($data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambah data produk'
@@ -305,7 +308,7 @@ class Produk extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -317,7 +320,7 @@ class Produk extends BaseController
 
     public function deleteProdukTravel($pk_id_produk_travel)
     {
-        if($this->produkTravelModel->delete($pk_id_produk_travel) === true){
+        if ($this->produkTravelModel->delete($pk_id_produk_travel) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil menghapus data produk'
@@ -430,7 +433,7 @@ class Produk extends BaseController
             ];
         }
 
-        if($this->validate($rules)){
+        if ($this->validate($rules)) {
             $data = [
                 'fk_id_produk' => $fk_id_produk,
                 'item' => $item
@@ -439,8 +442,11 @@ class Produk extends BaseController
             if ($item == 'text' || $item == 'video') {
                 $searchMateri = $this->knowledgeProdukModel->find($pk_id_knowledge_produk);
                 if ($searchMateri) {
-                    $data['data'] = $this->request->getPost($item);
-                    if($this->knowledgeProdukModel->update($pk_id_knowledge_produk, $data) === true){
+                    // $data['data'] = $this->request->getPost($item);
+                    $data['data'] = $_POST[$item];
+                    // var_dump($data);
+                    // exit();
+                    if ($this->knowledgeProdukModel->update($pk_id_knowledge_produk, $data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil mengubah data knowledge produk'
@@ -451,9 +457,12 @@ class Produk extends BaseController
                         ];
                     }
                 } else {
-                    $data['data'] = $this->request->getPost($item);
+                    // $data['data'] = $this->request->getPost($item);
+                    $data['data'] = $_POST[$item];
+                    // var_dump($data);
+                    // exit();
 
-                    if($this->knowledgeProdukModel->save($data) === true){
+                    if ($this->knowledgeProdukModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan knowledge produk'
@@ -467,11 +476,11 @@ class Produk extends BaseController
             } else {
                 $move = 0;
 
-                if($file_audio){
+                if ($file_audio) {
                     $move = ($file_audio->isValid() && !$file_audio->hasMoved()) ? 1 : 0;
-                } else if ($file_file){
+                } else if ($file_file) {
                     $move = ($file_file->isValid() && !$file_file->hasMoved()) ? 1 : 0;
-                } else if ($file_image){
+                } else if ($file_image) {
                     $move = ($file_image->isValid() && !$file_image->hasMoved()) ? 1 : 0;
                 }
 
@@ -479,11 +488,11 @@ class Produk extends BaseController
                     $nama_file = $this->request->getPost('nama_file');
                     // Get audio name and extension
                     // $name = $file->getName();
-                    if($file_audio){
+                    if ($file_audio) {
                         $ext = $file_audio->getClientExtension();
-                    } else if($file_file){
+                    } else if ($file_file) {
                         $ext = $file_file->getClientExtension();
-                    } else if($file_image){
+                    } else if ($file_image) {
                         $ext = $file_image->getClientExtension();
                     }
 
@@ -504,7 +513,7 @@ class Produk extends BaseController
                         $file_image->move('public/assets/knowledge-produk/img/', $newName, true);
                     }
                     $data['data'] = $newName;
-                    if($this->knowledgeProdukModel->save($data) === true){
+                    if ($this->knowledgeProdukModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan knowledge produk'
@@ -532,7 +541,8 @@ class Produk extends BaseController
         return json_encode($response);
     }
 
-    public function getKnowledgeProduk($pk_id_knowledge_produk){
+    public function getKnowledgeProduk($pk_id_knowledge_produk)
+    {
         $data = $this->knowledgeProdukModel->find($pk_id_knowledge_produk);
         return json_encode($data);
     }
@@ -660,7 +670,7 @@ class Produk extends BaseController
             ];
         }
 
-        if($this->validate($rules)){
+        if ($this->validate($rules)) {
             $data = [
                 'fk_id_produk_travel' => $fk_id_produk_travel,
                 'item' => $item
@@ -670,7 +680,7 @@ class Produk extends BaseController
                 $searchMateri = $this->knowledgeProdukTravelModel->find($pk_id_knowledge_produk_travel);
                 if ($searchMateri) {
                     $data['data'] = $this->request->getPost($item);
-                    if($this->knowledgeProdukTravelModel->update($pk_id_knowledge_produk_travel, $data) === true){
+                    if ($this->knowledgeProdukTravelModel->update($pk_id_knowledge_produk_travel, $data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil mengubah data knowledge produk'
@@ -683,7 +693,7 @@ class Produk extends BaseController
                 } else {
                     $data['data'] = $this->request->getPost($item);
 
-                    if($this->knowledgeProdukTravelModel->save($data) === true){
+                    if ($this->knowledgeProdukTravelModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan knowledge produk'
@@ -697,11 +707,11 @@ class Produk extends BaseController
             } else {
                 $move = 0;
 
-                if($file_audio){
+                if ($file_audio) {
                     $move = ($file_audio->isValid() && !$file_audio->hasMoved()) ? 1 : 0;
-                } else if ($file_file){
+                } else if ($file_file) {
                     $move = ($file_file->isValid() && !$file_file->hasMoved()) ? 1 : 0;
-                } else if ($file_image){
+                } else if ($file_image) {
                     $move = ($file_image->isValid() && !$file_image->hasMoved()) ? 1 : 0;
                 }
 
@@ -709,11 +719,11 @@ class Produk extends BaseController
                     $nama_file = $this->request->getPost('nama_file');
                     // Get audio name and extension
                     // $name = $file->getName();
-                    if($file_audio){
+                    if ($file_audio) {
                         $ext = $file_audio->getClientExtension();
-                    } else if($file_file){
+                    } else if ($file_file) {
                         $ext = $file_file->getClientExtension();
-                    } else if($file_image){
+                    } else if ($file_image) {
                         $ext = $file_image->getClientExtension();
                     }
 
@@ -734,7 +744,7 @@ class Produk extends BaseController
                         $file_image->move('public/assets/knowledge-produk/img/', $newName, true);
                     }
                     $data['data'] = $newName;
-                    if($this->knowledgeProdukTravelModel->save($data) === true){
+                    if ($this->knowledgeProdukTravelModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan knowledge produk'
@@ -762,7 +772,8 @@ class Produk extends BaseController
         return json_encode($response);
     }
 
-    public function getKnowledgeProdukTravel($pk_id_knowledge_produk_travel){
+    public function getKnowledgeProdukTravel($pk_id_knowledge_produk_travel)
+    {
         $data = $this->knowledgeProdukTravelModel->find($pk_id_knowledge_produk_travel);
         return json_encode($data);
     }
@@ -791,12 +802,13 @@ class Produk extends BaseController
         }
     }
 
-    public function toggleStatus($pk_id_produk, $is_active){
+    public function toggleStatus($pk_id_produk, $is_active)
+    {
         $data = [
             "is_active" => !$is_active
         ];
 
-        if($this->produkModel->update($pk_id_produk, $data) === true){
+        if ($this->produkModel->update($pk_id_produk, $data) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil mengubah status produk'
@@ -810,12 +822,13 @@ class Produk extends BaseController
         return json_encode($response);
     }
 
-    public function toggleStatusProdukTravel($pk_id_produk_travel, $is_active){
+    public function toggleStatusProdukTravel($pk_id_produk_travel, $is_active)
+    {
         $data = [
             "is_active" => !$is_active
         ];
 
-        if($this->produkTravelModel->update($pk_id_produk_travel, $data) === true){
+        if ($this->produkTravelModel->update($pk_id_produk_travel, $data) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil mengubah status produk'
@@ -829,7 +842,8 @@ class Produk extends BaseController
         return json_encode($response);
     }
 
-    public function isProdukToAgent($nama_produk){
+    public function isProdukToAgent($nama_produk)
+    {
         $data = $this->db->query("
             SELECT
                 *
@@ -838,7 +852,7 @@ class Produk extends BaseController
             AND setting_value LIKE '%$nama_produk%'
         ")->getRowArray();
 
-        if($data){
+        if ($data) {
             $data['response'] = 1;
         } else {
             $data['response'] = 0;

@@ -13,7 +13,7 @@ class KnowledgeProdukModel extends Model
     protected $insertID         = 0;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = true;
-    protected $protectFields    = true;
+    protected $protectFields    = false;
     protected $allowedFields    = [
         'fk_id_produk',
         'item',
