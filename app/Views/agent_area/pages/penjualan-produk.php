@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -21,17 +21,17 @@
             <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
               <li>
                 <a href="javascript:void(0)" class="dropdown-item btnModalFormData" data-bs-toggle="modal" data-bs-target="#modalFormData">
-                    Tambah Peminat
+                  Tambah Peminat
                 </a>
               </li>
               <li>
                 <a href="javascript:void(0)" class="dropdown-item btnModalFormImportData" data-bs-toggle="modal" data-bs-target="#modalFormImportData">
-                    Import Peminat
+                  Import Peminat
                 </a>
               </li>
               <li>
-                <a href="<?= base_url()?>/import/download_template" class="dropdown-item">
-                    Download Template
+                <a href="<?= base_url() ?>/import/download_template" class="dropdown-item">
+                  Download Template
                 </a>
               </li>
             </ul>
@@ -43,17 +43,17 @@
             <ul class="dropdown-menu" aria-labelledby="${row.pk_id_penjualan_produk}">
               <li>
                 <a href="javascript:void(0)" class="dropdown-item btnModalFormData" data-bs-toggle="modal" data-bs-target="#modalFormData">
-                    Tambah Peminat
+                  Tambah Peminat
                 </a>
               </li>
               <li>
                 <a href="javascript:void(0)" class="dropdown-item btnModalFormImportData" data-bs-toggle="modal" data-bs-target="#modalFormImportData">
-                    Import Peminat
+                  Import Peminat
                 </a>
               </li>
               <li>
-                <a href="<?= base_url()?>/import/download_template" class="dropdown-item">
-                    Download Template
+                <a href="<?= base_url() ?>/import/download_template" class="dropdown-item">
+                  Download Template
                 </a>
               </li>
             </ul>
@@ -94,7 +94,7 @@
 
 
 <?= $this->endSection() ?>
-  
+
 <?= $this->section('modal') ?>
 <div class="modal fade" id="modalFormData" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
@@ -107,43 +107,43 @@
       </div>
       <div class="modal-body" id="formData">
         <input type="hidden" name="pk_id_penjualan_produk" id="pk_id_penjualan_produk">
-        
+
         <h6>Data Customer</h6>
         <div class="col-12 mb-3">
-            <label>Nama Customer <span class="text-danger">*</span></label>
-            <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Customer">
-            <div class="invalid-feedback" data-id="nama_customer"></div>
+          <label>Nama Customer <span class="text-danger">*</span></label>
+          <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="Nama Customer">
+          <div class="invalid-feedback" data-id="nama_customer"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>No WA <span class="text-danger">*</span></label>
-            <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="No WA">
-            <small class="text-xxs text-danger">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
-            <div class="invalid-feedback" data-id="no_wa"></div>
+          <label>No WA <span class="text-danger">*</span></label>
+          <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="No WA">
+          <small class="text-xxs text-danger">* Harap mengisi nomor whatsapp dengan kode negara, contoh : 6281xxxxx</small>
+          <div class="invalid-feedback" data-id="no_wa"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Domisili</label>
-            <input class="form-control" list="listkota_kabupaten_1" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off">
-            <datalist class="listkota_kabupaten" id="listkota_kabupaten_1">
-            </datalist>
-            <div class="invalid-feedback" data-id="kota_kabupaten"></div>
+          <label>Domisili</label>
+          <input class="form-control" list="listkota_kabupaten_1" name="kota_kabupaten" id="kota_kabupaten" placeholder="Ketik untuk mencari..." autocomplete="off">
+          <datalist class="listkota_kabupaten" id="listkota_kabupaten_1">
+          </datalist>
+          <div class="invalid-feedback" data-id="kota_kabupaten"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Email <span class="text-danger">*</span></label>
-            <input name="email" id="email" class="multisteps-form__input form-control" placeholder="Email">
-            <div class="invalid-feedback" data-id="email"></div>
+          <label>Email <span class="text-danger">*</span></label>
+          <input name="email" id="email" class="multisteps-form__input form-control" placeholder="Email">
+          <div class="invalid-feedback" data-id="email"></div>
         </div>
-        
+
         <h6 class="">Data Produk</h6>
         <div class="col-12 mb-3">
           <label for="fk_id_produk">Produk</label>
           <select name="fk_id_produk" id="fk_id_produk" class="multisteps-form__input form-control">
             <option value="">Pilih Produk</option>
             <?php
-              foreach ($produks as $produk) :?>
-                <option value="<?= $produk['pk_id_produk']?>"><?= $produk['nama_produk']?></option>
+            foreach ($produks as $produk) : ?>
+              <option value="<?= $produk['pk_id_produk'] ?>"><?= $produk['nama_produk'] ?></option>
             <?php endforeach
             ?>
           </select>
@@ -182,11 +182,11 @@
       <div class="modal-body" id="uploadForm">
         <p>Sebelum meng-upload data peminat, harap perhatikan beberapa hal berikut terkait cara pengisian data:</p>
         <ul>
-            <li><b>Nama:</b> (harus diisi) Masukkan nama tanpa menggunakan format teks khusus seperti bold, italic, atau underline. Tulis nama lengkap dengan jelas.</li>
-            <li><b>No WA:</b> (harus diisi) Data nomor WhatsApp harus diisi tanpa spasi dan hanya menggunakan angka. Sertakan kode negara. Contoh yang salah: +6281222333444, 6281-222-333-444, 6281 222 333 444. Contoh yang benar: 6281222333444.</li>
-            <li><b>Email:</b> (harus diisi) Pastikan email yang diisi adalah alamat email yang valid dan dapat dihubungi.</li>
-            <li><b>Domisili:</b> Isi data domisili hanya dengan nama kota atau kabupaten tanpa tambahan informasi lain.</li>
-            <li><b>Produk:</b> (harus diisi) Data produk harus sesuai dengan data produk yang terdapat dalam daftar yang tersedia.</li>
+          <li><b>Nama:</b> (harus diisi) Masukkan nama tanpa menggunakan format teks khusus seperti bold, italic, atau underline. Tulis nama lengkap dengan jelas.</li>
+          <li><b>No WA:</b> (harus diisi) Data nomor WhatsApp harus diisi tanpa spasi dan hanya menggunakan angka. Sertakan kode negara. Contoh yang salah: +6281222333444, 6281-222-333-444, 6281 222 333 444. Contoh yang benar: 6281222333444.</li>
+          <li><b>Email:</b> (harus diisi) Pastikan email yang diisi adalah alamat email yang valid dan dapat dihubungi.</li>
+          <li><b>Domisili:</b> Isi data domisili hanya dengan nama kota atau kabupaten tanpa tambahan informasi lain.</li>
+          <li><b>Produk:</b> (harus diisi) Data produk harus sesuai dengan data produk yang terdapat dalam daftar yang tersedia.</li>
         </ul>
         <p>Periksa kembali data yang Anda masukkan untuk memastikan semuanya sesuai dengan petunjuk di atas sebelum melakukan upload.</p>
 
@@ -202,9 +202,9 @@
         <button type="button" class="btn btn-info" id="btnUpload">Upload</button>
         <!-- Indikator Loading -->
         <div id="loadingIndicator" style="display: none;">
-            <div class="spinner-border" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
       </div>
     </div>
@@ -254,15 +254,15 @@
           <input name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" type="text" placeholder="" disabled>
           <div class="invalid-feedback" data-id="nama_leader_agent"></div>
         </div>
-        
+
         <h6 class="">Data Produk</h6>
         <div class="col-12 mb-3">
           <label for="fk_id_produk">Produk</label>
           <select name="fk_id_produk" id="fk_id_produk" class="multisteps-form__input form-control" disabled>
             <option value="">Pilih Produk</option>
             <?php
-              foreach ($produks as $produk) :?>
-                <option value="<?= $produk['pk_id_produk']?>"><?= $produk['nama_produk']?></option>
+            foreach ($produks as $produk) : ?>
+              <option value="<?= $produk['pk_id_produk'] ?>"><?= $produk['nama_produk'] ?></option>
             <?php endforeach
             ?>
           </select>
@@ -276,11 +276,11 @@
         <div class="col-12 mb-3">
           <label>Nama Travel</label>
           <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control" disabled>
-              <option value="">Pilih Travel</option>
-              <?php
-                foreach ($travels as $travel) :?>
-                  <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-              <?php endforeach;?>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travels as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
           </select>
           <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
@@ -395,8 +395,8 @@
     btnSimpanFormData.on("click", saveData);
     btnUpload.on("click", saveUpload);
 
-    $('#modalFormEditPembayaran').on('hidden.bs.modal', function (e) {
-        $('#modalListPembayaranData').modal('show');
+    $('#modalFormEditPembayaran').on('hidden.bs.modal', function(e) {
+      $('#modalListPembayaranData').modal('show');
     });
   })
 
@@ -405,15 +405,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/apenjualan/getListPenjualanProduk`,
+      ajax: `<?= base_url() ?>/apenjualan/getListPenjualanProduk`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'desc']],
-      columns: [
-        {
+      order: [
+        [1, 'desc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -425,13 +426,13 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_customer',
           searchable: true,
           className: 'text-sm',
           orderable: true
-        }, 
+        },
         {
           data: 'kota_kabupaten',
           searchable: true,
@@ -441,7 +442,7 @@
         {
           data: 'no_wa_customer',
           render: function(data, type, row) {
-            if(row.no_wa_customer == '-'){
+            if (row.no_wa_customer == '-') {
               return '-'
             } else {
               return `<a href="https://api.whatsapp.com/send?phone=${row.no_wa_customer}&text=" target="_blank"><span class="badge bg-gold-custom">
@@ -468,7 +469,7 @@
           data: 'harga_produk',
           searchable: true,
           className: 'text-sm',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.harga_produk)
           }
         },
@@ -521,13 +522,13 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function showModalFormData() {
@@ -560,7 +561,7 @@
     let email = $(`${form} #email`).val();
     let fk_id_produk = $(`${form} #fk_id_produk`).val();
     var confirm_data = $(`${form} #confirm_data`).is(':checked');
-    
+
     let data = {
       nama_customer: nama_customer,
       no_wa: no_wa,
@@ -571,12 +572,12 @@
     }
 
     $.ajax({
-      url: "<?= base_url()?>/apenjualan/saveDataPenjualan",
+      url: "<?= base_url() ?>/apenjualan/saveDataPenjualan",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -587,27 +588,27 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormData').modal("hide");
           $('#table-data').DataTable().ajax.reload();
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -626,72 +627,72 @@
     formData.append('fileUpload', fileUpload[0]);
 
     $.ajax({
-        url: '<?= base_url()?>/import/peminat', 
-        type: 'POST',
-        data: formData,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function(response) {
-          // Sembunyikan indikator loading
-          $('#loadingIndicator').hide();
-          $("#btnUpload").show();
+      url: '<?= base_url() ?>/import/peminat',
+      type: 'POST',
+      data: formData,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function(response) {
+        // Sembunyikan indikator loading
+        $('#loadingIndicator').hide();
+        $("#btnUpload").show();
 
-          if(response.error){
-            bersihkanValidasi(`${form}`);
+        if (response.error) {
+          bersihkanValidasi(`${form}`);
 
-            console.log(response.error)
-            // showFormError();
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              html: response.error,
-            });
+          console.log(response.error)
+          // showFormError();
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            html: response.error,
+          });
 
-            $('html, .modal-body').animate({
-              scrollTop: 0
-            }, 'slow');
+          $('html, .modal-body').animate({
+            scrollTop: 0
+          }, 'slow');
 
-            let errorMessage = '';
-            for (var key in response.error) {
-                var error = response.error[key];
-                $(`[name='${key}']`).addClass("is-invalid")
-                $(`[data-id='${key}']`).show()
-                $(`[data-id='${key}']`).text(error)
-            }
-    
-          } else {
-            Toast.fire({
-                icon: response.status,
-                title: response.message
-            })
-
-            $('#modalFormImportData').modal("hide");
-            $('#table-data').DataTable().ajax.reload();
+          let errorMessage = '';
+          for (var key in response.error) {
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-          
-        },
-        error: function(xhr, status, error) {
+
+        } else {
           Toast.fire({
-              icon: 'error',
-              title: `file tidak dapat diupload, silakan pilih file lain`
+            icon: response.status,
+            title: response.message
           })
 
-          // Sembunyikan indikator loading
-          $('#loadingIndicator').hide();
-          $("#btnUpload").show();
+          $('#modalFormImportData').modal("hide");
+          $('#table-data').DataTable().ajax.reload();
         }
+
+      },
+      error: function(xhr, status, error) {
+        Toast.fire({
+          icon: 'error',
+          title: `file tidak dapat diupload, silakan pilih file lain`
+        })
+
+        // Sembunyikan indikator loading
+        $('#loadingIndicator').hide();
+        $("#btnUpload").show();
+      }
     });
-}
+  }
 
   function editData($pk_id_penjualan_produk) {
     let form = '#formEditData'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/apenjualan/getDataPenjualanProduk/" + $pk_id_penjualan_produk,
+      url: "<?= base_url() ?>/apenjualan/getDataPenjualanProduk/" + $pk_id_penjualan_produk,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -741,9 +742,9 @@
     });
   }
 
-  function historyPembayaran(pk_id_penjualan_produk){
+  function historyPembayaran(pk_id_penjualan_produk) {
     $.ajax({
-      url: `<?= base_url()?>/apenjualan/historyPembayaran/${pk_id_penjualan_produk}`,
+      url: `<?= base_url() ?>/apenjualan/historyPembayaran/${pk_id_penjualan_produk}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -769,7 +770,7 @@
         $("#DataPenjualan").html(html);
 
         html = ``;
-        if(response.pembayaran.length == 0){
+        if (response.pembayaran.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -802,15 +803,15 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function getDataPembayaran(pk_id_pembayaran_penjualan_produk){
+  function getDataPembayaran(pk_id_pembayaran_penjualan_produk) {
     let form = '#formEditPembayaran';
 
     bersihkanForm(form);
@@ -820,30 +821,31 @@
     $("#modalFormEditPembayaranLabel").html('Detail Pembayaran');
 
     $.ajax({
-      url: `<?= base_url()?>/apenjualan/getDataPembayaranPenjualanProduk/${pk_id_pembayaran_penjualan_produk}`,
+      url: `<?= base_url() ?>/apenjualan/getDataPembayaranPenjualanProduk/${pk_id_pembayaran_penjualan_produk}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListPembayaranData").modal('hide');
 
         $(`${form} #pk_id_pembayaran_penjualan_produk`).val(response.pk_id_pembayaran_penjualan_produk);
         $(`${form} #tgl_pembayaran`).val(response.tgl_pembayaran);
         $(`${form} #nominal`).val(formatRupiah(response.nominal));
         $(`${form} #keterangan`).val(response.keterangan);
-        
+
         $(`#image-cover`).show();
         $(`#image-cover`).html(
           `<img src="../public/assets/bukti-pembayaran/${response.bukti_pembayaran}" alt="" class="img-fluid" width="100%">`
         )
 
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
+
   }
 </script>
 <?= $this->endSection() ?>

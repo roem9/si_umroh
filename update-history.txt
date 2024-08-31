@@ -1,0 +1,13 @@
+Code 001
+2024-08-30
+- Menu Penjualan diganti dengan (done)
+    a LA & Agent
+    b Internal
+- Menu Produk (Agent Area) -> Salin LP pindah ke action (done)
+- Menu Kelas -> Nama Kelas urutan.NamaKelas (done)
+- Menu Kelas (Agent Area) -> Nama Kelas urutan.NamaKelas (done)
+- Dashboard -> Total Agent Aktif & Total Agent Nonaktif (done)
+- Table (Agent Area) -> tampilkan data default 20. (20,50,100) (done)
+- Menu Produk -> Upload JSON File Landing Page (sudah)
+- Menu Produk (Agent Area) -> Download JSON pindah ke action (sudah)
+- Tambahkan folder json-lp di assets (sudah)

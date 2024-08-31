@@ -143,7 +143,6 @@
     $(`#image-cover`).hide();
   }
 
-
   // show data from database
   function showData(nama_kelas) {
     let web = "";
@@ -180,7 +179,7 @@
                       <img src="public/assets/img-kelas/${obj.gambar_sampul}" alt="gambar ${obj.nama_kelas}" onerror="this.onerror=null; this.src='public/assets/img/curved-images/white-curved.jpg'">
                     </div>
                     <div class="ms-3 my-auto">
-                      <h6 class="text-light">${obj.nama_kelas}</h6>
+                      <h6 class="text-light">${obj.urutan}. ${obj.nama_kelas}</h6>
                     </div>
                     <div class="ms-auto">
                       <div class="dropdown">

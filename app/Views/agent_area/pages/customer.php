@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -63,27 +63,27 @@
         </div>
         <input type="hidden" name="pk_id_customer" id="pk_id_customer">
         <div class="col-12 mb-3">
-            <label>Kode Customer</label>
-            <input name="kode_customer" id="kode_customer" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="kode_customer"></div>
+          <label>Kode Customer</label>
+          <input name="kode_customer" id="kode_customer" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="kode_customer"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Customer</label>
-            <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="nama_customer"></div>
+          <label>Nama Customer</label>
+          <input name="nama_customer" id="nama_customer" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="nama_customer"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>No WA</label>
-            <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="no_wa"></div>
+          <label>No WA</label>
+          <input name="no_wa" id="no_wa" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="no_wa"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Alamat</label>
-            <textarea name="alamat" id="alamat" class="multisteps-form__input form-control" placeholder="" disabled></textarea>
-            <div class="invalid-feedback" data-id="alamat"></div>
+          <label>Alamat</label>
+          <textarea name="alamat" id="alamat" class="multisteps-form__input form-control" placeholder="" disabled></textarea>
+          <div class="invalid-feedback" data-id="alamat"></div>
         </div>
 
         <div class="col-12 mb-3">
@@ -116,24 +116,24 @@
         </div>
 
         <div class="col-12 mb-3">
-            <label>Email</label>
-            <input name="email" id="email" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="email"></div>
+          <label>Email</label>
+          <input name="email" id="email" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="email"></div>
         </div>
 
         <input type="hidden" name="fk_id_agent" id="fk_id_agent">
         <input type="hidden" name="fk_id_leader_agent" id="fk_id_leader_agent">
 
         <div class="col-12 mb-3">
-            <label>Nama Agent</label>
-            <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="nama_agent"></div>
+          <label>Nama Agent</label>
+          <input name="nama_agent" id="nama_agent" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="nama_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Leader Agent</label>
-            <input name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" placeholder="" disabled>
-            <div class="invalid-feedback" data-id="nama_leader_agent"></div>
+          <label>Nama Leader Agent</label>
+          <input name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" placeholder="" disabled>
+          <div class="invalid-feedback" data-id="nama_leader_agent"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -158,15 +158,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/acustomer/getList`,
+      ajax: `<?= base_url() ?>/acustomer/getList`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -191,7 +192,7 @@
         {
           data: 'no_wa_customer',
           render: function(data, type, row) {
-            if(row.no_wa_customer == '-'){
+            if (row.no_wa_customer == '-') {
               return '-'
             } else {
               return `<a href="https://api.whatsapp.com/send?phone=${row.no_wa_customer}&text=" target="_blank"><span class="badge bg-gold-custom">
@@ -243,20 +244,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function editData($pk_id_customer) {
     let form = '#formData'
 
     $.ajax({
-      url: "<?= base_url()?>/acustomer/getData/" + $pk_id_customer,
+      url: "<?= base_url() ?>/acustomer/getData/" + $pk_id_customer,
       type: "get",
       dataType: "json",
       success: function(response) {

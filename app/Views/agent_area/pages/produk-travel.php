@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -68,84 +68,84 @@
         <input type="hidden" name="pk_id_produk_travel" id="pk_id_produk_travel">
 
         <div class="col-12 mb-3">
-            <label>Nama Travel</label>
-            <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control" disabled>
-                <option value="">Pilih Travel</option>
-                <?php
-                  foreach ($travel as $travel) :?>
-                    <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-                <?php endforeach;?>
-            </select>
-            <div class="invalid-feedback" data-id="fk_id_travel"></div>
+          <label>Nama Travel</label>
+          <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control" disabled>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travel as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
+          </select>
+          <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Nama Produk</label>
-            <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" type="text" placeholder="Nama Produk" disabled>
-            <div class="invalid-feedback" data-id="nama_produk"></div>
+          <label>Nama Produk</label>
+          <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" type="text" placeholder="Nama Produk" disabled>
+          <div class="invalid-feedback" data-id="nama_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" class="multisteps-form__input form-control" placeholder="Deskripsi" disabled></textarea>
-            <div class="invalid-feedback" data-id="deskripsi"></div>
+          <label>Deskripsi</label>
+          <textarea name="deskripsi" id="deskripsi" class="multisteps-form__input form-control" placeholder="Deskripsi" disabled></textarea>
+          <div class="invalid-feedback" data-id="deskripsi"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Jenis Produk</label>
-            <select name="jenis_produk" id="jenis_produk" class="multisteps-form__input form-control" disabled>
-                <option value="">Pilih Jenis Produk</option>
-                <option value="free offer">Free Offer</option>
-                <option value="tripwired">Tripwired</option>
-                <option value="core offer">Core Offer</option>
-            </select>
-            <div class="invalid-feedback" data-id="jenis_produk"></div>
+          <label>Jenis Produk</label>
+          <select name="jenis_produk" id="jenis_produk" class="multisteps-form__input form-control" disabled>
+            <option value="">Pilih Jenis Produk</option>
+            <option value="free offer">Free Offer</option>
+            <option value="tripwired">Tripwired</option>
+            <option value="core offer">Core Offer</option>
+          </select>
+          <div class="invalid-feedback" data-id="jenis_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Link LP</label>
-            <input type="text" name="link_lp" id="link_lp" class="multisteps-form__input form-control" type="text" placeholder="Link LP" disabled>
-            <div class="invalid-feedback" data-id="link_lp"></div>
+          <label>Link LP</label>
+          <input type="text" name="link_lp" id="link_lp" class="multisteps-form__input form-control" type="text" placeholder="Link LP" disabled>
+          <div class="invalid-feedback" data-id="link_lp"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Jenis Komisi</label>
-            <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control" disabled>
-                <option value="">Pilih Jenis Komisi</option>
-                <option value="fix">Fix</option>
-                <option value="prosentase">Prosentase</option>
-            </select>
-            <div class="invalid-feedback" data-id="jenis_komisi"></div>
+          <label>Jenis Komisi</label>
+          <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control" disabled>
+            <option value="">Pilih Jenis Komisi</option>
+            <option value="fix">Fix</option>
+            <option value="prosentase">Prosentase</option>
+          </select>
+          <div class="invalid-feedback" data-id="jenis_komisi"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Harga Produk</label>
-            <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="Harga Produk" disabled>
-            <div class="invalid-feedback" data-id="harga_produk"></div>
+          <label>Harga Produk</label>
+          <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="Harga Produk" disabled>
+          <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Komisi Agent</label>
-            <input type="text" name="komisi_agent" id="komisi_agent" class="multisteps-form__input form-control" placeholder="Komisi Agent" disabled>
-            <div class="invalid-feedback" data-id="komisi_agent"></div>
+          <label>Komisi Agent</label>
+          <input type="text" name="komisi_agent" id="komisi_agent" class="multisteps-form__input form-control" placeholder="Komisi Agent" disabled>
+          <div class="invalid-feedback" data-id="komisi_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Komisi Leader Agent</label>
-            <input type="text" name="komisi_leader_agent" id="komisi_leader_agent" class="multisteps-form__input form-control" placeholder="Komisi Leader Agent" disabled>
-            <div class="invalid-feedback" data-id="komisi_leader_agent"></div>
+          <label>Komisi Leader Agent</label>
+          <input type="text" name="komisi_leader_agent" id="komisi_leader_agent" class="multisteps-form__input form-control" placeholder="Komisi Leader Agent" disabled>
+          <div class="invalid-feedback" data-id="komisi_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Passive Income Leader Agent</label>
-            <input type="text" name="passive_income_leader_agent" id="passive_income_leader_agent" class="multisteps-form__input form-control" placeholder="Passive Income Leader Agent" disabled>
-            <div class="invalid-feedback" data-id="passive_income_leader_agent"></div>
+          <label>Passive Income Leader Agent</label>
+          <input type="text" name="passive_income_leader_agent" id="passive_income_leader_agent" class="multisteps-form__input form-control" placeholder="Passive Income Leader Agent" disabled>
+          <div class="invalid-feedback" data-id="passive_income_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>JSON LP</label>
-            <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP" disabled></textarea>
-            <div class="invalid-feedback" data-id="json_lp"></div>
+          <label>JSON LP</label>
+          <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP" disabled></textarea>
+          <div class="invalid-feedback" data-id="json_lp"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -225,7 +225,7 @@
     showData();
 
     const btnSimpanFormEditPixel = $("#modalFormEditPixel #btnSimpan");
-    
+
     btnSimpanFormEditPixel.on("click", saveDataPixel);
 
     $(document).on('click', ".copyButton", function() {
@@ -233,13 +233,13 @@
       copyToClipboard(textToCopy);
 
       Toast.fire({
-          icon: 'success',
-          title: `Berhasil meyalin link LP`
+        icon: 'success',
+        title: `Berhasil meyalin link LP`
       })
     });
 
-    $('#modalFormEditPixel').on('hidden.bs.modal', function (e) {
-        $('#modalListPixel').modal('show');
+    $('#modalFormEditPixel').on('hidden.bs.modal', function(e) {
+      $('#modalListPixel').modal('show');
     });
 
     $(".btnModalFormPixel").on('click', showModalPixel)
@@ -260,15 +260,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/aproduk/getListProdukTravel`,
+      ajax: `<?= base_url() ?>/aproduk/getListProdukTravel`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -308,7 +309,7 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.komisi_agent)
             } else {
               return `${formatRupiah(row.harga_produk * row.komisi_agent / 100)}/${row.komisi_agent}%`
@@ -320,7 +321,7 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.komisi_leader_agent)
             } else {
               return `${formatRupiah(row.harga_produk * row.komisi_leader_agent / 100)}/${row.komisi_leader_agent}%`
@@ -332,7 +333,7 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.passive_income_leader_agent)
             } else {
               return `${formatRupiah(row.harga_produk * row.passive_income_leader_agent / 100)}/${row.passive_income_leader_agent}%`
@@ -343,7 +344,7 @@
           data: 'modified_link_lp',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return `<a href="javascript:void(0)" data-link="${row.modified_link_lp}" class="copyButton">
             <span class="badge badge-sm bg-gold-custom">salin link</span>
             </a>`;
@@ -353,7 +354,7 @@
           data: 'registration_link',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return `<a href="javascript:void(0)" data-link="${row.registration_link}" class="copyButton">
             <span class="badge badge-sm bg-gold-custom">salin link</span>
             </a>`;
@@ -373,7 +374,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="<?= base_url()?>/agentarea/knowledgeproduktravel/${row.pk_id_produk_travel}" class="dropdown-item">
+                  <a href="<?= base_url() ?>/agentarea/knowledgeproduktravel/${row.pk_id_produk_travel}" class="dropdown-item">
                       marketing kit
                   </a>
                 </li>
@@ -398,20 +399,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function editData($pk_id_produk_travel) {
     let form = '#formData'
 
     $.ajax({
-      url: "<?= base_url()?>/aproduk/getDataProdukTravel/" + $pk_id_produk_travel,
+      url: "<?= base_url() ?>/aproduk/getDataProdukTravel/" + $pk_id_produk_travel,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -439,9 +440,9 @@
     });
   }
 
-  function historyPixel(pk_id_produk_travel){
+  function historyPixel(pk_id_produk_travel) {
     $.ajax({
-      url: `<?= base_url()?>/aproduk/historyPixelProdukTravel/${pk_id_produk_travel}`,
+      url: `<?= base_url() ?>/aproduk/historyPixelProdukTravel/${pk_id_produk_travel}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -457,7 +458,7 @@
         $("#DataPixel").html(html);
 
         html = ``;
-        if(response.pixel.length == 0){
+        if (response.pixel.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -498,15 +499,15 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function getDataPixel(pk_id_pixel_produk_travel){
+  function getDataPixel(pk_id_pixel_produk_travel) {
     let form = '#formEditPixel';
 
     bersihkanForm(form);
@@ -516,24 +517,25 @@
     $("#modalFormEditPixelLabel").html('Edit Pixel');
 
     $.ajax({
-      url: `<?= base_url()?>/aproduk/getDataPixelProdukTravel/${pk_id_pixel_produk_travel}`,
+      url: `<?= base_url() ?>/aproduk/getDataPixelProdukTravel/${pk_id_pixel_produk_travel}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListPixel").modal('hide');
 
         $(`${form} #pk_id_pixel_produk_travel`).val(response.pk_id_pixel_produk_travel);
         $(`${form} #nama_pixel`).val(response.nama_pixel);
         $(`${form} #id_pixel`).val(response.id_pixel);
         $(`${form} #code_pixel`).val(response.code_pixel);
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
+
   }
 
   function saveDataPixel(e) {
@@ -555,12 +557,12 @@
     }
 
     $.ajax({
-      url: "<?= base_url()?>/aproduk/saveDataPixelTravel",
+      url: "<?= base_url() ?>/aproduk/saveDataPixelTravel",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -571,16 +573,16 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditPixel').modal("hide");
@@ -588,12 +590,12 @@
 
           historyPixel(fk_id_produk_travel)
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -611,23 +613,23 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/aproduk/hapusDataPixelTravel/" + pk_id_pixel_produk_travel,
+          url: "<?= base_url() ?>/aproduk/hapusDataPixelTravel/" + pk_id_pixel_produk_travel,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             let fk_id_produk_travel = $("[name='fk_id_produk_travel']").val();
             historyPixel(fk_id_produk_travel)
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });

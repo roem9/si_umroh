@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -86,16 +86,16 @@
           <input name="nama_leader_agent" id="nama_leader_agent" class="multisteps-form__input form-control" type="text" placeholder="nama client" disabled>
           <div class="invalid-feedback" data-id="nama_leader_agent"></div>
         </div>
-        
+
         <h6 class="mt-5">Data Produk</h6>
         <div class="col-12 mb-3">
           <label>Nama Travel</label>
           <select name="fk_id_travel" id="fk_id_travel" class="multisteps-form__input form-control" disabled>
-              <option value="">Pilih Travel</option>
-              <?php
-                foreach ($travels as $travel) :?>
-                  <option value="<?= $travel['pk_id_travel']?>"><?= $travel['nama_travel']?></option>
-              <?php endforeach;?>
+            <option value="">Pilih Travel</option>
+            <?php
+            foreach ($travels as $travel) : ?>
+              <option value="<?= $travel['pk_id_travel'] ?>"><?= $travel['nama_travel'] ?></option>
+            <?php endforeach; ?>
           </select>
           <div class="invalid-feedback" data-id="fk_id_travel"></div>
         </div>
@@ -212,8 +212,8 @@
     showData();
     showListProvinsi();
 
-    $('#modalFormEditPembayaran').on('hidden.bs.modal', function (e) {
-        $('#modalListPembayaranData').modal('show');
+    $('#modalFormEditPembayaran').on('hidden.bs.modal', function(e) {
+      $('#modalListPembayaranData').modal('show');
     });
   })
 
@@ -222,15 +222,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/apenjualan/getListPenjualanProdukTravel`,
+      ajax: `<?= base_url() ?>/apenjualan/getListPenjualanProdukTravel`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'desc']],
-      columns: [
-        {
+      order: [
+        [1, 'desc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -242,13 +243,13 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_customer',
           searchable: true,
           className: 'text-sm',
           orderable: true
-        }, 
+        },
         {
           data: 'nama_produk',
           searchable: true,
@@ -263,7 +264,7 @@
           data: 'harga_produk',
           searchable: true,
           className: 'text-sm',
-          render: function(data, type, row){
+          render: function(data, type, row) {
             return formatRupiah(row.harga_produk)
           }
         },
@@ -316,23 +317,23 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function editData($pk_id_penjualan_produk_travel) {
     let form = '#formEditData'
-    
+
     bersihkanForm(form);
     bersihkanValidasi(form);
 
     $.ajax({
-      url: "<?= base_url()?>/apenjualan/getDataPenjualanProdukTravel/" + $pk_id_penjualan_produk_travel,
+      url: "<?= base_url() ?>/apenjualan/getDataPenjualanProdukTravel/" + $pk_id_penjualan_produk_travel,
       type: "get",
       dataType: "json",
       success: function(result) {
@@ -364,7 +365,7 @@
           `
 
           produk.forEach(produk => {
-            if(produk.pk_id_produk_travel == response.fk_id_produk_travel){
+            if (produk.pk_id_produk_travel == response.fk_id_produk_travel) {
               html += `<option value='${produk.pk_id_produk_travel}' selected>${response.nama_produk}</option>`;
             } else {
               html += `<option value='${produk.pk_id_produk_travel}'>${response.nama_produk}</option>`;
@@ -394,9 +395,9 @@
     });
   }
 
-  function historyPembayaran(pk_id_penjualan_produk_travel){
+  function historyPembayaran(pk_id_penjualan_produk_travel) {
     $.ajax({
-      url: `<?= base_url()?>/apenjualan/historyPembayaranTravel/${pk_id_penjualan_produk_travel}`,
+      url: `<?= base_url() ?>/apenjualan/historyPembayaranTravel/${pk_id_penjualan_produk_travel}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -422,7 +423,7 @@
         $("#DataPenjualan").html(html);
 
         html = ``;
-        if(response.pembayaran.length == 0){
+        if (response.pembayaran.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -455,15 +456,15 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function getDataPembayaran(pk_id_pembayaran_penjualan_produk_travel){
+  function getDataPembayaran(pk_id_pembayaran_penjualan_produk_travel) {
     let form = '#formEditPembayaran';
 
     bersihkanForm(form);
@@ -473,31 +474,31 @@
     $("#modalFormEditPembayaranLabel").html('Detail Pembayaran');
 
     $.ajax({
-      url: `<?= base_url()?>/apenjualan/getDataPembayaranPenjualanProdukTravel/${pk_id_pembayaran_penjualan_produk_travel}`,
+      url: `<?= base_url() ?>/apenjualan/getDataPembayaranPenjualanProdukTravel/${pk_id_pembayaran_penjualan_produk_travel}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListPembayaranData").modal('hide');
 
         $(`${form} #pk_id_pembayaran_penjualan_produk_travel`).val(response.pk_id_pembayaran_penjualan_produk_travel);
         $(`${form} #tgl_pembayaran`).val(response.tgl_pembayaran);
         $(`${form} #nominal`).val(formatRupiah(response.nominal));
         $(`${form} #keterangan`).val(response.keterangan);
-        
+
         $(`#image-cover`).show();
         $(`#image-cover`).html(
           `<img src="../public/assets/bukti-pembayaran/${response.bukti_pembayaran}" alt="" class="img-fluid" width="100%">`
         )
 
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
-  }
 
+  }
 </script>
 <?= $this->endSection() ?>

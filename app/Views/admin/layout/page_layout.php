@@ -192,7 +192,7 @@
               <ul class="nav ms-4 ps-3">
                 <li class="nav-item ">
                   <a class="nav-link <?= (isset($collapse) && $collapse === "penjualan" && isset($collapseItem) && $collapseItem == 'listPenjualanProduk') ? 'active' : '' ?>" href="<?= base_url() ?>/penjualan/produk">
-                    <span class="sidenav-normal"> Produk </span>
+                    <span class="sidenav-normal"> LA & Agent </span>
                   </a>
                 </li>
                 <!-- <li class="nav-item ">
@@ -202,7 +202,7 @@
                 </li> -->
                 <li class="nav-item ">
                   <a class="nav-link <?= (isset($collapse) && $collapse === "penjualan" && isset($collapseItem) && $collapseItem == 'listPenjualanInternalProduk') ? 'active' : '' ?>" href="<?= base_url() ?>/penjualan/internalproduk">
-                    <span class="sidenav-normal text-wrap"> Internal Produk</span>
+                    <span class="sidenav-normal text-wrap"> Internal</span>
                   </a>
                 </li>
                 <!-- <li class="nav-item ">

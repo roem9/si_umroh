@@ -87,6 +87,20 @@ class Produk extends BaseController
 
     public function save()
     {
+        $json_lp = $this->request->getFile('json_lp');
+
+        // if ($this->request->getFile('json_lp')->isValid()) {
+        //     $file = $this->request->getFile('json_lp');
+        //     echo 'Uploaded file name: ' . $file->getName();
+        //     echo 'File extension: ' . $file->getClientExtension();
+        //     echo 'File MIME type: ' . $file->getClientMimeType();
+        // } else {
+        //     echo 'File upload error: ' . $this->request->getFile('json_lp')->getErrorString();
+        // }
+        // exit();
+        // var_dump(($json_lp));
+        // exit();
+
         $data = [
             'nama_produk' => $this->request->getPost('nama_produk'),
             'fk_id_travel' => $this->request->getPost('fk_id_travel'),
@@ -99,7 +113,7 @@ class Produk extends BaseController
             'komisi_agent' => $this->request->getPost('komisi_agent'),
             'komisi_leader_agent' => $this->request->getPost('komisi_leader_agent'),
             'passive_income_leader_agent' => $this->request->getPost('passive_income_leader_agent'),
-            'json_lp' => $this->request->getPost('json_lp'),
+            // 'json_lp' => $this->request->getPost('json_lp'),
             'send_wa_after_input_agent' => $this->request->getPost('send_wa_after_input_agent'),
             'send_wa_after_input_admin' => $this->request->getPost('send_wa_after_input_admin'),
             'wa_message' => $this->request->getPost('wa_message'),
@@ -155,26 +169,123 @@ class Produk extends BaseController
 
         $searchProduk = $this->produkModel->find($pk_id_produk);
         if ($searchProduk) {
-            if ($this->produkModel->update($pk_id_produk, $data) === true) {
-                $response = [
-                    'status' => 'success',
-                    'message' => 'Berhasil mengubah data produk'
+            if ($json_lp) {
+                $rules = [
+                    'json_lp' => [
+                        'rules' => 'max_size[json_lp,5120]',
+                        'errors' => [
+                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'ext_in' => 'file harus berupa json'
+                        ]
+                    ]
                 ];
+
+                if ($this->validate($rules)) {
+                    if ($json_lp->isValid() && !$json_lp->hasMoved()) {
+                        $newName = $json_lp->getRandomName();
+                        if ($json_lp->move('public/assets/json-lp', $newName) ===  true) {
+                            $data['json_lp'] = $newName;
+
+                            if ($this->produkModel->update($pk_id_produk, $data) === true) {
+
+                                $response = [
+                                    'status' => 'success',
+                                    'message' => 'Berhasil mengubah data produk'
+                                ];
+                            } else {
+                                $response = [
+                                    "error" => $this->produkModel->errors()
+                                ];
+                            }
+                        } else {
+                            $response = [
+                                "error" => $json_lp->getErrorString()
+                            ];
+                        }
+                    } else {
+                        // Response
+                        $response = [
+                            'status' => 'error',
+                            'message' => 'Gagal mengupload file'
+                        ];
+                    }
+                } else {
+                    // Response
+                    $response = [
+                        "error" => $this->validator->getErrors()
+                    ];
+                }
             } else {
-                $response = [
-                    "error" => $this->produkModel->errors()
-                ];
+                if ($this->produkModel->update($pk_id_produk, $data) === true) {
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Berhasil mengubah data produk'
+                    ];
+                } else {
+                    $response = [
+                        "error" => $this->produkModel->errors()
+                    ];
+                }
             }
         } else {
-            if ($this->produkModel->save($data) === true) {
-                $response = [
-                    'status' => 'success',
-                    'message' => 'Berhasil menambah data produk'
+            if ($json_lp) {
+                $rules = [
+                    'json_lp' => [
+                        'rules' => 'max_size[json_lp,5120]|ext_in[json_lp,json]',
+                        'errors' => [
+                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'ext_in' => 'file harus berupa json'
+                        ]
+                    ]
                 ];
+
+                if ($this->validate($rules)) {
+                    if ($json_lp->isValid() && !$json_lp->hasMoved()) {
+                        $newName = $json_lp->getRandomName();
+
+                        // Store file in public/uploads/ folder
+                        if ($json_lp->move('public/assets/json-lp', $newName)) {
+                            $data['json_lp'] = $newName;
+
+                            if ($this->produkModel->save($data) === true) {
+                                $response = [
+                                    'status' => 'success',
+                                    'message' => 'Berhasil menambahkan data produk'
+                                ];
+                            } else {
+                                $response = [
+                                    "error" => $this->produkModel->errors()
+                                ];
+                            }
+                        } else {
+                            $response = [
+                                "error" => $json_lp->getErrorString()
+                            ];
+                        }
+                    } else {
+                        // Response
+                        $response = [
+                            'status' => 'error',
+                            'message' => 'Gagal mengupload file'
+                        ];
+                    }
+                } else {
+                    // Response
+                    $response = [
+                        "error" => $this->validator->getErrors()
+                    ];
+                }
             } else {
-                $response = [
-                    "error" => $this->produkModel->errors()
-                ];
+                if ($this->produkModel->save($data) === true) {
+                    $response = [
+                        'status' => 'success',
+                        'message' => 'Berhasil menambah data produk'
+                    ];
+                } else {
+                    $response = [
+                        "error" => $this->produkModel->errors()
+                    ];
+                }
             }
         }
 

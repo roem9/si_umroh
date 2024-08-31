@@ -32,15 +32,15 @@
 
   function alertKelas(nama_agent, akses_kelas) {
     $.ajax({
-      url: '<?= base_url()?>/akelas/getMessage',
+      url: '<?= base_url() ?>/akelas/getMessage',
       type: "GET",
       dataType: "json",
       success: function(data) {
         let tipe_agent = (akses_kelas == 'gold') ? 'gold agent' : akses_kelas;
         let message = data.message;
         let replace = {
-            '$nama_agent$': nama_agent,
-            '$tipe_agent$': tipe_agent
+          '$nama_agent$': nama_agent,
+          '$tipe_agent$': tipe_agent
         };
 
         // Replace placeholders with actual values
@@ -65,7 +65,7 @@
 
   function showData() {
     $.ajax({
-      url: '<?= base_url()?>/akelas/getAllKelas',
+      url: '<?= base_url() ?>/akelas/getAllKelas',
       type: "GET",
       dataType: "JSON",
       success: function(data) {
@@ -79,9 +79,9 @@
         for (var i = 0; i < data.kelas.length; i++) {
           obj = data.kelas[i];
 
-          if(obj.akses == 'on'){
+          if (obj.akses == 'on') {
             action_kelas = `
-              <a href='<?= base_url()?>/agentarea/kelas/${obj.classId}'>
+              <a href='<?= base_url() ?>/agentarea/kelas/${obj.classId}'>
                 <span class="badge bg-gold-custom">Mulai</span>
               </a>
             `
@@ -99,10 +99,10 @@
                 <div class="card-body p-3">
                   <div class="d-flex">
                     <div class="avatar avatar-xl bg-gradient-dark border-radius-md p-2">
-                      <img src="<?= base_url()?>/public/assets/img-kelas/${obj.gambar_sampul}" alt="gambar ${obj.nama_program}" onerror="this.onerror=null; this.src='<?= base_url()?>/public/assets/img/curved-images/white-curved.jpg'">
+                      <img src="<?= base_url() ?>/public/assets/img-kelas/${obj.gambar_sampul}" alt="gambar ${obj.nama_program}" onerror="this.onerror=null; this.src='<?= base_url() ?>/public/assets/img/curved-images/white-curved.jpg'">
                     </div>
                     <div class="ms-3 my-auto">
-                      <h6>${obj.nama_kelas}</h6>
+                      <h6>${obj.urutan}. ${obj.nama_kelas}</h6>
                     </div>
                   </div>
                   <p class="text-sm mt-3"> 

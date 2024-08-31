@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -176,22 +176,23 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     showData();
-    })
+  })
 
   // show data from database
   function showData() {
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/atravel/getList`,
+      ajax: `<?= base_url() ?>/atravel/getList`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[2, 'asc']],
-      columns: [
-        {
+      order: [
+        [2, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -227,7 +228,7 @@
           data: 'link_landing_page',
           searchable: true,
           className: 'text-sm w-1 text-center',
-          render : function(data, type, row){
+          render: function(data, type, row) {
             return `
               <a href="https://${row.link_landing_page}" target='_blank'>${row.link_landing_page}</a>
             `;
@@ -245,7 +246,7 @@
                   <a href="javascript:void(0)" class="dropdown-item" onclick='editData(${row.pk_id_travel})'>
                       detail
                   </a>
-                  <a class="dropdown-item" href="<?= base_url()?>/public/assets/company-profile/${row.company_profile}" download="${row.nama_travel} (Company Profile).pdf">download company profile</a>
+                  <a class="dropdown-item" href="<?= base_url() ?>/public/assets/company-profile/${row.company_profile}" download="${row.nama_travel} (Company Profile).pdf">download company profile</a>
                 </li>
               </ul>
               `;
@@ -263,20 +264,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function editData($pk_id_travel) {
     let form = '#formData'
 
     $.ajax({
-      url: "<?= base_url()?>/atravel/getData/" + $pk_id_travel,
+      url: "<?= base_url() ?>/atravel/getData/" + $pk_id_travel,
       type: "get",
       dataType: "json",
       success: function(response) {

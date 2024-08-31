@@ -236,9 +236,15 @@
           <div class="invalid-feedback" data-id="email_message"></div>
         </div>
 
-        <div class="col-12 mb-3">
+        <!-- <div class="col-12 mb-3">
           <label>JSON LP</label>
           <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP"></textarea>
+          <div class="invalid-feedback" data-id="json_lp"></div>
+        </div> -->
+        <div class="mb-3">
+          <label for="json_lp" class="form-label">JSON File LP</label>
+          <div id="json-lp" style="display:none" class="text-center"></div>
+          <input name="json_lp" class="form-control" type="file" id="json_lp">
           <div class="invalid-feedback" data-id="json_lp"></div>
         </div>
       </div>
@@ -443,6 +449,8 @@
     e.preventDefault();
     let form = '#formData'
 
+    $(`#json-lp`).hide();
+
     let pk_id_produk = $(`${form} #pk_id_produk`).val();
     let fk_id_travel = $(`${form} #fk_id_travel`).val();
     let nama_produk = $(`${form} #nama_produk`).val();
@@ -455,7 +463,6 @@
     let komisi_agent = $(`${form} #komisi_agent`).val();
     let komisi_leader_agent = $(`${form} #komisi_leader_agent`).val();
     let passive_income_leader_agent = $(`${form} #passive_income_leader_agent`).val();
-    let json_lp = $(`${form} #json_lp`).val();
     let send_wa_after_input_agent = $(`${form} #send_wa_after_input_agent`).val();
     let send_wa_after_input_admin = $(`${form} #send_wa_after_input_admin`).val();
     let wa_message = $(`${form} #wa_message`).val();
@@ -466,38 +473,44 @@
     let show_lp = $(`${form} #show_lp`).val();
     let to_agent = $(`${form} #to_agent`).val();
     let tipe_agent = $(`${form} #tipe_agent`).val();
+    let json_lp = $(`${form} #json_lp`)[0].files;
 
-    let data = {
-      'pk_id_produk': pk_id_produk,
-      'fk_id_travel': fk_id_travel,
-      'nama_produk': nama_produk,
-      'deskripsi': deskripsi,
-      'jenis_produk': jenis_produk,
-      'link_lp': link_lp,
-      'page': page,
-      'jenis_komisi': jenis_komisi,
-      'harga_produk': harga_produk,
-      'komisi_agent': komisi_agent,
-      'komisi_leader_agent': komisi_leader_agent,
-      'passive_income_leader_agent': passive_income_leader_agent,
-      'json_lp': json_lp,
-      'send_wa_after_input_agent': send_wa_after_input_agent,
-      'send_wa_after_input_admin': send_wa_after_input_admin,
-      'wa_message': wa_message,
-      'send_email_after_input_agent': send_email_after_input_agent,
-      'send_email_after_input_admin': send_email_after_input_admin,
-      'email_message': email_message,
-      'subject_email': subject_email,
-      'show_lp': show_lp,
-      'to_agent': to_agent,
-      'tipe_agent': tipe_agent,
-    };
+    var data = new FormData();
+
+    // let data = {
+    data.append('pk_id_produk', pk_id_produk);
+    data.append('fk_id_travel', fk_id_travel);
+    data.append('nama_produk', nama_produk);
+    data.append('deskripsi', deskripsi);
+    data.append('jenis_produk', jenis_produk);
+    data.append('link_lp', link_lp);
+    data.append('page', page);
+    data.append('jenis_komisi', jenis_komisi);
+    data.append('harga_produk', harga_produk);
+    data.append('komisi_agent', komisi_agent);
+    data.append('komisi_leader_agent', komisi_leader_agent);
+    data.append('passive_income_leader_agent', passive_income_leader_agent);
+    data.append('send_wa_after_input_agent', send_wa_after_input_agent);
+    data.append('send_wa_after_input_admin', send_wa_after_input_admin);
+    data.append('wa_message', wa_message);
+    data.append('send_email_after_input_agent', send_email_after_input_agent);
+    data.append('send_email_after_input_admin', send_email_after_input_admin);
+    data.append('email_message', email_message);
+    data.append('subject_email', subject_email);
+    data.append('show_lp', show_lp);
+    data.append('to_agent', to_agent);
+    data.append('tipe_agent', tipe_agent);
+    data.append('json_lp', json_lp[0]);
+    // };
 
     $.ajax({
       url: "<?= base_url() ?>/produk/save",
       type: "POST",
       data: data,
       dataType: "json",
+      contentType: false,
+      processData: false,
+      cache: false,
       success: function(response) {
         if (response.error) {
           bersihkanValidasi(`${form}`);
@@ -564,7 +577,6 @@
           $(`${form} #komisi_agent`).val(response.komisi_agent);
           $(`${form} #komisi_leader_agent`).val(response.komisi_leader_agent);
           $(`${form} #passive_income_leader_agent`).val(response.passive_income_leader_agent);
-          $(`${form} #json_lp`).val(response.json_lp);
           $(`${form} #send_wa_after_input_agent`).val(response.send_wa_after_input_agent);
           $(`${form} #send_wa_after_input_admin`).val(response.send_wa_after_input_admin);
           $(`${form} #wa_message`).val(response.wa_message);
@@ -575,6 +587,16 @@
           $(`${form} #show_lp`).val(response.show_lp);
           $(`${form} #to_agent`).val(response.to_agent);
           $(`${form} #tipe_agent`).val(response.tipe_agent);
+          // $(`${form} #json_lp`).val(response.json_lp);
+
+          if (response.json_lp != '') {
+            $(`#json-lp`).show();
+            $(`#json-lp`).html(
+              `<a class="btn btn-sm bg-gradient-success mt-2" href="<?= base_url() ?>/public/assets/json-lp/${response.json_lp}" download="LP ${response.nama_produk}.json">Download</a>`
+            )
+          } else {
+            $(`#json-lp`).hide();
+          }
         }
       }
 

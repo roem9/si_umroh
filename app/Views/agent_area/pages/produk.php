@@ -8,7 +8,7 @@
         <div>
           <h5 class="mb-0"><?= $title ?></h5>
           <p class="text-sm mb-0">
-            <?= $deskripsi?>
+            <?= $deskripsi ?>
           </p>
         </div>
       </div>
@@ -28,7 +28,7 @@
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder desktop">Komisi A</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder desktop">Komisi LA</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder desktop">PI LA</th>
-                  <th class="text-uppercase text-dark text-xxs font-weight-bolder none">Landing Page</th>
+                  <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder none">Landing Page</th> -->
                   <!-- <th class="text-uppercase text-dark text-xxs font-weight-bolder none">Setor Data Peminat</th> -->
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Action</th>
                 </tr>
@@ -58,66 +58,66 @@
       <div class="modal-body" id="formData">
         <input type="hidden" name="pk_id_produk" id="pk_id_produk">
         <div class="col-12 mb-3">
-            <label>Nama Produk</label>
-            <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" type="text" placeholder="Nama Produk" disabled>
-            <div class="invalid-feedback" data-id="nama_produk"></div>
+          <label>Nama Produk</label>
+          <input type="text" name="nama_produk" id="nama_produk" class="multisteps-form__input form-control" type="text" placeholder="Nama Produk" disabled>
+          <div class="invalid-feedback" data-id="nama_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Deskripsi</label>
-            <textarea name="deskripsi" id="deskripsi" class="multisteps-form__input form-control" placeholder="Deskripsi" disabled></textarea>
-            <div class="invalid-feedback" data-id="deskripsi"></div>
+          <label>Deskripsi</label>
+          <textarea name="deskripsi" id="deskripsi" class="multisteps-form__input form-control" placeholder="Deskripsi" disabled></textarea>
+          <div class="invalid-feedback" data-id="deskripsi"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Jenis Produk</label>
-            <select name="jenis_produk" id="jenis_produk" class="multisteps-form__input form-control" disabled>
-                <option value="">Pilih Jenis Produk</option>
-                <option value="free offer">Free Offer</option>
-                <option value="tripwired">Tripwired</option>
-                <option value="core offer">Core Offer</option>
-            </select>
-            <div class="invalid-feedback" data-id="jenis_produk"></div>
+          <label>Jenis Produk</label>
+          <select name="jenis_produk" id="jenis_produk" class="multisteps-form__input form-control" disabled>
+            <option value="">Pilih Jenis Produk</option>
+            <option value="free offer">Free Offer</option>
+            <option value="tripwired">Tripwired</option>
+            <option value="core offer">Core Offer</option>
+          </select>
+          <div class="invalid-feedback" data-id="jenis_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Jenis Komisi</label>
-            <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control" disabled>
-                <option value="">Pilih Jenis Komisi</option>
-                <option value="fix">Fix</option>
-                <option value="prosentase">Prosentase</option>
-            </select>
-            <div class="invalid-feedback" data-id="jenis_komisi"></div>
+          <label>Jenis Komisi</label>
+          <select name="jenis_komisi" id="jenis_komisi" class="multisteps-form__input form-control" disabled>
+            <option value="">Pilih Jenis Komisi</option>
+            <option value="fix">Fix</option>
+            <option value="prosentase">Prosentase</option>
+          </select>
+          <div class="invalid-feedback" data-id="jenis_komisi"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Harga Produk</label>
-            <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="Harga Produk" disabled>
-            <div class="invalid-feedback" data-id="harga_produk"></div>
+          <label>Harga Produk</label>
+          <input type="text" name="harga_produk" id="harga_produk" class="multisteps-form__input form-control" placeholder="Harga Produk" disabled>
+          <div class="invalid-feedback" data-id="harga_produk"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Komisi Agent</label>
-            <input type="text" name="komisi_agent" id="komisi_agent" class="multisteps-form__input form-control" placeholder="Komisi Agent" disabled>
-            <div class="invalid-feedback" data-id="komisi_agent"></div>
+          <label>Komisi Agent</label>
+          <input type="text" name="komisi_agent" id="komisi_agent" class="multisteps-form__input form-control" placeholder="Komisi Agent" disabled>
+          <div class="invalid-feedback" data-id="komisi_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Komisi Leader Agent</label>
-            <input type="text" name="komisi_leader_agent" id="komisi_leader_agent" class="multisteps-form__input form-control" placeholder="Komisi Leader Agent" disabled>
-            <div class="invalid-feedback" data-id="komisi_leader_agent"></div>
+          <label>Komisi Leader Agent</label>
+          <input type="text" name="komisi_leader_agent" id="komisi_leader_agent" class="multisteps-form__input form-control" placeholder="Komisi Leader Agent" disabled>
+          <div class="invalid-feedback" data-id="komisi_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>Passive Income Leader Agent</label>
-            <input type="text" name="passive_income_leader_agent" id="passive_income_leader_agent" class="multisteps-form__input form-control" placeholder="Passive Income Leader Agent" disabled>
-            <div class="invalid-feedback" data-id="passive_income_leader_agent"></div>
+          <label>Passive Income Leader Agent</label>
+          <input type="text" name="passive_income_leader_agent" id="passive_income_leader_agent" class="multisteps-form__input form-control" placeholder="Passive Income Leader Agent" disabled>
+          <div class="invalid-feedback" data-id="passive_income_leader_agent"></div>
         </div>
 
         <div class="col-12 mb-3">
-            <label>JSON LP</label>
-            <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP" disabled></textarea>
-            <div class="invalid-feedback" data-id="json_lp"></div>
+          <label>JSON LP</label>
+          <textarea name="json_lp" id="json_lp" class="multisteps-form__input form-control" placeholder="JSON LP" disabled></textarea>
+          <div class="invalid-feedback" data-id="json_lp"></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -198,7 +198,7 @@
     showListProvinsi();
 
     const btnSimpanFormEditPixel = $("#modalFormEditPixel #btnSimpan");
-    
+
     btnSimpanFormEditPixel.on("click", saveDataPixel);
 
     // Example usage: Copy button click handler
@@ -207,13 +207,13 @@
       copyToClipboard(textToCopy);
 
       Toast.fire({
-          icon: 'success',
-          title: `Berhasil menyalin link LP`
+        icon: 'success',
+        title: `Berhasil menyalin link LP`
       })
     });
 
-    $('#modalFormEditPixel').on('hidden.bs.modal', function (e) {
-        $('#modalListPixel').modal('show');
+    $('#modalFormEditPixel').on('hidden.bs.modal', function(e) {
+      $('#modalListPixel').modal('show');
     });
 
     $(".btnModalFormPixel").on('click', showModalPixel)
@@ -233,15 +233,16 @@
     $('#table-data').DataTable({
       processing: true,
       serverSide: true,
-      ajax: `<?= base_url()?>/aproduk/getList`,
+      ajax: `<?= base_url() ?>/aproduk/getList`,
       responsive: {
         details: {
-            type: 'column'
+          type: 'column'
         }
       },
-      order: [[1, 'asc']],
-      columns: [
-        {
+      order: [
+        [1, 'asc']
+      ],
+      columns: [{
           className: 'dtr-control w-1',
           searchable: false,
           orderable: false,
@@ -276,7 +277,7 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.komisi_agent)
             } else {
               return `${formatRupiah(row.harga_produk * row.komisi_agent / 100)}/${row.komisi_agent}%`
@@ -288,7 +289,7 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.komisi_leader_agent)
             } else {
               return `${formatRupiah(row.harga_produk * row.komisi_leader_agent / 100)}/${row.komisi_leader_agent}%`
@@ -300,27 +301,27 @@
           searchable: true,
           className: 'text-sm w-1 text-center',
           render: function(data, type, row) {
-            if(row.jenis_komisi == 'fix'){
+            if (row.jenis_komisi == 'fix') {
               return formatRupiah(row.passive_income_leader_agent)
             } else {
               return `${formatRupiah(row.harga_produk * row.passive_income_leader_agent / 100)}/${row.passive_income_leader_agent}%`
             }
           }
         },
-        {
-          data: 'modified_link_lp',
-          searchable: true,
-          className: 'text-sm w-1 text-center',
-          render: function(data, type, row){
-            if(row.show_lp == '1'){
-              return `<a href="javascript:void(0)" data-link="${row.modified_link_lp}" class="copyButton">
-                <span class="badge badge-sm bg-gold-custom">salin link</span>
-              </a>`;
-            } else {
-              return `-`;
-            }
-          }
-        },
+        // {
+        //   data: 'modified_link_lp',
+        //   searchable: true,
+        //   className: 'text-sm w-1 text-center',
+        //   render: function(data, type, row) {
+        //     if (row.show_lp == '1') {
+        //       return `<a href="javascript:void(0)" data-link="${row.modified_link_lp}" class="copyButton">
+        //         <span class="badge badge-sm bg-gold-custom">salin link</span>
+        //       </a>`;
+        //     } else {
+        //       return `-`;
+        //     }
+        //   }
+        // },
         // {
         //   data: 'registration_link',
         //   searchable: true,
@@ -332,8 +333,25 @@
         {
           data: null,
           render: function(data, type, row) {
+            let landing_page = '';
+            let file_json = '';
+            if (row.show_lp == '1') {
+              landing_page = `
+                  <li>
+                    <a href="javascript:void(0)" class="dropdown-item copyButton" data-link="${row.modified_link_lp}">
+                        salin link landing page
+                    </a>
+                  </li>`;
+            }
+
+            if (row.json_lp != '' && row.json_lp != null) {
+              file_json = `<li>
+                <a class="dropdown-item" href="<?= base_url() ?>/public/assets/json-lp/${row.json_lp}" download="LP ${row.nama_produk}.json">download file json LP</a>
+              </li>`;
+            }
+
+
             return `
-                
                 <a href="javascript:void(0)" id="${row.pk_id_produk}" class="badge badge-sm bg-gold-custom dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                   action
                 </a>
@@ -344,7 +362,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="<?= base_url()?>/agentarea/knowledgeproduk/${row.pk_id_produk}" class="dropdown-item">
+                    <a href="<?= base_url() ?>/agentarea/knowledgeproduk/${row.pk_id_produk}" class="dropdown-item">
                         marketing kit
                     </a>
                   </li>
@@ -353,6 +371,8 @@
                         pixel
                     </a>
                   </li>
+                  ${landing_page}
+                  ${file_json}
                 </ul>
               `;
           },
@@ -369,20 +389,20 @@
           last: '>>'
         }
       },
-      pageLength: 5,
+      pageLength: 20,
       lengthMenu: [
-        [5, 10, 20],
-        [5, 10, 20]
+        [20, 50, 100],
+        [20, 50, 100]
       ]
     });
-    $.fn.DataTable.ext.pager.numbers_length = 5;
+    $.fn.DataTable.ext.pager.numbers_length = 20;
   }
 
   function editData($pk_id_produk) {
     let form = '#formData'
 
     $.ajax({
-      url: "<?= base_url()?>/aproduk/getData/" + $pk_id_produk,
+      url: "<?= base_url() ?>/aproduk/getData/" + $pk_id_produk,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -408,9 +428,9 @@
     });
   }
 
-  function historyPixel(pk_id_produk){
+  function historyPixel(pk_id_produk) {
     $.ajax({
-      url: `<?= base_url()?>/aproduk/historyPixelProduk/${pk_id_produk}`,
+      url: `<?= base_url() ?>/aproduk/historyPixelProduk/${pk_id_produk}`,
       type: "get",
       dataType: "json",
       success: function(response) {
@@ -426,7 +446,7 @@
         $("#DataPixel").html(html);
 
         html = ``;
-        if(response.pixel.length == 0){
+        if (response.pixel.length == 0) {
           html += `
             <div class="card mb-3 shadow-none border">
               <div class="card-body">
@@ -467,15 +487,15 @@
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
 
     });
   }
 
-  function getDataPixel(pk_id_pixel_produk){
+  function getDataPixel(pk_id_pixel_produk) {
     let form = '#formEditPixel';
 
     bersihkanForm(form);
@@ -485,24 +505,25 @@
     $("#modalFormEditPixelLabel").html('Edit Pixel');
 
     $.ajax({
-      url: `<?= base_url()?>/aproduk/getDataPixelProduk/${pk_id_pixel_produk}`,
+      url: `<?= base_url() ?>/aproduk/getDataPixelProduk/${pk_id_pixel_produk}`,
       type: 'get',
       dataType: 'json',
-      success: function(response){
+      success: function(response) {
         $("#modalListPixel").modal('hide');
 
         $(`${form} #pk_id_pixel_produk`).val(response.pk_id_pixel_produk);
         $(`${form} #nama_pixel`).val(response.nama_pixel);
         $(`${form} #id_pixel`).val(response.id_pixel);
         $(`${form} #code_pixel`).val(response.code_pixel);
-      }, error : function(xhr, status, error){
+      },
+      error: function(xhr, status, error) {
         Toast.fire({
           icon: 'error',
           title: `terjadi kesalahan : ${error}`
         })
       }
     })
-    
+
   }
 
   function saveDataPixel(e) {
@@ -524,12 +545,12 @@
     }
 
     $.ajax({
-      url: "<?= base_url()?>/aproduk/saveDataPixel",
+      url: "<?= base_url() ?>/aproduk/saveDataPixel",
       type: "POST",
       data: data,
       dataType: "json",
       success: function(response) {
-        if(response.error){
+        if (response.error) {
           bersihkanValidasi(`${form}`);
 
           showFormError();
@@ -540,16 +561,16 @@
 
           let errorMessage = '';
           for (var key in response.error) {
-              var error = response.error[key];
-              $(`[name='${key}']`).addClass("is-invalid")
-              $(`[data-id='${key}']`).show()
-              $(`[data-id='${key}']`).text(error)
+            var error = response.error[key];
+            $(`[name='${key}']`).addClass("is-invalid")
+            $(`[data-id='${key}']`).show()
+            $(`[data-id='${key}']`).text(error)
           }
-  
+
         } else {
           Toast.fire({
-              icon: response.status,
-              title: response.message
+            icon: response.status,
+            title: response.message
           })
 
           $('#modalFormEditPixel').modal("hide");
@@ -557,12 +578,12 @@
 
           historyPixel(fk_id_produk)
         }
-        
+
       },
       error: function(xhr, status, error) {
         Toast.fire({
-            icon: 'error',
-            title: `terjadi kesalahan: ${error}`
+          icon: 'error',
+          title: `terjadi kesalahan: ${error}`
         })
       }
     });
@@ -580,23 +601,23 @@
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "<?= base_url()?>/aproduk/hapusDataPixel/" + pk_id_pixel_produk,
+          url: "<?= base_url() ?>/aproduk/hapusDataPixel/" + pk_id_pixel_produk,
           type: "get",
           dataType: "json",
           success: function(response) {
             Toast.fire({
-                icon: response.status,
-                title: response.message
+              icon: response.status,
+              title: response.message
             })
 
             let fk_id_produk = $("[name='fk_id_produk']").val();
             historyPixel(fk_id_produk)
-            
+
           },
           error: function(xhr, status, error) {
             Toast.fire({
-                icon: 'error',
-                title: `terjadi kesalahan: ${error}`
+              icon: 'error',
+              title: `terjadi kesalahan: ${error}`
             })
           }
         });

@@ -14,18 +14,25 @@ class Home extends BaseController
         $data['breadcrumbs'] = ['Dashboard'];
 
         $db = db_connect();
-        $data['agent_silver'] = $db->query("
-            SELECT COUNT(*) as total
-            FROM agent 
-            WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
-            AND tipe_agent = 'silver'
-        ")->getRowArray();
+        // $data['agent_silver'] = $db->query("
+        //     SELECT COUNT(*) as total
+        //     FROM agent 
+        //     WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
+        //     AND tipe_agent = 'silver'
+        // ")->getRowArray();
 
-        $data['agent_gold'] = $db->query("
+        // $data['agent_gold'] = $db->query("
+        //     SELECT COUNT(*) as total
+        //     FROM agent 
+        //     WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
+        //     AND tipe_agent = 'gold'
+        // ")->getRowArray();
+
+        $data['agent'] = $db->query("
             SELECT COUNT(*) as total
-            FROM agent 
+            FROM agent
             WHERE (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
-            AND tipe_agent = 'gold'
+            AND tipe_agent != 'leader agent'
         ")->getRowArray();
 
         $data['agent_leader'] = $db->query("
@@ -68,7 +75,7 @@ class Home extends BaseController
         $data['piutang'] = 0;
         foreach ($penjualan_produk as $penjualan) {
             $data['omset'] += $penjualan['harga_produk'];
-            if($penjualan['status'] == 'cicil'){
+            if ($penjualan['status'] == 'cicil') {
                 $pembayaran = $db->query("
                     SELECT
                         SUM(nominal) as total
@@ -84,7 +91,7 @@ class Home extends BaseController
         foreach ($penjualan_produk_travel as $penjualan) {
             $data['omset'] += $penjualan['harga_produk'];
 
-            if($penjualan['status'] == 'cicil'){
+            if ($penjualan['status'] == 'cicil') {
                 $pembayaran = $db->query("
                     SELECT
                         SUM(nominal) as total
@@ -98,6 +105,20 @@ class Home extends BaseController
         }
 
         $data['total_penjualan'] = COUNT($penjualan_produk) + COUNT($penjualan_produk_travel);
+
+        $data['agent_aktif'] = $db->query("
+            SELECT 
+            COUNT(*) as total
+            FROM agent WHERE area_status = 1
+            AND (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
+        ")->getRowArray();
+
+        $data['agent_nonaktif'] = $db->query("
+            SELECT 
+            COUNT(*) as total
+            FROM agent WHERE area_status = 0
+            AND (deleted_at = '0000-00-00 00:00:00' OR deleted_at IS NULL)
+        ")->getRowArray();
 
         return view('admin/pages/dashboard', $data);
     }
