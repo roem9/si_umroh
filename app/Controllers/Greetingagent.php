@@ -11,12 +11,14 @@ class Greetingagent extends BaseController
     public $greetingAgentModel;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->greetingAgentModel = new GreetingAgentModel();
         $this->db = db_connect();
     }
 
-    public function index(){
+    public function index()
+    {
         $data['sidebar'] = "greeting";
         $data['title'] = "Greeting Agent";
 
@@ -49,10 +51,10 @@ class Greetingagent extends BaseController
                     ]
                 ],
                 'file_audio' => [
-                    'rules' => 'uploaded[file_audio]|max_size[file_audio,5120]|ext_in[file_audio,mp3]',
+                    'rules' => 'uploaded[file_audio]|max_size[file_audio,102400]|ext_in[file_audio,mp3]',
                     'errors' => [
                         'uploaded' => 'Audio harus diupload',
-                        'max_size' => 'Audio terlalu besar (max 5 mb)',
+                        'max_size' => 'Audio terlalu besar (max 100 MB)',
                         'ext_in' => 'Audio harus berupa mp3'
                     ]
                 ]
@@ -66,10 +68,10 @@ class Greetingagent extends BaseController
                     ]
                 ],
                 'file_file' => [
-                    'rules' => 'uploaded[file_file]|max_size[file_file,5120]|ext_in[file_file,pdf]',
+                    'rules' => 'uploaded[file_file]|max_size[file_file,102400]|ext_in[file_file,pdf]',
                     'errors' => [
                         'uploaded' => 'File harus diupload',
-                        'max_size' => 'File terlalu besar (max 5 mb)',
+                        'max_size' => 'File terlalu besar (max 100 MB)',
                         'ext_in' => 'file harus berupa pdf'
                     ]
                 ]
@@ -121,7 +123,7 @@ class Greetingagent extends BaseController
             ];
         }
 
-        if($this->validate($rules)){
+        if ($this->validate($rules)) {
             $data = [
                 'item' => $item,
                 'akses_greeting' => $akses_greeting,
@@ -131,7 +133,7 @@ class Greetingagent extends BaseController
                 $searchMateri = $this->greetingAgentModel->find($pk_id_greeting_agent);
                 if ($searchMateri) {
                     $data['data'] = $this->request->getPost($item);
-                    if($this->greetingAgentModel->update($pk_id_greeting_agent, $data) === true){
+                    if ($this->greetingAgentModel->update($pk_id_greeting_agent, $data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil mengubah data greeting'
@@ -144,7 +146,7 @@ class Greetingagent extends BaseController
                 } else {
                     $data['data'] = $this->request->getPost($item);
 
-                    if($this->greetingAgentModel->save($data) === true){
+                    if ($this->greetingAgentModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan greeting'
@@ -158,11 +160,11 @@ class Greetingagent extends BaseController
             } else {
                 $move = 0;
 
-                if($file_audio){
+                if ($file_audio) {
                     $move = ($file_audio->isValid() && !$file_audio->hasMoved()) ? 1 : 0;
-                } else if ($file_file){
+                } else if ($file_file) {
                     $move = ($file_file->isValid() && !$file_file->hasMoved()) ? 1 : 0;
-                } else if ($file_image){
+                } else if ($file_image) {
                     $move = ($file_image->isValid() && !$file_image->hasMoved()) ? 1 : 0;
                 }
 
@@ -170,11 +172,11 @@ class Greetingagent extends BaseController
                     $nama_file = $this->request->getPost('nama_file');
                     // Get audio name and extension
                     // $name = $file->getName();
-                    if($file_audio){
+                    if ($file_audio) {
                         $ext = $file_audio->getClientExtension();
-                    } else if($file_file){
+                    } else if ($file_file) {
                         $ext = $file_file->getClientExtension();
-                    } else if($file_image){
+                    } else if ($file_image) {
                         $ext = $file_image->getClientExtension();
                     }
 
@@ -195,7 +197,7 @@ class Greetingagent extends BaseController
                         $file_image->move('public/assets/greetingagent/img/', $newName, true);
                     }
                     $data['data'] = $newName;
-                    if($this->greetingAgentModel->save($data) === true){
+                    if ($this->greetingAgentModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan greeting'
@@ -223,7 +225,8 @@ class Greetingagent extends BaseController
         return json_encode($response);
     }
 
-    public function getGreeting($pk_id_greeting_agent){
+    public function getGreeting($pk_id_greeting_agent)
+    {
         $data = $this->greetingAgentModel->find($pk_id_greeting_agent);
         return json_encode($data);
     }

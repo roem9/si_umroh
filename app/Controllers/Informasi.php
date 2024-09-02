@@ -11,12 +11,14 @@ class Informasi extends BaseController
     public $informasiModel;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->informasiModel = new InformasiModel();
         $this->db = db_connect();
     }
 
-    public function index(){
+    public function index()
+    {
         $data['sidebar'] = "pengumuman";
         $data['title'] = "Pengumuman";
 
@@ -49,10 +51,10 @@ class Informasi extends BaseController
                     ]
                 ],
                 'file_audio' => [
-                    'rules' => 'uploaded[file_audio]|max_size[file_audio,5120]|ext_in[file_audio,mp3]',
+                    'rules' => 'uploaded[file_audio]|max_size[file_audio,102400]|ext_in[file_audio,mp3]',
                     'errors' => [
                         'uploaded' => 'Audio harus diupload',
-                        'max_size' => 'Audio terlalu besar (max 5 mb)',
+                        'max_size' => 'Audio terlalu besar (max 100 MB)',
                         'ext_in' => 'Audio harus berupa mp3'
                     ]
                 ]
@@ -66,10 +68,10 @@ class Informasi extends BaseController
                     ]
                 ],
                 'file_file' => [
-                    'rules' => 'uploaded[file_file]|max_size[file_file,5120]|ext_in[file_file,pdf]',
+                    'rules' => 'uploaded[file_file]|max_size[file_file,102400]|ext_in[file_file,pdf]',
                     'errors' => [
                         'uploaded' => 'File harus diupload',
-                        'max_size' => 'File terlalu besar (max 5 mb)',
+                        'max_size' => 'File terlalu besar (max 100 MB)',
                         'ext_in' => 'file harus berupa pdf'
                     ]
                 ]
@@ -121,7 +123,7 @@ class Informasi extends BaseController
             ];
         }
 
-        if($this->validate($rules)){
+        if ($this->validate($rules)) {
             $data = [
                 'item' => $item,
                 'akses_informasi' => $akses_informasi,
@@ -131,7 +133,7 @@ class Informasi extends BaseController
                 $searchMateri = $this->informasiModel->find($pk_id_informasi);
                 if ($searchMateri) {
                     $data['data'] = $this->request->getPost($item);
-                    if($this->informasiModel->update($pk_id_informasi, $data) === true){
+                    if ($this->informasiModel->update($pk_id_informasi, $data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil mengubah data informasi'
@@ -144,7 +146,7 @@ class Informasi extends BaseController
                 } else {
                     $data['data'] = $this->request->getPost($item);
 
-                    if($this->informasiModel->save($data) === true){
+                    if ($this->informasiModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan informasi'
@@ -158,11 +160,11 @@ class Informasi extends BaseController
             } else {
                 $move = 0;
 
-                if($file_audio){
+                if ($file_audio) {
                     $move = ($file_audio->isValid() && !$file_audio->hasMoved()) ? 1 : 0;
-                } else if ($file_file){
+                } else if ($file_file) {
                     $move = ($file_file->isValid() && !$file_file->hasMoved()) ? 1 : 0;
-                } else if ($file_image){
+                } else if ($file_image) {
                     $move = ($file_image->isValid() && !$file_image->hasMoved()) ? 1 : 0;
                 }
 
@@ -170,11 +172,11 @@ class Informasi extends BaseController
                     $nama_file = $this->request->getPost('nama_file');
                     // Get audio name and extension
                     // $name = $file->getName();
-                    if($file_audio){
+                    if ($file_audio) {
                         $ext = $file_audio->getClientExtension();
-                    } else if($file_file){
+                    } else if ($file_file) {
                         $ext = $file_file->getClientExtension();
-                    } else if($file_image){
+                    } else if ($file_image) {
                         $ext = $file_image->getClientExtension();
                     }
 
@@ -195,7 +197,7 @@ class Informasi extends BaseController
                         $file_image->move('public/assets/informasi/img/', $newName, true);
                     }
                     $data['data'] = $newName;
-                    if($this->informasiModel->save($data) === true){
+                    if ($this->informasiModel->save($data) === true) {
                         $response = [
                             'status' => 'success',
                             'message' => 'Berhasil menambahkan informasi'
@@ -223,7 +225,8 @@ class Informasi extends BaseController
         return json_encode($response);
     }
 
-    public function getInformasi($pk_id_informasi){
+    public function getInformasi($pk_id_informasi)
+    {
         $data = $this->informasiModel->find($pk_id_informasi);
         return json_encode($data);
     }

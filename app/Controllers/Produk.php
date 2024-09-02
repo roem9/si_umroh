@@ -172,9 +172,9 @@ class Produk extends BaseController
             if ($json_lp) {
                 $rules = [
                     'json_lp' => [
-                        'rules' => 'max_size[json_lp,5120]',
+                        'rules' => 'max_size[json_lp,102400]',
                         'errors' => [
-                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'max_size' => 'File terlalu besar (max 100 MB)',
                             'ext_in' => 'file harus berupa json'
                         ]
                     ]
@@ -231,9 +231,9 @@ class Produk extends BaseController
             if ($json_lp) {
                 $rules = [
                     'json_lp' => [
-                        'rules' => 'max_size[json_lp,5120]|ext_in[json_lp,json]',
+                        'rules' => 'max_size[json_lp,102400]|ext_in[json_lp,json]',
                         'errors' => [
-                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'max_size' => 'File terlalu besar (max 100 MB)',
                             'ext_in' => 'file harus berupa json'
                         ]
                     ]
@@ -472,10 +472,10 @@ class Produk extends BaseController
                     ]
                 ],
                 'file_audio' => [
-                    'rules' => 'uploaded[file_audio]|max_size[file_audio,5120]|ext_in[file_audio,mp3]',
+                    'rules' => 'uploaded[file_audio]|max_size[file_audio,102400]|ext_in[file_audio,mp3]',
                     'errors' => [
                         'uploaded' => 'Audio harus diupload',
-                        'max_size' => 'Audio terlalu besar (max 5 mb)',
+                        'max_size' => 'Audio terlalu besar (max 100 MB)',
                         'ext_in' => 'Audio harus berupa mp3'
                     ]
                 ]
@@ -489,10 +489,10 @@ class Produk extends BaseController
                     ]
                 ],
                 'file_file' => [
-                    'rules' => 'uploaded[file_file]|max_size[file_file,5120]|ext_in[file_file,pdf]',
+                    'rules' => 'uploaded[file_file]|max_size[file_file,102400]|ext_in[file_file,pdf]',
                     'errors' => [
                         'uploaded' => 'File harus diupload',
-                        'max_size' => 'File terlalu besar (max 5 mb)',
+                        'max_size' => 'File terlalu besar (max 100 MB)',
                         'ext_in' => 'file harus berupa pdf'
                     ]
                 ]
@@ -709,10 +709,10 @@ class Produk extends BaseController
                     ]
                 ],
                 'file_audio' => [
-                    'rules' => 'uploaded[file_audio]|max_size[file_audio,5120]|ext_in[file_audio,mp3]',
+                    'rules' => 'uploaded[file_audio]|max_size[file_audio,102400]|ext_in[file_audio,mp3]',
                     'errors' => [
                         'uploaded' => 'Audio harus diupload',
-                        'max_size' => 'Audio terlalu besar (max 5 mb)',
+                        'max_size' => 'Audio terlalu besar (max 100 MB)',
                         'ext_in' => 'Audio harus berupa mp3'
                     ]
                 ]
@@ -726,10 +726,10 @@ class Produk extends BaseController
                     ]
                 ],
                 'file_file' => [
-                    'rules' => 'uploaded[file_file]|max_size[file_file,5120]|ext_in[file_file,pdf]',
+                    'rules' => 'uploaded[file_file]|max_size[file_file,102400]|ext_in[file_file,pdf]',
                     'errors' => [
                         'uploaded' => 'File harus diupload',
-                        'max_size' => 'File terlalu besar (max 5 mb)',
+                        'max_size' => 'File terlalu besar (max 100 MB)',
                         'ext_in' => 'file harus berupa pdf'
                     ]
                 ]

@@ -11,7 +11,8 @@ class Travel extends BaseController
     public $travelModel;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->travelModel = new TravelModel();
         $this->db = db_connect();
     }
@@ -28,7 +29,7 @@ class Travel extends BaseController
     public function save()
     {
         $company_profile = $this->request->getFile('company_profile');
-        
+
         $data = [
             'nama_travel' => $this->request->getPost('nama_travel'),
             'nama_perusahaan' => $this->request->getPost('nama_perusahaan'),
@@ -52,32 +53,32 @@ class Travel extends BaseController
 
         $searchTravel = $this->travelModel->find($pk_id_travel);
         if ($searchTravel) {
-            if($company_profile){
+            if ($company_profile) {
                 $rules = [
                     // 'company_profile' => [
-                    //     'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                    //     'rules' => 'uploaded[company_profile]|max_size[company_profile,102400]|ext_in[company_profile,pdf]',
                     //     'errors' => [
                     //         'uploaded' => 'Company profile harus diupload',
-                    //         'max_size' => 'File terlalu besar (max 5 mb)',
+                    //         'max_size' => 'File terlalu besar (max 100 MB)',
                     //         'ext_in' => 'file harus berupa pdf'
                     //     ]
                     // ]
                     'company_profile' => [
-                        'rules' => 'max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                        'rules' => 'max_size[company_profile,102400]|ext_in[company_profile,pdf]',
                         'errors' => [
-                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'max_size' => 'File terlalu besar (max 100 MB)',
                             'ext_in' => 'file harus berupa pdf'
                         ]
                     ]
                 ];
 
-                if($this->validate($rules)){
+                if ($this->validate($rules)) {
                     if ($company_profile->isValid() && !$company_profile->hasMoved()) {
                         $newName = $company_profile->getRandomName();
-                        if($company_profile->move('public/assets/company-profile', $newName) ===  true){
+                        if ($company_profile->move('public/assets/company-profile', $newName) ===  true) {
                             $data['company_profile'] = $newName;
-            
-                            if($this->travelModel->update($pk_id_travel, $data) === true){
+
+                            if ($this->travelModel->update($pk_id_travel, $data) === true) {
 
                                 $response = [
                                     'status' => 'success',
@@ -107,7 +108,7 @@ class Travel extends BaseController
                     ];
                 }
             } else {
-                if($this->travelModel->update($pk_id_travel, $data) === true){
+                if ($this->travelModel->update($pk_id_travel, $data) === true) {
                     $response = [
                         'status' => 'success',
                         'message' => 'Berhasil mengubah data travel'
@@ -119,34 +120,34 @@ class Travel extends BaseController
                 }
             }
         } else {
-            if($company_profile){
+            if ($company_profile) {
                 $rules = [
                     // 'company_profile' => [
-                    //     'rules' => 'uploaded[company_profile]|max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                    //     'rules' => 'uploaded[company_profile]|max_size[company_profile,102400]|ext_in[company_profile,pdf]',
                     //     'errors' => [
                     //         'uploaded' => 'Company profile harus diupload',
-                    //         'max_size' => 'File terlalu besar (max 5 mb)',
+                    //         'max_size' => 'File terlalu besar (max 100 MB)',
                     //         'ext_in' => 'file harus berupa pdf'
                     //     ]
                     // ]
                     'company_profile' => [
-                        'rules' => 'max_size[company_profile,5120]|ext_in[company_profile,pdf]',
+                        'rules' => 'max_size[company_profile,102400]|ext_in[company_profile,pdf]',
                         'errors' => [
-                            'max_size' => 'File terlalu besar (max 5 mb)',
+                            'max_size' => 'File terlalu besar (max 100 MB)',
                             'ext_in' => 'file harus berupa pdf'
                         ]
                     ]
                 ];
 
-                if($this->validate($rules)){
+                if ($this->validate($rules)) {
                     if ($company_profile->isValid() && !$company_profile->hasMoved()) {
                         $newName = $company_profile->getRandomName();
 
                         // Store file in public/uploads/ folder
-                        if($company_profile->move('public/assets/company-profile', $newName)){
+                        if ($company_profile->move('public/assets/company-profile', $newName)) {
                             $data['company_profile'] = $newName;
 
-                            if($this->travelModel->save($data) === true){
+                            if ($this->travelModel->save($data) === true) {
                                 $response = [
                                     'status' => 'success',
                                     'message' => 'Berhasil menambah data travel'
@@ -175,7 +176,7 @@ class Travel extends BaseController
                     ];
                 }
             } else {
-                if($this->travelModel->save($data) === true){
+                if ($this->travelModel->save($data) === true) {
                     $response = [
                         'status' => 'success',
                         'message' => 'Berhasil menambahkan data travel'
@@ -211,7 +212,7 @@ class Travel extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -223,7 +224,7 @@ class Travel extends BaseController
 
     public function delete($pk_id_travel)
     {
-        if($this->travelModel->delete($pk_id_travel) === true){
+        if ($this->travelModel->delete($pk_id_travel) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil menghapus data travel'

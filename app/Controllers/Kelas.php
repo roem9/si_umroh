@@ -201,7 +201,7 @@ class Kelas extends BaseController
                             }
                         } else {
                             $response = [
-                                "error" => $file->getErrorString()
+                                "error" => $gambar_sampul->getErrorString()
                             ];
                         }
                     } else {
@@ -487,10 +487,10 @@ class Kelas extends BaseController
                     ]
                 ],
                 'file_audio' => [
-                    'rules' => 'uploaded[file_audio]|max_size[file_audio,5120]|ext_in[file_audio,mp3]',
+                    'rules' => 'uploaded[file_audio]|max_size[file_audio,102400]|ext_in[file_audio,mp3]',
                     'errors' => [
                         'uploaded' => 'Audio harus diupload',
-                        'max_size' => 'Audio terlalu besar (max 5 mb)',
+                        'max_size' => 'Audio terlalu besar (max 100 MB)',
                         'ext_in' => 'Audio harus berupa mp3'
                     ]
                 ]
@@ -504,10 +504,10 @@ class Kelas extends BaseController
                     ]
                 ],
                 'file_file' => [
-                    'rules' => 'uploaded[file_file]|max_size[file_file,5120]|ext_in[file_file,pdf]',
+                    'rules' => 'uploaded[file_file]|max_size[file_file,102400]|ext_in[file_file,pdf]',
                     'errors' => [
                         'uploaded' => 'File harus diupload',
-                        'max_size' => 'File terlalu besar (max 5 mb)',
+                        'max_size' => 'File terlalu besar (max 100 MB)',
                         'ext_in' => 'file harus berupa pdf'
                     ]
                 ]
