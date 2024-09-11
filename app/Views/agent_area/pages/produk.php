@@ -169,11 +169,11 @@
           <input type="text" name="nama_pixel" id="nama_pixel" class="multisteps-form__input form-control" type="text" placeholder="nama_pixel">
           <div class="invalid-feedback" data-id="nama_pixel"></div>
         </div>
-        <div class="col-12 mb-3">
+        <!-- <div class="col-12 mb-3">
           <label>ID Pixel</label>
           <input type="text" name="id_pixel" id="id_pixel" class="multisteps-form__input form-control" type="text" placeholder="id_pixel">
           <div class="invalid-feedback" data-id="id_pixel"></div>
-        </div>
+        </div> -->
         <div class="form-group">
           <label for="code_pixel">Code Pixel</label>
           <textarea name="code_pixel" class="form-control" id="code_pixel" rows="10"></textarea>
@@ -460,7 +460,6 @@
               <div class="card mb-3 shadow-none border">
                 <div class="card-body">
                   <p class="text-sm text-dark"><b>Nama Pixel</b> : ${pixel.nama_pixel}</p>
-                  <p class="text-sm text-dark"><b>ID Pixel</b> : ${pixel.id_pixel}</p>
                   <div class="d-flex justify-content-end">
                     <a href="javascript:void(0)" class="me-1" onclick='getDataPixel(${pixel.pk_id_pixel_produk})'>
                       <span class="badge bg-info">
@@ -513,7 +512,7 @@
 
         $(`${form} #pk_id_pixel_produk`).val(response.pk_id_pixel_produk);
         $(`${form} #nama_pixel`).val(response.nama_pixel);
-        $(`${form} #id_pixel`).val(response.id_pixel);
+        //$(`${form} #id_pixel`).val(response.id_pixel);
         $(`${form} #code_pixel`).val(response.code_pixel);
       },
       error: function(xhr, status, error) {
@@ -540,7 +539,7 @@
       pk_id_pixel_produk: pk_id_pixel_produk,
       fk_id_produk: fk_id_produk,
       nama_pixel: nama_pixel,
-      id_pixel: id_pixel,
+      // id_pixel: id_pixel,
       code_pixel: code_pixel
     }
 

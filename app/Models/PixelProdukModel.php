@@ -32,16 +32,16 @@ class PixelProdukModel extends Model
     // Validation
     protected $validationRules      = [
         'nama_pixel' => 'required',
-        'id_pixel' => 'required',
+        // 'id_pixel' => 'required',
         'code_pixel' => 'required'
     ];
     protected $validationMessages   = [
         'nama_pixel' => [
             'required' => 'Nama pixel harus diisi.'
         ],
-        'id_pixel' => [
-            'required' => 'ID Pixel harus diisi.'
-        ],
+        // 'id_pixel' => [
+        //     'required' => 'ID Pixel harus diisi.'
+        // ],
         'code_pixel' => [
             'required' => 'Code Pixel harus diisi.'
         ]

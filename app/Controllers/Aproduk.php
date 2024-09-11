@@ -25,7 +25,8 @@ class Aproduk extends BaseController
     public $pk_id_agent;
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->produkModel = new ProdukModel();
         $this->pixelProdukModel = new PixelProdukModel();
         $this->produkTravelModel = new ProdukTravelModel();
@@ -62,10 +63,11 @@ class Aproduk extends BaseController
         return view('agent_area/pages/produk-travel', $data);
     }
 
-    public function knowledgeProduk($pk_id_produk){
+    public function knowledgeProduk($pk_id_produk)
+    {
         $produk = $this->produkModel->find($pk_id_produk);
 
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/agentarea/produk'>Produk</a>", "<span class='text-dark'>".$produk['nama_produk']."</span>"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/agentarea/produk'>Produk</a>", "<span class='text-dark'>" . $produk['nama_produk'] . "</span>"];
         $data['sidebar'] = "produk";
         $data['title'] = "Knowledge Produk $produk[nama_produk]";
         $data['collapse'] = "produk";
@@ -76,10 +78,11 @@ class Aproduk extends BaseController
         return view('agent_area/pages/design-knowledge-produk', $data);
     }
 
-    public function knowledgeProdukTravel($pk_id_produk_travel){
+    public function knowledgeProdukTravel($pk_id_produk_travel)
+    {
         $produk = $this->produkTravelModel->find($pk_id_produk_travel);
 
-        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='".base_url()."/agentarea/produk/travel'>Produk Travel</a>", "<span class='text-dark'>".$produk['nama_produk']."</span>"];
+        $data['breadcrumbs'] = ["<a class='opacity-5 text-light' href='" . base_url() . "/agentarea/produk/travel'>Produk Travel</a>", "<span class='text-dark'>" . $produk['nama_produk'] . "</span>"];
         $data['sidebar'] = "produk";
         $data['title'] = "Knowledge Produk $produk[nama_produk]";
         $data['collapse'] = "produk";
@@ -121,7 +124,7 @@ class Aproduk extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -164,7 +167,7 @@ class Aproduk extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -188,7 +191,8 @@ class Aproduk extends BaseController
     }
 
     // data pixel produk
-    public function historyPixelProduk($pk_id_produk){
+    public function historyPixelProduk($pk_id_produk)
+    {
         $data['produk'] = $this->db->query("
             SELECT
                 *,
@@ -217,7 +221,7 @@ class Aproduk extends BaseController
         $data = [
             'nama_pixel' => $this->request->getPost('nama_pixel'),
             'fk_id_produk' => $this->request->getPost('fk_id_produk'),
-            'id_pixel' => $this->request->getPost('id_pixel'),
+            // 'id_pixel' => $this->request->getPost('id_pixel'),
             'code_pixel' => $this->request->getPost('code_pixel'),
             'fk_id_agent' => $this->pk_id_agent,
         ];
@@ -226,12 +230,12 @@ class Aproduk extends BaseController
 
         $searchPixelProduk = $this->pixelProdukModel->find($pk_id_pixel_produk);
         if ($searchPixelProduk) {
-            $this->pixelProdukModel->setValidationRule('id_pixel', "is_unique[pixel_produk.id_pixel,pk_id_pixel_produk,$pk_id_pixel_produk]");
-            $this->pixelProdukModel->setValidationMessage('id_pixel', [
-                'is_unique' => 'id pixel dan code pixel telah digunakan'
-            ]);
+            // $this->pixelProdukModel->setValidationRule('id_pixel', "is_unique[pixel_produk.id_pixel,pk_id_pixel_produk,$pk_id_pixel_produk]");
+            // $this->pixelProdukModel->setValidationMessage('id_pixel', [
+            //     'is_unique' => 'id pixel dan code pixel telah digunakan'
+            // ]);
 
-            if($this->pixelProdukModel->update($pk_id_pixel_produk, $data) === true){
+            if ($this->pixelProdukModel->update($pk_id_pixel_produk, $data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil mengubah data pixel'
@@ -242,12 +246,12 @@ class Aproduk extends BaseController
                 ];
             }
         } else {
-            $this->pixelProdukModel->setValidationRule('id_pixel', "is_unique[pixel_produk.id_pixel]");
-            $this->pixelProdukModel->setValidationMessage('id_pixel', [
-                'is_unique' => 'id pixel dan code pixel telah digunakan'
-            ]);
+            // $this->pixelProdukModel->setValidationRule('id_pixel', "is_unique[pixel_produk.id_pixel]");
+            // $this->pixelProdukModel->setValidationMessage('id_pixel', [
+            //     'is_unique' => 'id pixel dan code pixel telah digunakan'
+            // ]);
 
-            if($this->pixelProdukModel->save($data) === true){
+            if ($this->pixelProdukModel->save($data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambah data pixel'
@@ -264,7 +268,7 @@ class Aproduk extends BaseController
 
     public function hapusDataPixel($pk_id_pixel_produk)
     {
-        if($this->pixelProdukModel->delete($pk_id_pixel_produk) === true){
+        if ($this->pixelProdukModel->delete($pk_id_pixel_produk) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil menghapus data pixel'
@@ -286,7 +290,8 @@ class Aproduk extends BaseController
     }
 
     // data pixel produk travel
-    public function historyPixelProdukTravel($pk_id_produk_travel){
+    public function historyPixelProdukTravel($pk_id_produk_travel)
+    {
         $data['produk'] = $this->db->query("
             SELECT
                 *,
@@ -329,7 +334,7 @@ class Aproduk extends BaseController
                 'is_unique' => 'id pixel dan code pixel telah digunakan'
             ]);
 
-            if($this->pixelProdukTravelModel->update($pk_id_pixel_produk, $data) === true){
+            if ($this->pixelProdukTravelModel->update($pk_id_pixel_produk, $data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil mengubah data pixel'
@@ -345,7 +350,7 @@ class Aproduk extends BaseController
                 'is_unique' => 'id pixel dan code pixel telah digunakan'
             ]);
 
-            if($this->pixelProdukTravelModel->save($data) === true){
+            if ($this->pixelProdukTravelModel->save($data) === true) {
                 $response = [
                     'status' => 'success',
                     'message' => 'Berhasil menambah data pixel'
@@ -362,7 +367,7 @@ class Aproduk extends BaseController
 
     public function hapusDataPixelTravel($pk_id_pixel_produk_travel)
     {
-        if($this->pixelProdukTravelModel->delete($pk_id_pixel_produk_travel) === true){
+        if ($this->pixelProdukTravelModel->delete($pk_id_pixel_produk_travel) === true) {
             $response = [
                 'status' => 'success',
                 'message' => 'Berhasil menghapus data pixel'
