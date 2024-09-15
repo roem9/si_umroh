@@ -81,8 +81,10 @@
           <label for="tipe_agent">Tipe Agent</label>
           <select name="tipe_agent" id="tipe_agent" class="multisteps-form__input form-control">
             <option value="">Pilih Tipe Agent</option>
-            <option value="silver">Silver</option>
+            <option value="elite">Elite</option>
             <option value="gold">Gold</option>
+            <option value="silver">Silver</option>
+            <option value="standard">Standard</option>
             <option value="leader agent">Leader Agent</option>
           </select>
           <div class="invalid-feedback" data-id="tipe_agent"></div>
