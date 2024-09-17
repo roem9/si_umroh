@@ -29,7 +29,8 @@ class Import extends BaseController
     public $db;
     public $ses_pk_id_agent;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->listSendWaModel = new ListSendWaModel();
         $this->stgAgentModel = new StgAgentModel();
         $this->agentModel = new AgentModel();
@@ -42,7 +43,7 @@ class Import extends BaseController
     }
 
     // public function fixAgent(){
-        
+
     //     $this->db->transBegin();
     //     $failed = false;
 
@@ -73,7 +74,7 @@ class Import extends BaseController
     //             $this->db->query("
     //                 UPDATE agent SET fk_id_leader_agent = NULL WHERE pk_id_agent = $agent[fk_id_to_agent]
     //             ");
-                
+
     //             if ($this->db->error()['code'] != 0) {
     //                 // Menampilkan informasi error
     //                 echo 'Error Code: ' . $this->db->error()['code'];
@@ -232,7 +233,7 @@ class Import extends BaseController
 
     //         return;
     //     }
-        
+
     //     // update produk yang statusnya upgrade menjad lunas 
     //     $this->db->query("
     //         update penjualan_produk 
@@ -287,7 +288,7 @@ class Import extends BaseController
     //         if($key <= 1){
     //             continue;
     //         }
-            
+
     //         $agent_condition = 0;
     //         if($value[8] == 'Leader Agent'){
     //             $agent_condition = 1;
@@ -318,7 +319,7 @@ class Import extends BaseController
 
     //         // Load the query builder
     //         $builder = $this->db->table('data_agent_keliru');
-            
+
     //         // Insert the data
     //         $builder->insert($data);
     //     }
@@ -338,7 +339,7 @@ class Import extends BaseController
     //     $this->db->query("
     //         TRUNCATE TABLE penjualan_produk
     //     ");
-        
+
     //     $this->db->query("
     //         TRUNCATE TABLE komisi_penjualan_produk
     //     ");
@@ -367,7 +368,7 @@ class Import extends BaseController
     //         // if($no == 5){
     //         //     break;
     //         // }
-            
+
 
     //         if($value[4] == 'leader agent'){
     //             $produk = $this->db->query("
@@ -457,7 +458,7 @@ class Import extends BaseController
     //             $this->customerModel->skipValidation(true);
     //             if($this->customerModel->save($dataCustomer) === true){
     //                 $fk_id_customer = $this->customerModel->getInsertID();
-    
+
     //                 $dataPenjualan = [
     //                     'fk_id_customer' => $fk_id_customer,
     //                     'fk_id_produk' => $produk['pk_id_produk'],
@@ -468,33 +469,33 @@ class Import extends BaseController
     //                     'harga_produk' => $value[10],
     //                     'is_komisi' => $value[12]
     //                 ];
-    
+
     //                 $this->penjualanProdukModel->skipValidation(true);
     //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
     //                     $response = [
     //                         "error" => $this->penjualanProdukModel->errors()
     //                     ];
-    
+
     //                     $failed = true;
-    
+
     //                     break;
     //                 } else {
     //                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
-    
+
     //                     $dataPembayaran = [
     //                         'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
     //                         'tgl_pembayaran' => $this->convertToDate($value[13]),
     //                         'nominal' => $value[11],
     //                         'keterangan' => '-'
     //                     ];
-    
+
     //                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
     //                         $response = [
     //                             "error" => $this->pembayaranPenjualanProdukModel->errors()
     //                         ];
-        
+
     //                         $failed = true;
-        
+
     //                         break;
     //                     } else {
     //                         $data = [
@@ -505,11 +506,11 @@ class Import extends BaseController
     //                             "batch" => $value[5],
     //                             "confirmed_at" => date('Y-m-d')
     //                         ];
-                
+
     //                         if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
     //                             $data['area_status'] = 1;
     //                         }
-                
+
     //                         if($value[7] !== NULL){
     //                             $dataAgent = $this->db->query("
     //                                 SELECT
@@ -518,14 +519,14 @@ class Import extends BaseController
     //                                 WHERE no_wa LIKE '%".$value[7]."%'
     //                                 AND tipe_agent = 'leader agent'
     //                             ")->getRowArray();
-                    
+
     //                             if(!empty($dataAgent)){
     //                                 $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
     //                                 $data['la_double'] = $dataAgent['pk_id_agent'];
     //                                 // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
     //                             }
     //                         }
-    
+
     //                         // cek apakah agent sudah terdaftar
     //                         $is_agent = $this->db->query("
     //                             SELECT
@@ -533,19 +534,19 @@ class Import extends BaseController
     //                             FROM agent
     //                             WHERE no_wa LIKE '%$value[2]%'
     //                         ")->getRowArray();
-    
+
     //                         if(empty($is_agent)){
     //                             $this->agentModel->skipValidation(true);
     //                             if($this->agentModel->save($data) !== true){
     //                                 $response = [
     //                                     "error" => $this->agentModel->errors()
     //                                 ];
-                    
+
     //                                 $failed = true;
     //                                 break;
     //                             } else {
     //                                 $fk_id_agent = $this->agentModel->getInsertID();
-        
+
     //                                 $this->db->query("
     //                                     UPDATE customer
     //                                     SET fk_id_to_agent = $fk_id_agent
@@ -562,7 +563,7 @@ class Import extends BaseController
     //                                         FROM agent
     //                                         WHERE no_wa LIKE '%".$value[7]."%'
     //                                     ")->getRowArray();
-    
+
     //                                     if($dataAgent['tipe_agent'] == 'leader agent'){
     //                                         $this->db->query("
     //                                             UPDATE agent
@@ -580,7 +581,7 @@ class Import extends BaseController
     //                                         FROM agent
     //                                         WHERE no_wa LIKE '%".$value[7]."%'
     //                                     ")->getRowArray();
-    
+
     //                                     if($dataAgent['tipe_agent'] == 'leader agent'){
     //                                         $this->db->query("
     //                                             UPDATE agent
@@ -595,15 +596,15 @@ class Import extends BaseController
     //                                     }
     //                                 }
     //                             }
-    
-    
+
+
     //                         }
     //                     }
     //                 }
     //             }
     //         } else {
     //             $fk_id_customer = $cekCustomer['pk_id_customer'];
-    
+
     //             $dataPenjualan = [
     //                 'fk_id_customer' => $fk_id_customer,
     //                 'fk_id_produk' => $produk['pk_id_produk'],
@@ -638,9 +639,9 @@ class Import extends BaseController
     //                     $response = [
     //                         "error" => $this->pembayaranPenjualanProdukModel->errors()
     //                     ];
-    
+
     //                     $failed = true;
-    
+
     //                     break;
     //                 } else {
     //                     $data = [
@@ -651,11 +652,11 @@ class Import extends BaseController
     //                         "batch" => $value[5],
     //                         "confirmed_at" => date('Y-m-d')
     //                     ];
-            
+
     //                     if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
     //                         $data['area_status'] = 1;
     //                     }
-            
+
     //                     if($value[7] !== NULL){
     //                         $dataAgent = $this->db->query("
     //                             SELECT
@@ -664,7 +665,7 @@ class Import extends BaseController
     //                             WHERE no_wa LIKE '%".$value[7]."%'
     //                             AND tipe_agent = 'leader agent'
     //                         ")->getRowArray();
-                
+
     //                         if(!empty($dataAgent)){
     //                             $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
     //                             $data['la_double'] = $dataAgent['pk_id_agent'];
@@ -686,12 +687,12 @@ class Import extends BaseController
     //                             $response = [
     //                                 "error" => $this->agentModel->errors()
     //                             ];
-                
+
     //                             $failed = true;
     //                             break;
     //                         } else {
     //                             $fk_id_agent = $this->agentModel->getInsertID();
-    
+
     //                             $this->db->query("
     //                                 UPDATE customer
     //                                 SET fk_id_to_agent = $fk_id_agent
@@ -771,7 +772,8 @@ class Import extends BaseController
     //     echo "selesai";
     // }
 
-    public function allValuesAreSame($values) {
+    public function allValuesAreSame($values)
+    {
         $firstValue = $values[0];
         foreach ($values as $value) {
             if ($value !== $firstValue) {
@@ -793,7 +795,7 @@ class Import extends BaseController
     //     $this->db->query("
     //         TRUNCATE TABLE penjualan_produk
     //     ");
-        
+
     //     $this->db->query("
     //         TRUNCATE TABLE komisi_penjualan_produk
     //     ");
@@ -822,7 +824,7 @@ class Import extends BaseController
     //         // if($no == 5){
     //         //     break;
     //         // }
-            
+
     //         // cek apakah agent sudah terdaftar
     //         $is_agent = $this->db->query("
     //             SELECT
@@ -866,7 +868,7 @@ class Import extends BaseController
     //                 "fk_id_produk" => $produk['pk_id_produk'],
     //                 'jenis_produk' => 'produk'
     //             ];
-    
+
     //             if($value[7] != '' || $value[7] !== NULL){
     //                 $dataAgent = $this->db->query("
     //                     SELECT
@@ -875,12 +877,12 @@ class Import extends BaseController
     //                     WHERE no_wa LIKE '%".$value[7]."%'
     //                 ")->getRowArray();
     //             }
-    
+
     //             // jika ada data agent tentukan agent
     //             if(isset($dataAgent)){
     //                 if($dataAgent['tipe_agent'] == 'leader agent'){
     //                     $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
-    
+
     //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
     //                 } else {
     //                     $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
@@ -888,16 +890,16 @@ class Import extends BaseController
     //                     if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
     //                         $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
     //                     }
-    
+
     //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
     //                 }
     //             }
-    
+
     //             // simpan data leads
     //             $this->customerModel->skipValidation(true);
     //             if($this->customerModel->save($dataCustomer) === true){
     //                 $fk_id_customer = $this->customerModel->getInsertID();
-    
+
     //                 $dataPenjualan = [
     //                     'fk_id_customer' => $fk_id_customer,
     //                     'fk_id_produk' => $produk['pk_id_produk'],
@@ -908,33 +910,33 @@ class Import extends BaseController
     //                     'harga_produk' => $value[10],
     //                     'is_komisi' => $value[12]
     //                 ];
-    
+
     //                 $this->penjualanProdukModel->skipValidation(true);
     //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
     //                     $response = [
     //                         "error" => $this->penjualanProdukModel->errors()
     //                     ];
-    
+
     //                     $failed = true;
-    
+
     //                     break;
     //                 } else {
     //                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
-    
+
     //                     $dataPembayaran = [
     //                         'fk_id_penjualan_produk' => $fk_id_penjualan_produk,
     //                         'tgl_pembayaran' => $this->convertToDate($value[13]),
     //                         'nominal' => $value[11],
     //                         'keterangan' => '-'
     //                     ];
-    
+
     //                     if ($this->pembayaranPenjualanProdukModel->save($dataPembayaran) !== true) {
     //                         $response = [
     //                             "error" => $this->pembayaranPenjualanProdukModel->errors()
     //                         ];
-        
+
     //                         $failed = true;
-        
+
     //                         break;
     //                     } else {
     //                         $data = [
@@ -945,11 +947,11 @@ class Import extends BaseController
     //                             "batch" => $value[5],
     //                             "confirmed_at" => date('Y-m-d')
     //                         ];
-                
+
     //                         if($data['batch'] >= 16 || $data['tipe_agent'] == 'leader agent'){
     //                             $data['area_status'] = 1;
     //                         }
-                
+
     //                         if($value[7] !== NULL){
     //                             $dataAgent = $this->db->query("
     //                                 SELECT
@@ -958,25 +960,25 @@ class Import extends BaseController
     //                                 WHERE no_wa LIKE '%".$value[7]."%'
     //                                 AND tipe_agent = 'leader agent'
     //                             ")->getRowArray();
-                    
+
     //                             if(!empty($dataAgent)){
     //                                 $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
-                    
+
     //                                 // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
     //                             }
     //                         }
-                
+
     //                         $this->agentModel->skipValidation(true);
     //                         if($this->agentModel->save($data) !== true){
     //                             $response = [
     //                                 "error" => $this->agentModel->errors()
     //                             ];
-                
+
     //                             $failed = true;
     //                             break;
     //                         } else {
     //                             $fk_id_agent = $this->agentModel->getInsertID();
-    
+
     //                             $this->db->query("
     //                                 UPDATE customer
     //                                 SET fk_id_to_agent = $fk_id_agent
@@ -1006,12 +1008,12 @@ class Import extends BaseController
     //                     WHERE no_wa LIKE '%".$value[7]."%'
     //                 ")->getRowArray();
     //             }
-    
+
     //             // jika ada data agent tentukan agent
     //             if(isset($dataAgent)){
     //                 if($dataAgent['tipe_agent'] == 'leader agent'){
     //                     $dataCustomer['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
-    
+
     //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
     //                 } else {
     //                     $dataCustomer['fk_id_agent'] = $dataAgent['pk_id_agent'];
@@ -1019,11 +1021,11 @@ class Import extends BaseController
     //                     if($dataAgent['fk_id_leader_agent'] != '' || $dataAgent['fk_id_leader_agent'] !== NULL){
     //                         $dataCustomer['fk_id_leader_agent'] = $dataAgent['fk_id_leader_agent'];
     //                     }
-    
+
     //                     $fk_id_agent_closing = $dataAgent['pk_id_agent'];
     //                 }
     //             }
-    
+
     //             $dataPenjualan = [
     //                 'fk_id_customer' => $fk_id_customer,
     //                 'fk_id_produk' => $produk['pk_id_produk'],
@@ -1058,9 +1060,9 @@ class Import extends BaseController
     //                     $response = [
     //                         "error" => $this->pembayaranPenjualanProdukModel->errors()
     //                     ];
-    
+
     //                     $failed = true;
-    
+
     //                     break;
     //                 } else {
     //                     if($value[4] != 'leader agent' && $is_agent['tipe_agent'] != 'leader agent'){
@@ -1134,10 +1136,10 @@ class Import extends BaseController
     //                 WHERE no_wa LIKE '%".$value[7]."%'
     //                 AND tipe_agent = 'leader agent'
     //             ")->getRowArray();
-    
+
     //             if(!empty($dataAgent)){
     //                 $data['fk_id_leader_agent'] = $dataAgent['pk_id_agent'];
-    
+
     //                 // echo $data['nama_agent'] . '' . $dataAgent['nama_agent'];
     //             }
     //         }
@@ -1242,26 +1244,26 @@ class Import extends BaseController
     //     foreach ($files as $file) {
     //         $spreadsheet = $reader->load($file['file']);
     //         $leads = $spreadsheet->getActiveSheet()->toArray();
-    
+
     //         $produk = $this->db->query("
     //             SELECT
     //                 *
     //             FROM produk
     //             WHERE nama_produk = '$file[produk]'
     //         ")->getRowArray();
-    
+
     //         foreach ($leads as $key => $value) {
     //             if($key == 0 || $value[1] == "" || $value[1] == NULL){
     //                 continue;
     //             }
-    
+
     //             $agent = $this->db->query("
     //                 SELECT
     //                     *
     //                 FROM agent
     //                 WHERE no_wa LIKE '%".$value[6]."%'
     //             ")->getRowArray();
-    
+
     //             $data = [
     //                 'nama_customer' => $value[1],
     //                 'no_wa' => $value[2],
@@ -1270,7 +1272,7 @@ class Import extends BaseController
     //                 'fk_id_produk' => $produk['pk_id_produk'],
     //                 'jenis_produk' => 'produk'
     //             ];
-    
+
     //             // jika ada data agent tentukan agent
     //             if(isset($agent)){
     //                 $data['fk_id_agent'] = $agent['pk_id_agent'];
@@ -1279,12 +1281,12 @@ class Import extends BaseController
     //                     $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
     //                 }
     //             }
-    
+
     //             // simpan data leads
     //             $this->customerModel->skipValidation(true);
     //             if($this->customerModel->save($data) === true){
     //                 $fk_id_customer = $this->customerModel->getInsertID();
-    
+
     //                 $dataPenjualan = [
     //                     'fk_id_customer' => $fk_id_customer,
     //                     'fk_id_produk' => $produk['pk_id_produk'],
@@ -1293,24 +1295,24 @@ class Import extends BaseController
     //                     'fk_id_agent_closing' => (isset($data['fk_id_agent'])) ? $data['fk_id_agent'] : NULL,
     //                     'status' => 'lunas'
     //                 ];
-    
+
     //                 $this->penjualanProdukModel->skipValidation(true);
     //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
     //                     $response = [
     //                         "error" => $this->penjualanProdukModel->errors()
     //                     ];
-    
+
     //                     $failed = true;
-    
+
     //                     break;
     //                 }
     //             } else {
     //                 $response = [
     //                     "error" => $this->customerModel->errors()
     //                 ];
-    
+
     //                 $failed = true;
-    
+
     //                 break;
     //             }
     //         }
@@ -1373,14 +1375,14 @@ class Import extends BaseController
     //     foreach ($files as $file) {
     //         $spreadsheet = $reader->load($file['file']);
     //         $leads = $spreadsheet->getActiveSheet()->toArray();
-    
+
     //         $produk = $this->db->query("
     //             SELECT
     //                 *
     //             FROM produk
     //             WHERE nama_produk = '$file[produk]'
     //         ")->getRowArray();
-    
+
     //         $no = 1;
     //         $dataFile = $file;
     //         foreach ($leads as $key => $value) {
@@ -1391,14 +1393,14 @@ class Import extends BaseController
     //             }
 
     //             $dataFile['value'] = $value;
-    
+
     //             $agent = $this->db->query("
     //                 SELECT
     //                     *
     //                 FROM agent
     //                 WHERE no_wa LIKE '%".$value[6]."%'
     //             ")->getRowArray();
-    
+
     //             $data = [
     //                 'nama_customer' => $value[1],
     //                 'no_wa' => $value[2],
@@ -1407,7 +1409,7 @@ class Import extends BaseController
     //                 'fk_id_produk' => $produk['pk_id_produk'],
     //                 'jenis_produk' => 'produk'
     //             ];
-    
+
     //             // jika ada data agent tentukan agent
     //             if(isset($agent)){
     //                 $data['fk_id_agent'] = $agent['pk_id_agent'];
@@ -1416,12 +1418,12 @@ class Import extends BaseController
     //                     $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
     //                 }
     //             }
-    
+
     //             // simpan data leads
     //             $this->customerModel->skipValidation(true);
     //             if($this->customerModel->save($data) === true){
     //                 $fk_id_customer = $this->customerModel->getInsertID();
-    
+
     //                 $dataPenjualan = [
     //                     'fk_id_customer' => $fk_id_customer,
     //                     'fk_id_produk' => $produk['pk_id_produk'],
@@ -1430,7 +1432,7 @@ class Import extends BaseController
     //                     'fk_id_agent_closing' => (isset($data['fk_id_agent'])) ? $data['fk_id_agent'] : NULL,
     //                     'status' => 'lunas'
     //                 ];
-    
+
     //                 $this->penjualanProdukModel->skipValidation(true);
     //                 if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
     //                     $response = [
@@ -1445,9 +1447,9 @@ class Import extends BaseController
     //                         <li>Produk</li>
     //                     </ul>
     //                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
-    
+
     //                     $failed = true;
-    
+
     //                     break;
     //                 } else {
     //                     $fk_id_penjualan_produk = $this->penjualanProdukModel->getInsertID();
@@ -1472,9 +1474,9 @@ class Import extends BaseController
     //                             <li>Produk</li>
     //                         </ul>
     //                         <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
-        
+
     //                         $failed = true;
-        
+
     //                         break;
     //                     }
     //                 }
@@ -1491,9 +1493,9 @@ class Import extends BaseController
     //                     <li>Produk</li>
     //                 </ul>
     //                 <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
-    
+
     //                 $failed = true;
-    
+
     //                 break;
     //             }
     //         }
@@ -1527,7 +1529,8 @@ class Import extends BaseController
     // }
 
     // import penjualan kelas gratis dari admin 
-    public function peminat_by_admin(){
+    public function peminat_by_admin()
+    {
         $this->db->transBegin();
         $failed = false;
 
@@ -1553,12 +1556,12 @@ class Import extends BaseController
             $leads = $spreadsheet->getActiveSheet()->toArray();
 
             foreach ($leads as $key => $value) {
-                if($key == 0){
+                if ($key == 0) {
                     continue;
                 }
 
                 // cek nama, no_wa, email, produk pastikan terisi 
-                if($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL)){
+                if ($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL)) {
                     $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
                     <ul>
                         <li>Nama</li>
@@ -1569,7 +1572,7 @@ class Import extends BaseController
                     </ul>
                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
 
-                
+
                     $failed = true;
                     return json_encode($response);
                 }
@@ -1581,7 +1584,7 @@ class Import extends BaseController
                     WHERE nama_produk = '$value[5]'
                 ")->getRowArray();
 
-                if(!$produk){
+                if (!$produk) {
                     $response['error'] = '<p>Perhatikan kembali file yang Anda upload.</p>
                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data produk pada baris nomor ' . $value[0] . ' valid.</p>';
 
@@ -1602,7 +1605,7 @@ class Import extends BaseController
                 $fk_id_agent_closing = NULL;
 
                 // jika no wa agent terisi maka lakukan pengecekan agent 
-                if($value[7] != NULL){
+                if ($value[7] != NULL) {
                     $agent = $this->db->query("
                         SELECT
                             *
@@ -1611,8 +1614,8 @@ class Import extends BaseController
                     ")->getRowArray();
 
                     // jika agent ditemukan maka set fk id agent dari customer 
-                    if($agent){
-                        if($agent['tipe_agent'] == 'leader agent'){
+                    if ($agent) {
+                        if ($agent['tipe_agent'] == 'leader agent') {
                             $data['fk_id_agent'] = NULL;
                             $data['fk_id_leader_agent'] = $agent['pk_id_agent'];
                         } else {
@@ -1628,20 +1631,20 @@ class Import extends BaseController
                 $wa_message = '';
 
                 $this->customerModel->skipValidation(true);
-                if($this->customerModel->save($data) === true){
+                if ($this->customerModel->save($data) === true) {
                     $is_send_wa = $produk['send_wa_after_input_agent'];
                     $wa_message = $produk['wa_message'];
 
                     $fk_id_customer = $this->customerModel->getInsertID();
 
                     // konversi tanggal terlebih dahulu
-                    $date = $this->convertToDate($value[8]); 
+                    $date = $this->convertToDate($value[8]);
                     $timestamp = strtotime($date);
 
                     if (!$timestamp && date('Y-m-d', $timestamp) !== $date) {
                         $response['error'] = '<p>Perhatikan kembali file yang Anda upload.</p>
                         <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa tgl closing pada baris nomor ' . $value[0] . ' berformat d/m/Y. ex : 1/1/2024</p>';
-                    
+
                         $failed = true;
                         return json_encode($response);
                     }
@@ -1700,11 +1703,11 @@ class Import extends BaseController
 
             $failed = true;
         }
-        
+
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal import data'
@@ -1722,7 +1725,8 @@ class Import extends BaseController
         return json_encode($response);
     }
 
-    public function download_template(){
+    public function download_template()
+    {
         // Load the model to get the data (assuming you have a model for fetching products)
         $produk = $this->produkModel->where("is_active", 1)->find(); // Fetch all products
 
@@ -1749,10 +1753,11 @@ class Import extends BaseController
 
         // Force download of the updated file
         return $this->response->download($tempFilePath, null)
-        ->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            ->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }
 
-    public function download_template_admin(){
+    public function download_template_admin()
+    {
         // Load the model to get the data (assuming you have a model for fetching products)
         $produk = $this->produkModel->where("is_active", 1)->find(); // Fetch all products
 
@@ -1779,10 +1784,11 @@ class Import extends BaseController
 
         // Force download of the updated file
         return $this->response->download($tempFilePath, null)
-        ->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            ->setContentType('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     }
 
-    public function peminat(){
+    public function peminat()
+    {
         $this->db->transBegin();
         $failed = false;
 
@@ -1815,11 +1821,11 @@ class Import extends BaseController
             ")->getRowArray();
 
             foreach ($leads as $key => $value) {
-                if($key == 0){
+                if ($key == 0) {
                     continue;
                 }
 
-                if($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL)){
+                if ($value[0] !== NULL && ($value[1] === NULL || $value[2] === NULL || $value[4] === NULL || $value[5] === NULL)) {
                     $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
                     <ul>
                         <li>Nama</li>
@@ -1829,7 +1835,7 @@ class Import extends BaseController
                     </ul>
                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data pada baris nomor ' . $value[0] . ' telah diisi. Jika data pada baris tersebut tidak tersedia, silakan hapus baris nomor ' . $value[0] . ' dari file Anda dan coba upload kembali.</p>';
 
-                
+
                     $failed = true;
                     return json_encode($response);
                 }
@@ -1841,37 +1847,42 @@ class Import extends BaseController
                     WHERE nama_produk = '$value[5]'
                 ")->getRowArray();
 
-                if(!$produk){
+                if (!$produk) {
                     $response['error'] = '<p>Perhatikan kembali file yang Anda upload.</p>
                     <p><b>Masalah ditemukan pada nomor ' . $value[0] . ':</b> Pastikan bahwa data produk pada baris nomor ' . $value[0] . ' tersedia di menu produk. Jika tidak tersedia Silakan download ulang template.</p>';
 
-                
+
                     $failed = true;
                     return json_encode($response);
                 }
 
+                $email_valid = str_replace(' ', '', $value[4]);
+                $email_valid = strtolower($email_valid);
+                $email_valid = str_replace('@.', '@', $email_valid);
+                $email_valid = str_replace(',', '@', $email_valid);
+
                 $data = [
-                    'nama_customer' => $value[1],
-                    'no_wa' => $value[2],
-                    'kota_kabupaten' => $value[3],
-                    'email' => $value[4],
+                    'nama_customer' => trim($value[1]),
+                    'no_wa' => trim($value[2]),
+                    'kota_kabupaten' => trim($value[3]),
+                    'email' => $email_valid,
                     'fk_id_produk' => $produk['pk_id_produk'],
                     'jenis_produk' => 'produk'
                 ];
 
-                if($agent['tipe_agent'] == 'leader agent'){
+                if ($agent['tipe_agent'] == 'leader agent') {
                     $data['fk_id_agent'] = NULL;
                     $data['fk_id_leader_agent'] = $agent['pk_id_agent'];
                 } else {
                     $data['fk_id_agent'] = $agent['pk_id_agent'];
                     $data['fk_id_leader_agent'] = $agent['fk_id_leader_agent'];
                 }
-                
+
 
                 $is_send_wa = 0;
                 $wa_message = '';
 
-                if($this->customerModel->save($data) === true){
+                if ($this->customerModel->save($data) === true) {
                     $is_send_wa = $produk['send_wa_after_input_agent'];
                     $wa_message = $produk['wa_message'];
 
@@ -1905,23 +1916,23 @@ class Import extends BaseController
                         break;
                     }
 
-                    if($is_send_wa){
+                    if ($is_send_wa) {
                         $messageData = $wa_message;
-            
+
                         $replace = [
                             '$nama_customer$' => $data['nama_customer']
                         ];
-            
+
                         // Replace placeholders with actual values
                         $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-            
+
                         // send_wa($data['no_wa'], $message);
                         $dataPesan = [
                             'no_wa' => $data['no_wa'],
                             'text' => $message
                         ];
 
-                        if($this->listSendWaModel->save($dataPesan) !== true){
+                        if ($this->listSendWaModel->save($dataPesan) !== true) {
                             $response['error'] = '<p>Perhatikan kembali file yang Anda upload. Pastikan semua data berikut terisi dengan benar:</p>
                             <ul>
                                 <li>Nama</li>
@@ -1961,11 +1972,11 @@ class Import extends BaseController
 
             $failed = true;
         }
-        
+
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal import data'
@@ -1983,7 +1994,8 @@ class Import extends BaseController
         return json_encode($response);
     }
 
-    public function cronJobSendWa(){
+    public function cronJobSendWa()
+    {
         $data = $this->db->query("
             SELECT
                 *
@@ -1991,7 +2003,7 @@ class Import extends BaseController
             WHERE is_send = 0
         ")->getRowArray();
 
-        if($data){
+        if ($data) {
             send_wa($data['no_wa'], $data['text']);
 
             $this->db->query("
@@ -2002,33 +2014,34 @@ class Import extends BaseController
         }
     }
 
-    function convertToDate($dateString) {
+    function convertToDate($dateString)
+    {
         $data = explode('/', trim($dateString));
         $day = "";
         $month = "";
         $year = "";
 
-        if(count($data) == 3){
+        if (count($data) == 3) {
 
-            if(intval($data[0]) < 10){
+            if (intval($data[0]) < 10) {
                 $day = '0' . intval($data[0]);
-            } else if (intval($data[0]) >= 10){
+            } else if (intval($data[0]) >= 10) {
                 $day = $data[0];
             } else {
                 $day = '01';
             }
-    
-            if(intval($data[1]) < 10){
+
+            if (intval($data[1]) < 10) {
                 $month = '0' . intval($data[1]);
-            } else if (intval($data[1]) >= 10){
+            } else if (intval($data[1]) >= 10) {
                 $month = $data[1];
             } else {
                 $month = '01';
             }
-    
+
             $year = $data[2];
-    
-            return $year."-".$month."-".$day;
+
+            return $year . "-" . $month . "-" . $day;
         } else {
             $baseDate = '1900-01-01';
 
