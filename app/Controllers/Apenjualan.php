@@ -433,19 +433,19 @@ class Apenjualan extends BaseController
             'jenis_produk' => 'produk'
         ];
 
-        $is_exists = $this->customerModel
-            ->where('no_wa', $dataCustomer['no_wa'])
-            ->where('fk_id_produk', $dataCustomer['fk_id_produk'])->first();
+        // $is_exists = $this->customerModel
+        //     ->where('no_wa', $dataCustomer['no_wa'])
+        //     ->where('fk_id_produk', $dataCustomer['fk_id_produk'])->first();
 
-        if (!empty($is_exists)) {
-            $failed = true;
-            $response = [
-                'status' => 'error',
-                'message' => 'Mohon maaf data untuk peminat ini telah didaftarkan oleh agent lain. Silakan inputkan data peminat yang lain',
-                'error_type' => 'exists'
-            ];
-            return json_encode($response);
-        }
+        // if (!empty($is_exists)) {
+        //     $failed = true;
+        //     $response = [
+        //         'status' => 'error',
+        //         'message' => 'Mohon maaf data untuk peminat ini telah didaftarkan oleh agent lain. Silakan inputkan data peminat yang lain',
+        //         'error_type' => 'exists'
+        //     ];
+        //     return json_encode($response);
+        // }
 
         if ($agent['tipe_agent'] == 'leader agent') {
             $dataCustomer['fk_id_agent'] = NULL;
