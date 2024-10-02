@@ -34,7 +34,8 @@ class Apenjualan extends BaseController
     public $db;
     public $ses_pk_id_agent;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->penjualanProdukModel = new PenjualanProdukModel();
         $this->penjualanProdukTravelModel = new PenjualanProdukTravelModel();
         $this->pembayaranPenjualanProdukModel = new PembayaranPenjualanProdukModel();
@@ -75,7 +76,8 @@ class Apenjualan extends BaseController
         return view('agent_area/pages/penjualan-produk-travel', $data);
     }
 
-    public function kuitansiProduk($pk_id_pembayaran_penjualan_produk){
+    public function kuitansiProduk($pk_id_pembayaran_penjualan_produk)
+    {
         $penjualan = $this->db->query("
             SELECT
                 a.*,
@@ -103,7 +105,8 @@ class Apenjualan extends BaseController
         exit();
     }
 
-    public function kuitansiProdukTravel($pk_id_pembayaran_penjualan_produk_travel){
+    public function kuitansiProdukTravel($pk_id_pembayaran_penjualan_produk_travel)
+    {
         $penjualan = $this->db->query("
             SELECT
                 a.*,
@@ -131,7 +134,8 @@ class Apenjualan extends BaseController
         exit();
     }
 
-    public function getDataPenjualanProduk($pk_id_penjualan_produk){
+    public function getDataPenjualanProduk($pk_id_penjualan_produk)
+    {
         $data = $this->db->query("
             SELECT
                 a.pk_id_penjualan_produk,
@@ -170,12 +174,13 @@ class Apenjualan extends BaseController
             WHERE pk_id_agent = $this->ses_pk_id_agent
         ")->getRowArray();
 
-        if($agent['tipe_agent'] == 'leader agent'){
+        if ($agent['tipe_agent'] == 'leader agent') {
             $query = "
                 CREATE TEMPORARY TABLE ListPenjualanProduk AS
                 SELECT
                     pk_id_penjualan_produk,
                     a.tgl_closing,
+                    a.created_at,
                     b.nama_customer,
                     a.nama_produk,
                     e.nama_travel,
@@ -204,6 +209,7 @@ class Apenjualan extends BaseController
                 SELECT
                     pk_id_penjualan_produk,
                     a.tgl_closing,
+                    a.created_at,
                     b.nama_customer,
                     a.nama_produk,
                     e.nama_travel,
@@ -227,7 +233,7 @@ class Apenjualan extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -237,7 +243,8 @@ class Apenjualan extends BaseController
         return DataTable::of($builder)->toJson(true);
     }
 
-    public function historyPembayaran($pk_id_penjualan_produk){
+    public function historyPembayaran($pk_id_penjualan_produk)
+    {
         $data['pembayaran'] = $this->pembayaranPenjualanProdukModel->where('fk_id_penjualan_produk', $pk_id_penjualan_produk)->orderby('tgl_pembayaran', 'DESC')->findAll();
 
         $data['total_pembayaran'] = 0;
@@ -245,7 +252,7 @@ class Apenjualan extends BaseController
         foreach ($data['pembayaran'] as $pembayaran) {
             $data['total_pembayaran'] += $pembayaran['nominal'];
         }
-        
+
         // $data['penjualan'] = $this->penjualanProdukModel->find($pk_id_penjualan_produk);
         $data['penjualan'] = $this->db->query("
             SELECT
@@ -276,14 +283,16 @@ class Apenjualan extends BaseController
         return json_encode($data);
     }
 
-    public function getDataPembayaranPenjualanProduk($pk_id_pembayaran_penjualan_produk){
+    public function getDataPembayaranPenjualanProduk($pk_id_pembayaran_penjualan_produk)
+    {
         $data = $this->pembayaranPenjualanProdukModel->find($pk_id_pembayaran_penjualan_produk);
 
         return json_encode($data);
     }
 
     // penjualan produk travel 
-    public function getDataPenjualanProdukTravel($pk_id_penjualan_produk_travel){
+    public function getDataPenjualanProdukTravel($pk_id_penjualan_produk_travel)
+    {
         $data['penjualan'] = $this->db->query("
             SELECT
                 a.pk_id_penjualan_produk_travel,
@@ -341,7 +350,7 @@ class Apenjualan extends BaseController
         $queries = explode(";", $query);
 
         foreach ($queries as $query) {
-            if(trim($query) != ""){
+            if (trim($query) != "") {
                 $this->db->query($query);
             }
         }
@@ -351,7 +360,8 @@ class Apenjualan extends BaseController
         return DataTable::of($builder)->toJson(true);
     }
 
-    public function historyPembayaranTravel($pk_id_penjualan_produk_travel){
+    public function historyPembayaranTravel($pk_id_penjualan_produk_travel)
+    {
         $data['pembayaran'] = $this->pembayaranPenjualanProdukTravelModel->where('fk_id_penjualan_produk_travel', $pk_id_penjualan_produk_travel)->orderby('tgl_pembayaran', 'DESC')->findAll();
 
         $data['total_pembayaran'] = 0;
@@ -359,7 +369,7 @@ class Apenjualan extends BaseController
         foreach ($data['pembayaran'] as $pembayaran) {
             $data['total_pembayaran'] += $pembayaran['nominal'];
         }
-        
+
         // $data['penjualan'] = $this->penjualanProdukModel->find($pk_id_penjualan_produk_travel);
         $data['penjualan'] = $this->db->query("
             SELECT
@@ -390,7 +400,8 @@ class Apenjualan extends BaseController
         return json_encode($data);
     }
 
-    public function getDataPembayaranPenjualanProdukTravel($pk_id_pembayaran_penjualan_produk_travel){
+    public function getDataPembayaranPenjualanProdukTravel($pk_id_pembayaran_penjualan_produk_travel)
+    {
         $data = $this->pembayaranPenjualanProdukTravelModel->find($pk_id_pembayaran_penjualan_produk_travel);
 
         return json_encode($data);
@@ -404,7 +415,7 @@ class Apenjualan extends BaseController
         $confirm_data = $this->request->getPost('confirm_data');
         if ($confirm_data == 'false') {
             $response['error']['confirm_data'] = 'Checklist terlebih dahulu';
-            
+
             $failed = true;
             return json_encode($response);
         }
@@ -422,7 +433,21 @@ class Apenjualan extends BaseController
             'jenis_produk' => 'produk'
         ];
 
-        if($agent['tipe_agent'] == 'leader agent'){
+        $is_exists = $this->customerModel
+            ->where('no_wa', $dataCustomer['no_wa'])
+            ->where('fk_id_produk', $dataCustomer['fk_id_produk'])->first();
+
+        if (!empty($is_exists)) {
+            $failed = true;
+            $response = [
+                'status' => 'error',
+                'message' => 'Mohon maaf data untuk peminat ini telah didaftarkan oleh agent lain. Silakan inputkan data peminat yang lain',
+                'error_type' => 'exists'
+            ];
+            return json_encode($response);
+        }
+
+        if ($agent['tipe_agent'] == 'leader agent') {
             $dataCustomer['fk_id_agent'] = NULL;
             $dataCustomer['fk_id_leader_agent'] = $agent['pk_id_agent'];
         } else {
@@ -435,7 +460,7 @@ class Apenjualan extends BaseController
         $is_send_email = 0;
         $email_message = '';
 
-        if($this->customerModel->save($dataCustomer) === true){
+        if ($this->customerModel->save($dataCustomer) === true) {
             // cek data pembayaran
             $produk = $this->produkModel->find($dataCustomer['fk_id_produk']);
             $is_send_wa = $produk['send_wa_after_input_agent'];
@@ -444,9 +469,9 @@ class Apenjualan extends BaseController
             $email_message = $produk['email_message'];
 
             $fk_id_customer = $this->customerModel->getInsertID();
-            
+
             $status = 'pending';
-            if($produk['harga_produk'] == 0){
+            if ($produk['harga_produk'] == 0) {
                 $status = 'lunas';
             }
 
@@ -460,7 +485,7 @@ class Apenjualan extends BaseController
 
             // $this->penjualanProdukModel->skipValidation(true);
             // $this->penjualanProdukModel->allowCallbacks(false);
-            
+
             if ($this->penjualanProdukModel->save($dataPenjualan) !== true) {
                 $response = [
                     "error" => $this->penjualanProdukModel->errors()
@@ -468,7 +493,6 @@ class Apenjualan extends BaseController
 
                 $failed = true;
             }
-            
         } else {
             $response = [
                 "error" => $this->customerModel->errors()
@@ -482,7 +506,7 @@ class Apenjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal menyetorkan data'
@@ -491,29 +515,29 @@ class Apenjualan extends BaseController
         } else {
             $this->db->transCommit();
 
-            if($is_send_wa){
+            if ($is_send_wa) {
                 $messageData = $wa_message;
-    
+
                 $replace = [
                     '$nama_customer$' => $dataCustomer['nama_customer']
                 ];
-    
+
                 // Replace placeholders with actual values
                 $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-    
+
                 send_wa($dataCustomer['no_wa'], $message);
             }
 
-            if($is_send_email){
+            if ($is_send_email) {
                 $messageData = $email_message;
-    
+
                 $replace = [
                     '$nama_customer$' => $dataCustomer['nama_customer']
                 ];
-    
+
                 // Replace placeholders with actual values
                 $message = str_replace(array_keys($replace), array_values($replace), $messageData);
-    
+
                 $emailSender = new EmailSender();
                 $emailSender->send($dataCustomer['email'], $produk['subject_email'], $message);
             }
@@ -527,30 +551,31 @@ class Apenjualan extends BaseController
         return json_encode($response);
     }
 
-    public function saveDataEditPenjualanProdukInternal(){
+    public function saveDataEditPenjualanProdukInternal()
+    {
         $this->db->transBegin();
         $failed = false;
 
         $pk_id_penjualan_produk = $this->request->getPost('pk_id_penjualan_produk');
         $pk_id_customer = $this->request->getPost('pk_id_customer');
-        
+
         $data = [
-            'fk_id_produk'=> $this->request->getPost('fk_id_produk'),
-            'fk_id_travel'=> $this->request->getPost('fk_id_travel'),
-            'tgl_closing'=> $this->request->getPost('tgl_closing'),
-            'fk_id_customer'=> $this->request->getPost('pk_id_customer')
+            'fk_id_produk' => $this->request->getPost('fk_id_produk'),
+            'fk_id_travel' => $this->request->getPost('fk_id_travel'),
+            'tgl_closing' => $this->request->getPost('tgl_closing'),
+            'fk_id_customer' => $this->request->getPost('pk_id_customer')
         ];
 
         if (empty($data['tgl_closing'])) {
             $response['error']['tgl_closing'] = 'Tgl closing harus diisi';
-            
+
             $failed = true;
             return json_encode($response);
         }
 
         $this->penjualanProdukModel->skipValidation(false);
-        
-        if($this->penjualanProdukModel->update($pk_id_penjualan_produk, $data) === true){
+
+        if ($this->penjualanProdukModel->update($pk_id_penjualan_produk, $data) === true) {
             $dataCustomer = [
                 'nama_customer' => $this->request->getPost('nama_customer'),
                 'no_wa' => $this->request->getPost('no_wa'),
@@ -558,12 +583,11 @@ class Apenjualan extends BaseController
                 'kota_kabupaten' => $this->request->getPost('kota_kabupaten'),
             ];
 
-            if(!$this->customerModel->update($pk_id_customer, $dataCustomer)){
+            if (!$this->customerModel->update($pk_id_customer, $dataCustomer)) {
                 $response['error'] = $this->customerModel->errors();
 
                 $failed = true;
             }
-
         } else {
             $response['error'] = $this->penjualanProdukModel->errors();
 
@@ -573,7 +597,7 @@ class Apenjualan extends BaseController
         if ($this->db->transStatus() === false || $failed) {
             $this->db->transRollback();
 
-            if(!isset($response['error'])){
+            if (!isset($response['error'])) {
                 $response = [
                     'status' => 'error',
                     'message' => 'Gagal mengubah data penjualan'

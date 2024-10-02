@@ -31,7 +31,7 @@
               <thead>
                 <tr>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder"></th>
-                  <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Tgl Closing</th>
+                  <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Tgl Input</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Nama Customer</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Domisili</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">No WA</th>
@@ -513,7 +513,7 @@
           defaultContent: '',
         },
         {
-          data: 'tgl_closing',
+          data: 'created_at',
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true

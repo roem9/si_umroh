@@ -39,7 +39,7 @@
                             <?= session()->getFlashdata('success'); ?>
                           </div>
                         <?php endif; ?>
-                        <form action="<?= base_url()?>/sendemailresetpassword" method="post" role="form">
+                        <form action="<?= base_url() ?>/sendemailresetpassword" method="post" role="form">
                           <div class="mb-3">
                             <input type="email" name='email' class="form-control" placeholder="Email" aria-label="Email" required>
                           </div>
@@ -48,13 +48,13 @@
                           </div>
                       </div>
                     </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
   </section>
 </main>
 <?= $this->endSection() ?>

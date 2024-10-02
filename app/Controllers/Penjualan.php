@@ -437,6 +437,7 @@ class Penjualan extends BaseController
                 a.nama_produk,
                 e.nama_travel,
                 a.harga_produk,
+                a.created_at,
                 c.nama_agent,
                 d.nama_agent as nama_leader_agent,
                 status,
@@ -1339,6 +1340,7 @@ class Penjualan extends BaseController
                 a.nama_produk,
                 e.nama_travel,
                 a.harga_produk,
+                a.created_at,
                 status,
                 b.no_wa,
                 CASE 

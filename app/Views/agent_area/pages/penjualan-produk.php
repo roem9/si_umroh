@@ -69,7 +69,7 @@
               <thead>
                 <tr>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder"></th>
-                  <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Tgl Closing</th>
+                  <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Tgl Input</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">Nama Customer</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder none">Domisili</th>
                   <th class="text-uppercase text-dark text-xxs font-weight-bolder all">No WA</th>
@@ -422,7 +422,7 @@
           defaultContent: '',
         },
         {
-          data: 'tgl_closing',
+          data: 'created_at',
           searchable: true,
           className: 'text-sm w-1 text-center',
           orderable: true
@@ -577,32 +577,42 @@
       data: data,
       dataType: "json",
       success: function(response) {
-        if (response.error) {
-          bersihkanValidasi(`${form}`);
+        if (response.error_type) {
+          Swal.fire({
+            icon: response.status,
+            title: "Oops...",
+            text: response.message,
+          });
+        } else {
+          if (response.error) {
+            bersihkanValidasi(`${form}`);
 
-          showFormError();
+            showFormError();
 
-          $('html, .modal-body').animate({
-            scrollTop: 0
-          }, 'slow');
+            $('html, .modal-body').animate({
+              scrollTop: 0
+            }, 'slow');
 
-          let errorMessage = '';
-          for (var key in response.error) {
-            var error = response.error[key];
-            $(`[name='${key}']`).addClass("is-invalid")
-            $(`[data-id='${key}']`).show()
-            $(`[data-id='${key}']`).text(error)
+            let errorMessage = '';
+            for (var key in response.error) {
+              var error = response.error[key];
+              $(`[name='${key}']`).addClass("is-invalid")
+              $(`[data-id='${key}']`).show()
+              $(`[data-id='${key}']`).text(error)
+            }
+
+          } else {
+            Toast.fire({
+              icon: response.status,
+              title: response.message
+            })
+
+            $('#modalFormData').modal("hide");
+            $('#table-data').DataTable().ajax.reload();
           }
 
-        } else {
-          Toast.fire({
-            icon: response.status,
-            title: response.message
-          })
-
-          $('#modalFormData').modal("hide");
-          $('#table-data').DataTable().ajax.reload();
         }
+
 
       },
       error: function(xhr, status, error) {
