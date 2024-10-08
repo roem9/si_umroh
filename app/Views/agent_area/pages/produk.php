@@ -338,7 +338,7 @@
             if (row.show_lp == '1') {
               landing_page = `
                   <li>
-                    <a href="javascript:void(0)" class="dropdown-item copyButton" data-link="${row.modified_link_lp}">
+                    <a href="${row.modified_link_lp}" target="_blank" class="dropdown-item copyButton" data-link="${row.modified_link_lp}">
                         salin link landing page
                     </a>
                   </li>`;
